@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Threading;
 using System.Windows.Navigation;
-
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using CLI_TImer.MVVM.Model;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -23,7 +25,11 @@ namespace CLI_TImer.MVVM.ViewModel
         public int mainHours = 0;
 
         [ObservableProperty]
-        public string enteredCommand = "test";
+        public string enteredCommand;
+
+        [ObservableProperty]
+        public ObservableCollection<Command> commandHistory = new ObservableCollection<Command>();
+
 
         public string MainTimerText => $"{MainHours}h {MainMinutes}m {MainSeconds}s";
 
@@ -48,11 +54,13 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void CheckCommand(string command) 
         {
+            Command work = new Command { name = command, answer = "we are now working", output = "" };
+            CommandHistory.Add(work);
             switch (command) 
             {
                 case "work":
                 {
-                    work();
+                    //work();
                     break;
                 }
 
@@ -64,6 +72,9 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             MainMinutes = 45;
             MainSeconds = 1;
+
+            Command work = new Command { name = "work", answer = "we are now working", output = "" };
+            CommandHistory.Add(work);
         }
 
 
