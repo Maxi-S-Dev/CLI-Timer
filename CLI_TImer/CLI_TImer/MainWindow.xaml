@@ -168,21 +168,29 @@
                                 CornerRadius="10"
                                 Padding="5, 0, 3, 0">
 
-                            <TextBox x:Name="InputField"
-                                     Background="Transparent"
+                            <TextBox Background="Transparent"
                                      Foreground="White"
                                      BorderThickness="0"
                                      FontSize="18"
                                      VerticalContentAlignment="Center"
-                                     KeyDown="TextBox_Enter"></TextBox>
+                                     Text="{Binding EnteredCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                                <TextBox.InputBindings>
+
+                                    <KeyBinding Key="Enter"
+                                                Command="{Binding SendCommand}"/>
+
+                                </TextBox.InputBindings>
+                                
+                            </TextBox>
                         </Border>
 
-                        <TextBlock x:Name="Countdown"
+                        <TextBlock 
                                    FontSize="14" 
                                    Foreground="#757276"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Text="1h 45m 10s"
+                                   Text="{Binding MainTimerText}"
                                    Margin="15, 0, 0, 0"
                                    Style="{StaticResource Output}"/>
 
