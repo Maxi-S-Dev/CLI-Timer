@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:CLI_TImer"
         mc:Ignorable="d"
         Height="250" Width="450"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
         WindowStartupLocation="Manual"
         Top="20"
-        AllowsTransparency="False"
+        AllowsTransparency="True"
         Background="Transparent">
 
     <Border CornerRadius="0, 0, 10, 10"
