@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\ChivoMono-VariableFont_wght.ttf" />
+    <None Remove="Fonts\NanumGothic-Regular.ttf" />
+    <None Remove="Fonts\SpaceMono-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\ChivoMono-VariableFont_wght.ttf" />
+    <Resource Include="Fonts\NanumGothic-Regular.ttf" />
+    <Resource Include="Fonts\SpaceMono-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>	
+</Project>
