@@ -6,6 +6,8 @@ using System.Windows.Navigation;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using CLI_TImer.MVVM.Model;
+using System.Windows.Media;
+using CLI_TImer.Themes;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -30,7 +32,6 @@ namespace CLI_TImer.MVVM.ViewModel
         [ObservableProperty]
         public ObservableCollection<Command> commandHistory = new ObservableCollection<Command>();
 
-
         public string MainTimerText => $"{MainHours}h {MainMinutes}m {MainSeconds}s";
 
         readonly Thread timerThread;
@@ -54,17 +55,17 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void CheckCommand(string command) 
         {
-            Command work = new Command { name = command, answer = "we are now working", output = "" };
-            CommandHistory.Add(work);
             switch (command) 
             {
                 case "work":
                 {
-                    //work();
+                    work();
                     break;
                 }
 
-                
+                default:
+                    CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops()});
+                    break;
             }
         }
 
@@ -73,7 +74,7 @@ namespace CLI_TImer.MVVM.ViewModel
             MainMinutes = 45;
             MainSeconds = 1;
 
-            Command work = new Command { name = "work", answer = "we are now working", output = "" };
+            Command work = new Command { title = "work", answer = "we are now working", output = "" };
             CommandHistory.Add(work);
         }
 

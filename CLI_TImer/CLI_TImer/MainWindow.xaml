@@ -57,7 +57,7 @@
                                                        Style="{StaticResource Pointer}"/>
 
 
-                                        <TextBlock Text="{Binding name}"
+                                        <TextBlock Text="{Binding title}"
                                                        Style="{StaticResource Output}"
                                                        Foreground="White"
                                                        VerticalAlignment="Center"
@@ -67,16 +67,14 @@
                                     </StackPanel>
 
                                     <TextBlock x:Name="thirdLatesInputInfo"
-                                       FontSize="16"
-                                       Style="{StaticResource Output}">
+                                               FontSize="16"
+                                               Style="{StaticResource Output}"
+                                               Text="{Binding answer}">
 
                                         <TextBlock.Foreground>
-                                            <LinearGradientBrush>
-                                                <GradientStop Color="#93291E" Offset="0"/>
-                                                <GradientStop Color="#ED213A" Offset="1"/>
-                                            </LinearGradientBrush>
+                                            <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
                                         </TextBlock.Foreground>
-
+                                        
                                     </TextBlock>
 
                                 </StackPanel>
