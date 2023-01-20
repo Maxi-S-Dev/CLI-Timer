@@ -1,0 +1,6 @@
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\publish\CLI_TImer.exe
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\publish\CLI_TImer.dll
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\publish\CLI_TImer.deps.json
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\publish\CLI_TImer.runtimeconfig.json
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\publish\CLI_TImer.pdb
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\publish\CommunityToolkit.Mvvm.dll
