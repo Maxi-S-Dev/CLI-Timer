@@ -63,6 +63,8 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
                 }
 
+            
+
                 default:
                     CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops()});
                     break;
@@ -74,7 +76,7 @@ namespace CLI_TImer.MVVM.ViewModel
             MainMinutes = 45;
             MainSeconds = 1;
 
-            Command work = new Command { title = "work", answer = "we are now working", output = "" };
+            Command work = new Command { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
             CommandHistory.Add(work);
         }
 

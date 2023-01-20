@@ -37,16 +37,18 @@
 
 
 
-                    <ListView ItemsSource="{Binding CommandHistory}"
+                    <ListBox ItemsSource="{Binding CommandHistory}"
                               Background="Transparent"
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               ScrollViewer.CanContentScroll="False"
                               BorderThickness="0"
-                              Margin="5"
-                              Focusable="False">
+                              Margin="5, 0, 5, 5"
+                              Focusable="False"
+                             x:Name="list"
+                             SizeChanged="list_SizeChanged">
 
-                        <ListView.ItemTemplate>
+                        <ListBox.ItemTemplate>
 
                             <DataTemplate>
 
@@ -81,19 +83,19 @@
 
                             </DataTemplate>
 
-                        </ListView.ItemTemplate>
+                        </ListBox.ItemTemplate>
 
-                        <ListView.ItemsPanel>
+                        <ListBox.ItemsPanel>
 
                             <ItemsPanelTemplate>
 
                                 <StackPanel VerticalAlignment="Bottom"/>
-
+                            
                             </ItemsPanelTemplate>
 
-                        </ListView.ItemsPanel>
+                        </ListBox.ItemsPanel>
 
-                    </ListView>
+                    </ListBox>
 
                     <!--
                     <StackPanel>
