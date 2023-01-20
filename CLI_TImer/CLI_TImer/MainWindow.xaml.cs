@@ -34,7 +34,8 @@ namespace CLI_TImer
             Border border = (Border)VisualTreeHelper.GetChild(list, 0);
             ScrollViewer scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
             scrollViewer.ScrollToBottom();
-
         }
+
+       
     }
 }

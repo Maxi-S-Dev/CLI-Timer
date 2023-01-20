@@ -12,7 +12,7 @@
         AllowsTransparency="True"
         Background="Transparent">
 
-    <Border CornerRadius="0, 0, 10, 10"
+    <Border CornerRadius="10, 10, 10, 10"
             Background="#313445">
 
         <StackPanel Height="250"
@@ -37,18 +37,19 @@
 
 
 
-                    <ListBox ItemsSource="{Binding CommandHistory, UpdateSourceTrigger=PropertyChanged}"
-                              Background="Transparent"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              ScrollViewer.CanContentScroll="False"
-                              BorderThickness="0"
-                              Margin="5, 0, 5, 5"
-                              Focusable="False"
+                    <ListView ItemsSource="{Binding CommandHistory}"
+                             Background="Transparent"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                             ScrollViewer.CanContentScroll="False"
+                             BorderThickness="0"
+                             Margin="5, 0, 5, 5"
+                             Focusable="False"
                              x:Name="list"
-                             SizeChanged="list_SizeChanged">
+                             SizeChanged="list_SizeChanged"
+                             >
 
-                        <ListBox.ItemTemplate>
+                        <ListView.ItemTemplate>
 
                             <DataTemplate>
 
@@ -96,7 +97,7 @@
 
                             </DataTemplate>
 
-                        </ListBox.ItemTemplate>
+                        </ListView.ItemTemplate>
 
                         <ListBox.ItemsPanel>
 
@@ -108,7 +109,7 @@
 
                         </ListBox.ItemsPanel>
 
-                    </ListBox>
+                    </ListView>
 
                     <!--
                     <StackPanel>

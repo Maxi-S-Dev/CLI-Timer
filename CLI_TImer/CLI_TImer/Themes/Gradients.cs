@@ -9,10 +9,18 @@ namespace CLI_TImer.Themes
 {
     public static class Gradients
     {
-        private static byte[,] gradients = new byte[,] { {147, 41, 30, 237, 33, 58},
-                                                          {0, 0, 0, 255, 255, 255 } };
+        private static byte[,] gradients = new byte[,] { {196, 113, 242, 247, 108, 198},
+                                                         {95,  197, 46,  110, 238, 135},
+                                                         {90,  178, 247, 18,  207, 243},
+                                                         {247, 76,  6,   249, 188, 44 },
+                                                         {173, 253, 162, 17,  211, 243},
+                                                         {44,  178, 186, 251, 185, 45}
+        
+        
+        };                                      
 
-
+        private static byte[,] errorGradients = new byte[,] { {147, 41, 30, 237, 33, 58},
+                                                            };
 
         static Random Random = new Random();
         public static GradientStopCollection GradientStops()

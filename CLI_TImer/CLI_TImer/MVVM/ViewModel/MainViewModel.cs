@@ -3,10 +3,8 @@ using CLI_TImer.Themes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
-using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace CLI_TImer.MVVM.ViewModel
@@ -16,16 +14,16 @@ namespace CLI_TImer.MVVM.ViewModel
         //Main Timer 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainSeconds = 1;
+        public int mainSeconds;
 
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainMinutes = 10;
+        public int mainMinutes;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainHours = 0;
+        public int mainHours;
 
         public string MainTimerText => $"{MainHours}h {MainMinutes}m {MainSeconds}s";
 
@@ -33,16 +31,16 @@ namespace CLI_TImer.MVVM.ViewModel
         //Break Timer
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseSeconds = 1;
+        public int pauseSeconds;
 
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseMinutes = 10;
+        public int pauseMinutes;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseHours = 0;
+        public int pauseHours;
 
 
         public string PauseTimerText => $"{PauseHours}h {PauseMinutes}m {PauseSeconds}s";
@@ -53,16 +51,18 @@ namespace CLI_TImer.MVVM.ViewModel
         [ObservableProperty]
         public ObservableCollection<Command> commandHistory = new ObservableCollection<Command>();
 
-        
-
         private bool isPaused = false;
-
+        private int pausePosition;
         readonly Thread timerThread;
+
+        public virtual Dispatcher dispatcher { get; protected set; }
 
         public MainViewModel() 
         { 
             timerThread = new Thread(new ThreadStart(Countdown));
-            timerThread.Start();
+            timerThread.Start();     
+
+            dispatcher= Dispatcher.CurrentDispatcher;
         }
 
 
@@ -90,6 +90,10 @@ namespace CLI_TImer.MVVM.ViewModel
                 
                     Pause();
                     break;
+
+                case "close":
+                    System.Windows.Application.Current.Shutdown();
+                    break;
                 
 
                 default:
@@ -112,7 +116,7 @@ namespace CLI_TImer.MVVM.ViewModel
             isPaused = true;
             PauseMinutes = 20;
             PauseSeconds = 1;
-
+            pausePosition = CommandHistory.Count;
             Command pause = new Command { title = "break", answer = "we are taking a break", output = PauseTimerText, gradientStops= Gradients.GradientStops()};
             CommandHistory.Add(pause);
         }
@@ -160,9 +164,23 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             PauseSeconds--;
 
-            CommandHistory.Clear();
+            if (CommandHistory.Count > 0)
+            {
+                dispatcher.BeginInvoke(new Action(() =>
+                {
+                    Command latestPause = CommandHistory[pausePosition];
 
-            if(PauseHours == 0 && PauseMinutes == 0 && PauseSeconds == 0)
+                    CommandHistory.Remove(latestPause);
+
+                    latestPause.output = PauseTimerText;
+
+                    CommandHistory.Add(latestPause);
+
+                    CommandHistory.Move(CommandHistory.Count -1, pausePosition);
+                }));
+            }
+
+            if (PauseHours == 0 && PauseMinutes == 0 && PauseSeconds == 0)
             {
                 isPaused = false;
                 return;
@@ -183,5 +201,3 @@ namespace CLI_TImer.MVVM.ViewModel
     }
 }
 
-// Added Break
-//
