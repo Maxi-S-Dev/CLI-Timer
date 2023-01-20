@@ -37,7 +37,7 @@
 
 
 
-                    <ListBox ItemsSource="{Binding CommandHistory}"
+                    <ListBox ItemsSource="{Binding CommandHistory, UpdateSourceTrigger=PropertyChanged}"
                               Background="Transparent"
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -68,7 +68,8 @@
 
                                     </StackPanel>
 
-                                    <TextBlock x:Name="thirdLatesInputInfo"
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="thirdLatesInputInfo"
                                                FontSize="16"
                                                Style="{StaticResource Output}"
                                                Text="{Binding answer}">
@@ -76,8 +77,20 @@
                                         <TextBlock.Foreground>
                                             <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
                                         </TextBlock.Foreground>
-                                        
-                                    </TextBlock>
+
+                                        </TextBlock>
+
+                                        <TextBlock FontSize="14" 
+                                                   Foreground="#757276"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding output}"
+                                                   Margin="15, 0, 0, 0"
+                                                   Style="{StaticResource Output}"/>
+
+
+                                    </StackPanel>
+                                    
 
                                 </StackPanel>
 
@@ -208,18 +221,9 @@
                                    Text="1h 45m 10s"
                                    Margin="15, 0, 0, 0"
                                    Style="{StaticResource Output}"/>
-                            </StackPanel>
-
-
-                            
-                            
+                            </StackPanel> 
                         </StackPanel>
-
-                    
-                          
-                    
-                    </StackPanel>
-                    
+                    </StackPanel>                
                       -->
 
                     <!--Bottom Part-->
