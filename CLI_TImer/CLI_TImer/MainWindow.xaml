@@ -29,12 +29,75 @@
                 <Grid HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Margin="0, 20, 0, 5">
-                    
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
+
+
+                    <ListBox ItemsSource="{Binding CommandHistory}"
+                              Background="Transparent"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              ScrollViewer.CanContentScroll="False"
+                              BorderThickness="0"
+                              Margin="5, 0, 5, 5"
+                              Focusable="False"
+                             x:Name="list"
+                             SizeChanged="list_SizeChanged">
+
+                        <ListBox.ItemTemplate>
+
+                            <DataTemplate>
+
+                                <StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text=">"
+                                                       Style="{StaticResource Pointer}"/>
+
+
+                                        <TextBlock Text="{Binding title}"
+                                                       Style="{StaticResource Output}"
+                                                       Foreground="White"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Margin="7, 0, 0, 0"/>
+
+                                    </StackPanel>
+
+                                    <TextBlock x:Name="thirdLatesInputInfo"
+                                               FontSize="16"
+                                               Style="{StaticResource Output}"
+                                               Text="{Binding answer}">
+
+                                        <TextBlock.Foreground>
+                                            <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
+                                        </TextBlock.Foreground>
+                                        
+                                    </TextBlock>
+
+                                </StackPanel>
+
+                            </DataTemplate>
+
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ItemsPanel>
+
+                            <ItemsPanelTemplate>
+
+                                <StackPanel VerticalAlignment="Bottom"/>
+                            
+                            </ItemsPanelTemplate>
+
+                        </ListBox.ItemsPanel>
+
+                    </ListBox>
+
+                    <!--
                     <StackPanel>
                         <StackPanel>
 
@@ -152,7 +215,12 @@
                             
                         </StackPanel>
 
+                    
+                          
+                    
                     </StackPanel>
+                    
+                      -->
 
                     <!--Bottom Part-->
 
