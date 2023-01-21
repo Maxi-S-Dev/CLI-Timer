@@ -80,28 +80,29 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void CheckCommand(string command) 
         {
-            switch (command) 
-            {
-                case "work":
+            if (command == "work") Work();
 
-                    Work();
-                    break;
-                
+            else if (command == "break") Pause();
 
-                case "break":
-                
-                    Pause();
-                    break;
+            else if (command == "close") System.Windows.Application.Current.Shutdown();
 
-                case "close":
-                    System.Windows.Application.Current.Shutdown();
-                    break;
-                
+            else if (command == "clear") ClearCommandHistoy();
 
-                default:
-                    CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops()});
-                    break;
-            }
+            else if (command == "add") AddTimeToCurrentTimer();
+
+            else if (command == "subtract") SubtractTimeFromCurrentTimer();
+
+            else if (command == "end") EndCurrentTImer();
+
+            else if (command == "reset") EndAllTimers();
+
+            else CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops() });
+        }
+
+        private void ClearCommandHistoy()
+        {
+            resetAllTimers();
+            CommandHistory.Clear();   
         }
 
         private void Work()
@@ -123,6 +124,48 @@ namespace CLI_TImer.MVVM.ViewModel
             CommandHistory.Add(pause);
         }
 
+        private void SubtractTimeFromCurrentTimer()
+        {
+            if (!isPaused) MainMinutes -= 10;
+            if (isPaused) PauseMinutes -= 10;
+
+            Command pause = new() { title = "subtract", answer = "subtracted 10 Minutes to from timer", gradientStops= Gradients.GradientStops() };
+            CommandHistory.Add(pause);
+        }
+
+        private void AddTimeToCurrentTimer()
+        {
+            if (!isPaused) MainMinutes += 10;
+            if (isPaused) PauseMinutes += 10;
+
+            Command pause = new() { title = "add", answer = "added 10 Minutes to current timer", gradientStops= Gradients.GradientStops() };
+            CommandHistory.Add(pause);
+        }
+
+        private void EndCurrentTImer()
+        {
+            if (!isPaused)
+            {
+                resetMainTimer();
+                Command pause = new() { title = "end", answer = "reseted Main timer", gradientStops= Gradients.GradientStops() };
+                CommandHistory.Add(pause);
+            }
+
+            if (isPaused)
+            {
+                resetPauseTimer();
+                isPaused = false;
+                Command pause = new() { title = "end", answer = "reseted Pause timer", gradientStops= Gradients.GradientStops() };
+                CommandHistory.Add(pause);
+            }
+        }
+
+        private void EndAllTimers()
+        {
+            resetAllTimers();
+            Command pause = new() { title = "reset", answer = "reseted all timers", gradientStops= Gradients.GradientStops() };
+            CommandHistory.Add(pause);
+        }
 
         //Timer Management
         private void Countdown()
@@ -143,6 +186,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
 
+        //Zählt den Main Timer runter
         private void MainTimer()
         {
             MainSeconds--;
@@ -162,6 +206,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
 
+        //Zählt den Pause Timer runter
         private void PauseTimer()
         {
             PauseSeconds--;
@@ -199,6 +244,22 @@ namespace CLI_TImer.MVVM.ViewModel
                 PauseMinutes= 59;
                 PauseHours--;
             }
+        }
+
+        private void resetAllTimers()
+        {
+            resetPauseTimer();
+            resetMainTimer();
+        }
+
+        private void resetPauseTimer()
+        {
+            PauseHours = PauseMinutes = PauseSeconds = 0;
+        }
+
+        private void resetMainTimer()
+        {
+            MainHours = MainMinutes = MainSeconds = 0;
         }
     }
 }
