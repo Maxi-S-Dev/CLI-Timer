@@ -21,9 +21,31 @@
                     Height="20"
                     CornerRadius="10, 10, 0, 0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown">
+
+                <Button Style="{DynamicResource CloseButtonStyle}" HorizontalAlignment="Right"
+                        Width="40"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="Button_Click">
+                    
+                    
+
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+                        <Canvas Name="svg12" Width="48" Height="48">
+                            <Canvas.Resources/>
+                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path10" Fill="White">
+                                <Path.Data>
+                                    <PathGeometry Figures="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z" FillRule="NonZero"/>
+                                </Path.Data>
+                            </Path>
+                        </Canvas>
+                    </Viewbox>
+
+                </Button>
+                
             </Border>
 
-            <Border Padding="20, 0, 20, 0"
+                <Border Padding="20, 0, 20, 0"
                     Height="230">
 
                 <Grid HorizontalAlignment="Stretch"

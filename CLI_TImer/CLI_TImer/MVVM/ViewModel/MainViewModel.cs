@@ -28,7 +28,7 @@ namespace CLI_TImer.MVVM.ViewModel
         public string MainTimerText => $"{MainHours}h {MainMinutes}m {MainSeconds}s";
 
 
-        //Break Timer
+        //Pause Timer
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PauseTimerText))]
         public int pauseSeconds;
@@ -42,27 +42,29 @@ namespace CLI_TImer.MVVM.ViewModel
         [NotifyPropertyChangedFor(nameof(PauseTimerText))]
         public int pauseHours;
 
-
         public string PauseTimerText => $"{PauseHours}h {PauseMinutes}m {PauseSeconds}s";
 
+        //Inputs
         [ObservableProperty]
         public string enteredCommand;
 
         [ObservableProperty]
-        public ObservableCollection<Command> commandHistory = new ObservableCollection<Command>();
+        public ObservableCollection<Command> commandHistory = new();
 
+
+        //Code
         private bool isPaused = false;
         private int pausePosition;
         readonly Thread timerThread;
 
-        public virtual Dispatcher dispatcher { get; protected set; }
+        public virtual Dispatcher Dispatcher { get; protected set; }
 
         public MainViewModel() 
         { 
             timerThread = new Thread(new ThreadStart(Countdown));
             timerThread.Start();     
 
-            dispatcher= Dispatcher.CurrentDispatcher;
+            Dispatcher= Dispatcher.CurrentDispatcher;
         }
 
 
@@ -107,7 +109,7 @@ namespace CLI_TImer.MVVM.ViewModel
             MainMinutes = 45;
             MainSeconds = 1;
 
-            Command work = new Command { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
+            Command work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
             CommandHistory.Add(work);
         }
 
@@ -117,7 +119,7 @@ namespace CLI_TImer.MVVM.ViewModel
             PauseMinutes = 20;
             PauseSeconds = 1;
             pausePosition = CommandHistory.Count;
-            Command pause = new Command { title = "break", answer = "we are taking a break", output = PauseTimerText, gradientStops= Gradients.GradientStops()};
+            Command pause = new() { title = "break", answer = "we are taking a break", output = PauseTimerText, gradientStops= Gradients.GradientStops()};
             CommandHistory.Add(pause);
         }
 
@@ -166,7 +168,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
             if (CommandHistory.Count > 0)
             {
-                dispatcher.BeginInvoke(new Action(() =>
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
                     Command latestPause = CommandHistory[pausePosition];
 

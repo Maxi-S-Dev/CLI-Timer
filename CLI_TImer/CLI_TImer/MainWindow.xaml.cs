@@ -3,7 +3,6 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
-using CLI_TImer.MVVM.Model;
 using CLI_TImer.MVVM.ViewModel;
 using System.Windows.Media;
 
@@ -20,12 +19,12 @@ namespace CLI_TImer
 
             DataContext = new MainViewModel();
 
-            this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 20;
+            Left = SystemParameters.PrimaryScreenWidth - Width - 20;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            DragMove();
         }
 
         private void list_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -36,6 +35,9 @@ namespace CLI_TImer
             scrollViewer.ScrollToBottom();
         }
 
-       
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
