@@ -13,7 +13,7 @@
         Background="Transparent">
 
     <Border CornerRadius="10, 10, 10, 10"
-            Background="#313445">
+            Background="#2B3046">
 
         <StackPanel Height="250"
                     >
@@ -45,7 +45,7 @@
                 
             </Border>
 
-                <Border Padding="20, 0, 20, 0"
+            <Border Padding="20, 0, 20, 0"
                     Height="230">
 
                 <Grid HorizontalAlignment="Stretch"
@@ -60,16 +60,16 @@
 
 
                     <ListView ItemsSource="{Binding CommandHistory}"
-                             Background="Transparent"
-                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             ScrollViewer.CanContentScroll="False"
-                             BorderThickness="0"
-                             Margin="5, 0, 5, 5"
-                             Focusable="False"
-                             x:Name="list"
-                             SizeChanged="list_SizeChanged"
-                             >
+                              Background="Transparent"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              ScrollViewer.CanContentScroll="False"
+                              BorderThickness="0"
+                              Margin="5, 0, 5, 5"
+                              Focusable="False"
+                              x:Name="list"
+                              SizeChanged="list_SizeChanged"
+                              ItemContainerStyle="{DynamicResource CommandHistoryItemStyle}">
 
                         <ListView.ItemTemplate>
 
@@ -130,6 +130,8 @@
                             </ItemsPanelTemplate>
 
                         </ListBox.ItemsPanel>
+
+
 
                     </ListView>
 
@@ -257,7 +259,7 @@
                                 Orientation="Horizontal" 
                                 Grid.Row="1">
 
-                        <Border Background="#373a4b"
+                        <Border Background="#272b3f"
                                 Width="300"
                                 Height="30"
                                 CornerRadius="10"
