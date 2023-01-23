@@ -85,35 +85,48 @@ namespace CLI_TImer.MVVM.ViewModel
         private void CheckCommand(string _command) 
         {
             string[] command = _command.Split(' ');
-            int time = 0;
+            int hours = 0;
+            int minutes= 0;
+            int seconds = 0;
 
             if (command.Length == 2)
             { 
-                _=int.TryParse(command[1], out time); 
+                string[] time = command[1].Split(':');
+
+                if(time.Length == 1)
+                    _=int.TryParse(time[0], out minutes);
+
+                if (time.Length >= 2)
+                {
+                    _=int.TryParse(time[0], out hours);
+                    _=int.TryParse(time[1], out minutes);
+
+                    if(time.Length == 3) _=int.TryParse(time[2], out seconds);
+                }
             }
 
             if (command[0] == "work")
             {
-                if (time == 0) Work(45);
-                else Work(time);
+                if (hours == 0 && minutes == 0 && seconds == 0) Work(45);
+                else Work(hours, minutes, seconds);
             }
 
             else if (command[0] == "break")
             {
-                if (time == 0) Pause(20);
-                else Pause(time);
+                if (hours == 0 && minutes == 0 && seconds == 0) Pause(20);
+                else Pause(hours, minutes, seconds);
             }
 
             else if (command[0] == "add")
             {
-                if (time == 0) AddTimeToCurrentTimer(10);
-                else AddTimeToCurrentTimer(time);
+                if (hours == 0 && minutes == 0 && seconds == 0) AddTimeToCurrentTimer(10);
+                else AddTimeToCurrentTimer(hours, minutes, seconds);
             }
 
             else if (command[0] == "subtract")
             {
-                if (time == 0) SubtractTimeFromCurrentTimer(10);
-                else SubtractTimeFromCurrentTimer(time);
+                if (hours == 0 && minutes == 0 && seconds == 0) SubtractTimeFromCurrentTimer(10);
+                else SubtractTimeFromCurrentTimer(hours, minutes, seconds);
             }
 
             else if (command[0] == "end") EndCurrentTImer();
@@ -133,38 +146,68 @@ namespace CLI_TImer.MVVM.ViewModel
             CommandHistory.Clear();   
         }
 
-        private void Work(int time)
+        private void Work(int minutes) => Work(0, minutes, 0);
+
+        private void Work(int hours, int minutes, int seconds)
         {
-            MainMinutes = time;
-            MainSeconds = 0;
+            MainHours = hours;
+            MainMinutes = minutes;
+            MainSeconds = seconds;
 
             Command work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
             CommandHistory.Add(work);
         }
 
-        private void Pause(int time)
+        private void Pause(int minutes) => Pause(0, minutes, 0);
+
+        private void Pause(int hours, int minutes, int seconds)
         {
             isPaused = true;
-            PauseMinutes = time;
-            PauseSeconds = 0;
+            PauseHours = hours;
+            PauseMinutes = minutes;
+            PauseSeconds = seconds;
             pausePosition = CommandHistory.Count;
             Command pause = new() { title = "break", answer = "we are taking a break", output = PauseTimerText, gradientStops= Gradients.GradientStops()};
             CommandHistory.Add(pause);
         }
 
-        private void SubtractTimeFromCurrentTimer(int time)
+        private void SubtractTimeFromCurrentTimer(int minutes) => SubtractTimeFromCurrentTimer(0, minutes, 0);
+
+        private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
-            if (!isPaused) MainMinutes -= time;
-            if (isPaused) PauseMinutes -= time;
+            if (!isPaused)
+            {
+                MainHours -= hours;
+                MainMinutes -= minutes;
+                MainSeconds -= seconds;
+            }
+            if (isPaused)
+            {
+                PauseHours -= hours;
+                PauseMinutes -= minutes;
+                PauseSeconds -= seconds;
+            }
 
             Command pause = new() { title = "subtract", answer = "subtracted 10 Minutes to from timer", gradientStops= Gradients.GradientStops() };
             CommandHistory.Add(pause);
         }
 
-        private void AddTimeToCurrentTimer(int time)
+        private void AddTimeToCurrentTimer(int minutes) => AddTimeToCurrentTimer(0, minutes, 0);
+
+        private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
         {
-            if (!isPaused) MainMinutes += time;
-            if (isPaused) PauseMinutes += time;
+            if (!isPaused)
+            {
+                MainHours += hours;
+                MainMinutes += minutes;
+                MainSeconds += seconds;
+            }
+            if (isPaused)
+            {
+                PauseHours += hours;
+                PauseMinutes += minutes;
+                PauseSeconds += seconds;
+            }
 
             Command pause = new() { title = "add", answer = "added 10 Minutes to current timer", gradientStops= Gradients.GradientStops() };
             CommandHistory.Add(pause);
@@ -211,7 +254,7 @@ namespace CLI_TImer.MVVM.ViewModel
                     PauseTimer();
                 }
 
-                Thread.Sleep(10);
+                Thread.Sleep(1000);
             }
         }
 
