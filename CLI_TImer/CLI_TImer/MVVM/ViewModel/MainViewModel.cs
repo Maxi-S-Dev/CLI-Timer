@@ -143,6 +143,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void ClearCommandHistoy()
         {
             ResetAllTimers();
+            isPaused = false;
             CommandHistory.Clear();   
         }
 
