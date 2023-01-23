@@ -9,6 +9,9 @@ using System.Windows.Threading;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
+    //added work parameter
+    //set work standard seconds to 0
+
     public partial class MainViewModel : ObservableObject
     {
         //Main Timer 
@@ -80,6 +83,13 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void CheckCommand(string command) 
         {
+            string[] commandPieces = command.Split(' ');
+
+            //var test = int.TryParse(commandPieces[1], out int commandParameter);
+            
+
+            //commandParameter = Convert.ToInt32(commandPieces[1]);
+
             if (command == "work") Work();
 
             else if (command == "break") Pause();
@@ -108,7 +118,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void Work()
         {
             MainMinutes = 45;
-            MainSeconds = 1;
+            MainSeconds = 0;
 
             Command work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
             CommandHistory.Add(work);
