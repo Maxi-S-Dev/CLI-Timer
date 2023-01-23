@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v7.0": {
-      "CLI_TImer/0.1": {
+      "CLI_TImer/0.2": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.1.0"
         },
@@ -25,7 +25,7 @@
     }
   },
   "libraries": {
-    "CLI_TImer/0.1": {
+    "CLI_TImer/0.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

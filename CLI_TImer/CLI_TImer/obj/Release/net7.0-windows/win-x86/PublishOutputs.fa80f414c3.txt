@@ -1,0 +1,6 @@
+D:\GitHub\CLI-Timer\Release\CLI_TImer.exe
+D:\GitHub\CLI-Timer\Release\CLI_TImer.dll
+D:\GitHub\CLI-Timer\Release\CLI_TImer.deps.json
+D:\GitHub\CLI-Timer\Release\CLI_TImer.runtimeconfig.json
+D:\GitHub\CLI-Timer\Release\CLI_TImer.pdb
+D:\GitHub\CLI-Timer\Release\CommunityToolkit.Mvvm.dll

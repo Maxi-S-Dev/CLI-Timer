@@ -1,0 +1,42 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0/win-x86",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {},
+    ".NETCoreApp,Version=v7.0/win-x86": {
+      "CLI_TImer/0.2": {
+        "dependencies": {
+          "CommunityToolkit.Mvvm": "8.1.0"
+        },
+        "runtime": {
+          "CLI_TImer.dll": {}
+        }
+      },
+      "CommunityToolkit.Mvvm/8.1.0": {
+        "runtime": {
+          "lib/net6.0/CommunityToolkit.Mvvm.dll": {
+            "assemblyVersion": "8.1.0.0",
+            "fileVersion": "8.1.0.1"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CLI_TImer/0.2": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CommunityToolkit.Mvvm/8.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xxOt7lu9a5kB5Fs9RfcxzVlKnhuuPe+w7AXHtmCFtS3oldrsUhEMxHfNulluXSscUUoGxZ0jh55Om12ZP6abHA==",
+      "path": "communitytoolkit.mvvm/8.1.0",
+      "hashPath": "communitytoolkit.mvvm.8.1.0.nupkg.sha512"
+    }
+  }
+}
