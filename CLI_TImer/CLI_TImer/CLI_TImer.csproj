@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <Authors>Maxi</Authors>
-    <Version>0.1</Version>
+    <Version>0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
