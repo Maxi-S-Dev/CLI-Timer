@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace CLI_TImer.MVVM.ViewModel
@@ -81,9 +82,7 @@ namespace CLI_TImer.MVVM.ViewModel
             EnteredCommand = "";
         }
 
-
-
-        private void CheckCommand(string _command) 
+        private async void CheckCommand(string _command) 
         {
             string[] command = _command.Split(' ');
             int hours = 0;
@@ -136,11 +135,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
             else if (command[0] == "clear") ClearCommandHistoy();
 
-            else if (command[0] == "close")
-            {
-                stopApp = true;
-                System.Windows.Application.Current.Shutdown();
-            }
+            else if (command[0] == "close") CloseApplication();
 
             else CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops() });
         }
@@ -364,6 +359,20 @@ namespace CLI_TImer.MVVM.ViewModel
         private void ResetMainTimer()
         {
             MainHours = MainMinutes = MainSeconds = 0;
+        }
+
+        //Close Button
+        [RelayCommand]
+        public Task Close()
+        {
+            CloseApplication();
+            return Task.CompletedTask;
+        }
+
+        private  void CloseApplication()
+        {
+            stopApp = true;
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

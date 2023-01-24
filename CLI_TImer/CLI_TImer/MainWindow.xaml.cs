@@ -34,10 +34,5 @@ namespace CLI_TImer
             ScrollViewer scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
             scrollViewer.ScrollToBottom();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
     }
 }

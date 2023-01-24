@@ -26,9 +26,7 @@
                         Width="40"
                         Background="Transparent"
                         BorderBrush="Transparent"
-                        Click="Button_Click">
-                    
-                    
+                        Command="{Binding CloseCommand}">
 
                     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                         <Canvas Name="svg12" Width="48" Height="48">
