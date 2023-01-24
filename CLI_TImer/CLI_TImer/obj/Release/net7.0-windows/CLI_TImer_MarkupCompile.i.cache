@@ -1,5 +1,5 @@
 ﻿CLI_TImer
-0.2.0.0
+0.2.1.0
 
 winexe
 C#
@@ -16,5 +16,5 @@ D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
 199-1239748438
 MainWindow.xaml;Themes\Generic.xaml;
 
-False
+True
 

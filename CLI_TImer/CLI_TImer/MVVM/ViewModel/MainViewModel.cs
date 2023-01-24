@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -71,7 +70,6 @@ namespace CLI_TImer.MVVM.ViewModel
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
 
-
         //Input Commands
         [RelayCommand]
         public void Send()
@@ -80,7 +78,7 @@ namespace CLI_TImer.MVVM.ViewModel
             EnteredCommand = "";
         }
 
-        private async void CheckCommand(string _command) 
+        private void CheckCommand(string _command) 
         {
             string[] command = _command.Split(' ');
             int hours = 0;
@@ -94,12 +92,17 @@ namespace CLI_TImer.MVVM.ViewModel
                 if(time.Length == 1)
                     _=int.TryParse(time[0], out minutes);
 
-                if (time.Length >= 2)
+                if (time.Length == 2)
                 {
-                    _=int.TryParse(time[0], out hours);
-                    _=int.TryParse(time[1], out minutes);
+                    _=int.TryParse(time[0], out minutes);
+                    _=int.TryParse(time[1], out seconds);
+                }
 
-                    if(time.Length == 3) _=int.TryParse(time[2], out seconds);
+                if (time.Length == 3)
+                {
+                    _=int.TryParse(time[0], out seconds);
+                    _=int.TryParse(time[1], out minutes);
+                    _=int.TryParse(time[2], out hours);
                 }
             }
 
@@ -215,6 +218,13 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
         {
+            Command command;
+            if (!mainTimerRunning) 
+            {
+                command = new() { title = "add", answer = $"no active timer", gradientStops= Gradients.GradientStops() };
+                CommandHistory.Add(command);
+                return; 
+            }
             if (!isPaused)
             {
                 MainHours += hours;
@@ -225,8 +235,8 @@ namespace CLI_TImer.MVVM.ViewModel
                 output += minutes == 0 ? "" : $"{minutes}min";
                 output += seconds == 0 ? "" : $"{seconds}h";
 
-                Command pause = new() { title = "add", answer = $"added {output} to the main timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
+                command = new() { title = "add", answer = $"added {output} to the main timer", gradientStops= Gradients.GradientStops() };
+                CommandHistory.Add(command);
             }
             if (isPaused)
             {
@@ -280,7 +290,6 @@ namespace CLI_TImer.MVVM.ViewModel
                 if (!isPaused)
                 {
                     if (MainSeconds > 0 || MainMinutes > 0 || MainHours > 0) MainTimer();
-                    
                 }
 
                 if(isPaused) 
@@ -295,10 +304,12 @@ namespace CLI_TImer.MVVM.ViewModel
         //Zählt den Main Timer runter
         private void MainTimer()
         {
+            if (!mainTimerRunning) return;
             MainSeconds--;
 
-            if (MainHours == 0 && MainMinutes == 0 && MainSeconds == 0)
+            if ((MainHours == 0 && MainMinutes == 0 && MainSeconds == 0) || MainHours < 0 || MainMinutes < 0)
             {
+                MainHours = MainMinutes = MainSeconds = 0;
                 mainTimerRunning = false;
                 return;
             }
