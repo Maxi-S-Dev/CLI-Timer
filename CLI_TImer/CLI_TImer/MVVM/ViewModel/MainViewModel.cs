@@ -11,9 +11,6 @@ using System.Windows.Threading;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
-    //added work parameter
-    //set work standard seconds to 0
-
     public partial class MainViewModel : ObservableObject
     {
         //Main Timer 
@@ -59,6 +56,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         //Code
         private bool isPaused = false;
+        private bool mainTimerRunning = false;
         private bool stopApp = false;
         private int pausePosition;
         readonly Thread timerThread;
@@ -105,7 +103,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 }
             }
 
-            if (command[0] == "work")
+            if (command[0] == "work" || command[0] == "start")
             {
                 if (hours == 0 && minutes == 0 && seconds == 0) Work(45);
                 else Work(hours, minutes, seconds);
@@ -151,11 +149,20 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void Work(int hours, int minutes, int seconds)
         {
+            Command work;
+            if (mainTimerRunning)
+            {
+                work = new() { title = "work", answer = $"main Timer already running. \nUse 'end' to stop the main Timer", output = "", gradientStops = Gradients.GradientStops() };
+                CommandHistory.Add(work);
+                return;
+            }
+
+            mainTimerRunning = true;
             MainHours = hours;
             MainMinutes = minutes;
             MainSeconds = seconds;
 
-            Command work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
+             work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
             CommandHistory.Add(work);
         }
 
@@ -241,6 +248,7 @@ namespace CLI_TImer.MVVM.ViewModel
             if (!isPaused)
             {
                 ResetMainTimer();
+                mainTimerRunning = false;
                 Command pause = new() { title = "end", answer = "reseted pause timer", gradientStops= Gradients.GradientStops() };
                 CommandHistory.Add(pause);
             }
@@ -257,6 +265,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void EndAllTimers()
         {
             ResetAllTimers();
+            mainTimerRunning= false;
             Command pause = new() { title = "reset", answer = "reseted all timers", gradientStops= Gradients.GradientStops() };
             CommandHistory.Add(pause);
         }
@@ -288,7 +297,11 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             MainSeconds--;
 
-            if (MainHours == 0 && MainMinutes == 0 && MainSeconds == 0) return;
+            if (MainHours == 0 && MainMinutes == 0 && MainSeconds == 0)
+            {
+                mainTimerRunning = false;
+                return;
+            }
 
             if (MainSeconds <= 0)
             {
