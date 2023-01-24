@@ -58,6 +58,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         //Code
         private bool isPaused = false;
+        private bool stopApp = false;
         private int pausePosition;
         readonly Thread timerThread;
 
@@ -135,7 +136,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
             else if (command[0] == "clear") ClearCommandHistoy();
 
-            else if (command[0] == "close") System.Windows.Application.Current.Shutdown();
+            else if (command[0] == "close")
+            {
+                stopApp = true;
+                System.Windows.Application.Current.Shutdown();
+            }
 
             else CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops() });
         }
@@ -266,6 +271,8 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             while (true)
             {
+                if (stopApp) break;
+
                 if (!isPaused)
                 {
                     if (MainSeconds > 0 || MainMinutes > 0 || MainHours > 0) MainTimer();
