@@ -100,9 +100,9 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 if (time.Length == 3)
                 {
-                    _=int.TryParse(time[0], out seconds);
+                    _=int.TryParse(time[0], out hours);
                     _=int.TryParse(time[1], out minutes);
-                    _=int.TryParse(time[2], out hours);
+                    _=int.TryParse(time[2], out seconds);
                 }
             }
 
@@ -144,6 +144,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void ClearCommandHistoy()
         {
             ResetAllTimers();
+
             isPaused = false;
             CommandHistory.Clear();   
         }
@@ -155,7 +156,7 @@ namespace CLI_TImer.MVVM.ViewModel
             Command work;
             if (mainTimerRunning)
             {
-                work = new() { title = "work", answer = $"main Timer already running. \nUse 'end' to stop the main Timer", output = "", gradientStops = Gradients.GradientStops() };
+                work = new() { title = "work", answer = $"main timer already running. \nUse 'end' to stop the main Timer", output = "", gradientStops = Gradients.GradientStops() };
                 CommandHistory.Add(work);
                 return;
             }
@@ -377,11 +378,13 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void ResetPauseTimer()
         {
+            isPaused= false;
             PauseHours = PauseMinutes = PauseSeconds = 0;
         }
 
         private void ResetMainTimer()
         {
+            mainTimerRunning = false;
             MainHours = MainMinutes = MainSeconds = 0;
         }
 
