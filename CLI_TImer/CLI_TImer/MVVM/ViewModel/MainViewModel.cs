@@ -78,6 +78,7 @@ namespace CLI_TImer.MVVM.ViewModel
             EnteredCommand = "";
         }
 
+        #region commands
         private void CheckCommand(string _command) 
         {
             string[] command = _command.Split(' ');
@@ -138,9 +139,15 @@ namespace CLI_TImer.MVVM.ViewModel
 
             else if (command[0] == "close") CloseApplication();
 
-            else CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops() });
+            else AddToHistory("Error", "unknown Command", "");
         }
 
+        //Adds a Command to the History
+        private void AddToHistory(string title, string answer, string output)
+        {
+            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = Gradients.GradientStops() });
+        }
+        //Clears the CommandLine
         private void ClearCommandHistoy()
         {
             ResetAllTimers();
@@ -148,7 +155,7 @@ namespace CLI_TImer.MVVM.ViewModel
             isPaused = false;
             CommandHistory.Clear();   
         }
-
+        //Starts Work profile
         private void Work(int minutes) => Work(0, minutes, 0);
 
         private void Work(int hours, int minutes, int seconds)
@@ -156,8 +163,7 @@ namespace CLI_TImer.MVVM.ViewModel
             Command work;
             if (mainTimerRunning)
             {
-                work = new() { title = "work", answer = $"main timer already running. \nUse 'end' to stop the main Timer", output = "", gradientStops = Gradients.GradientStops() };
-                CommandHistory.Add(work);
+                AddToHistory("work", $"main timer alredy running. \nUse 'end' to stop the main Timer", "");
                 return;
             }
 
@@ -166,23 +172,24 @@ namespace CLI_TImer.MVVM.ViewModel
             MainMinutes = minutes;
             MainSeconds = seconds;
 
-             work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
-            CommandHistory.Add(work);
+            AddToHistory("work", "we are now working", "");
         }
-
+        //Starts Pause profile
         private void Pause(int minutes) => Pause(0, minutes, 0);
 
         private void Pause(int hours, int minutes, int seconds)
         {
             isPaused = true;
+
             PauseHours = hours;
             PauseMinutes = minutes;
             PauseSeconds = seconds;
-            pausePosition = CommandHistory.Count;
-            Command pause = new() { title = "break", answer = "we are taking a break", output = PauseTimerText, gradientStops= Gradients.GradientStops()};
-            CommandHistory.Add(pause);
-        }
 
+            pausePosition = CommandHistory.Count;
+
+            AddToHistory("break", "we are taking a break", PauseTimerText);
+        }
+        //subtracts time from current timer
         private void SubtractTimeFromCurrentTimer(int minutes) => SubtractTimeFromCurrentTimer(0, minutes, 0);
 
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
@@ -197,8 +204,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 output += minutes == 0 ? "" : $"{minutes}min";
                 output += seconds == 0 ? "" : $"{seconds}h";
 
-                Command cmd = new() { title = "subtract", answer = $"subtracted {output} from the main timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(cmd);
+                AddToHistory("subtract", $"subtracted {output} from the main timer", "");
             }
             else if (isPaused)
             {
@@ -210,20 +216,17 @@ namespace CLI_TImer.MVVM.ViewModel
                 output += minutes == 0 ? "" : $"{minutes}min";
                 output += seconds == 0 ? "" : $"{seconds}h";
 
-                Command cmd = new() { title = "subtract", answer = $"subtracted {output} from the pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(cmd);
+                AddToHistory("subtract", $"subtracted {output} from the pause timer", "");
             }
         }
-
+        //adds time to current timer
         private void AddTimeToCurrentTimer(int minutes) => AddTimeToCurrentTimer(0, minutes, 0);
 
         private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
         {
-            Command command;
             if (!mainTimerRunning) 
             {
-                command = new() { title = "add", answer = $"no active timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(command);
+                AddToHistory("add", "no active timer", "");
                 return; 
             }
             if (!isPaused)
@@ -236,8 +239,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 output += minutes == 0 ? "" : $"{minutes}min";
                 output += seconds == 0 ? "" : $"{seconds}h";
 
-                command = new() { title = "add", answer = $"added {output} to the main timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(command);
+                AddToHistory("add", $"added {output} to the main timer", "");
             }
             if (isPaused)
             {
@@ -249,38 +251,37 @@ namespace CLI_TImer.MVVM.ViewModel
                 output += minutes == 0 ? "" : $"{minutes}min";
                 output += seconds == 0 ? "" : $"{seconds}h";
 
-                Command pause = new() { title = "add", answer = $"added {output} to the pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
+                AddToHistory("add", $"added {output} to the pause timer", "");
             }
         }
-
+        //resets current timer
         private void EndCurrentTImer()
         {
             if (!isPaused)
             {
                 ResetMainTimer();
                 mainTimerRunning = false;
-                Command pause = new() { title = "end", answer = "reseted pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
+                AddToHistory("end", "reseted main timer", "");
             }
 
             if (isPaused)
             {
                 ResetPauseTimer();
                 isPaused = false;
-                Command pause = new() { title = "end", answer = "reseted Pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
+                AddToHistory("end", "reseted pause timer", "");
             }
         }
-
+        //resets all timers
         private void EndAllTimers()
         {
             ResetAllTimers();
             mainTimerRunning= false;
-            Command pause = new() { title = "reset", answer = "reseted all timers", gradientStops= Gradients.GradientStops() };
-            CommandHistory.Add(pause);
+            AddToHistory("reset", "reseted all timers", "");
         }
 
+        #endregion
+
+        #region Timer
         //Timer Management
         private void Countdown()
         {
@@ -301,6 +302,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 Thread.Sleep(1000);
             }
         }
+
 
         //Zählt den Main Timer runter
         private void MainTimer()
@@ -387,7 +389,9 @@ namespace CLI_TImer.MVVM.ViewModel
             mainTimerRunning = false;
             MainHours = MainMinutes = MainSeconds = 0;
         }
+        #endregion
 
+        #region AppBehaviour
         //Close Button
         [RelayCommand]
         public Task Close()
@@ -401,6 +405,7 @@ namespace CLI_TImer.MVVM.ViewModel
             stopApp = true;
             System.Windows.Application.Current.Shutdown();
         }
+        #endregion
     }
 }
 
