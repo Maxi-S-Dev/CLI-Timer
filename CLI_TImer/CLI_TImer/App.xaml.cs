@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLI_TImer.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,11 @@ namespace CLI_TImer
     /// </summary>
     public partial class App : Application
     {
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            MainViewModel.CloseEvent();
+        }
+
     }
 }

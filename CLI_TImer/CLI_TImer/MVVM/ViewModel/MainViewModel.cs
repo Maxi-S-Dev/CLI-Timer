@@ -8,42 +8,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
+
 namespace CLI_TImer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
         //Main Timer 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainSeconds;
-
+        private int mainTimerSeconds;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainMinutes;
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainHours;
-
-        public string MainTimerText => $"{MainHours}h {MainMinutes}m {MainSeconds}s";
-
+        public string mainTimerText = "0h 0m 0s";
 
         //Pause Timer
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseSeconds;
+        private int pauseTimerSeconds;
 
+        public string PauseTimerText = "";
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseMinutes;
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseHours;
-
-        public string PauseTimerText => $"{PauseHours}h {PauseMinutes}m {PauseSeconds}s";
 
         //Inputs
         [ObservableProperty]
@@ -56,7 +36,7 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private bool isPaused = false;
         private bool mainTimerRunning = false;
-        private bool stopApp = false;
+        private static bool stopApp = false;
         private int pausePosition;
         readonly Thread timerThread;
 
@@ -137,7 +117,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
             else if (command[0] == "clear") ClearCommandHistoy();
 
-            else if (command[0] == "close") CloseApplication();
+            else if (command[0] == "close") Close();
 
             else AddToHistory("Error", "unknown Command", "");
         }
@@ -160,7 +140,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void Work(int hours, int minutes, int seconds)
         {
-            Command work;
             if (mainTimerRunning)
             {
                 AddToHistory("work", $"main timer alredy running. \nUse 'end' to stop the main Timer", "");
@@ -168,9 +147,8 @@ namespace CLI_TImer.MVVM.ViewModel
             }
 
             mainTimerRunning = true;
-            MainHours = hours;
-            MainMinutes = minutes;
-            MainSeconds = seconds;
+
+            mainTimerSeconds = 3600 * hours + 60 * minutes + seconds;
 
             AddToHistory("work", "we are now working", "");
         }
@@ -181,9 +159,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             isPaused = true;
 
-            PauseHours = hours;
-            PauseMinutes = minutes;
-            PauseSeconds = seconds;
+            pauseTimerSeconds = 3600 * hours + 60 * minutes + seconds;
 
             pausePosition = CommandHistory.Count;
 
@@ -196,9 +172,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             if (!isPaused)
             {
-                MainHours -= hours;
-                MainMinutes -= minutes;
-                MainSeconds -= seconds;
+                mainTimerSeconds -= 3600 * hours + 60 * minutes + seconds;
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -208,9 +182,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             else if (isPaused)
             {
-                PauseHours -= hours;
-                PauseMinutes -= minutes;
-                PauseSeconds -= seconds;
+                pauseTimerSeconds -= 3600 * hours + 60 * minutes + seconds;
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -231,9 +203,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             if (!isPaused)
             {
-                MainHours += hours;
-                MainMinutes += minutes;
-                MainSeconds += seconds;
+                mainTimerSeconds += 3600 * hours + 60 * minutes + seconds;
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -243,9 +213,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             if (isPaused)
             {
-                PauseHours += hours;
-                PauseMinutes += minutes;
-                PauseSeconds += seconds;
+                pauseTimerSeconds += 3600 * hours + 60 * minutes + seconds;
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -275,7 +243,6 @@ namespace CLI_TImer.MVVM.ViewModel
         private void EndAllTimers()
         {
             ResetAllTimers();
-            mainTimerRunning= false;
             AddToHistory("reset", "reseted all timers", "");
         }
 
@@ -285,13 +252,11 @@ namespace CLI_TImer.MVVM.ViewModel
         //Timer Management
         private void Countdown()
         {
-            while (true)
+            while (!stopApp)
             {
-                if (stopApp) break;
-
                 if (!isPaused)
                 {
-                    if (MainSeconds > 0 || MainMinutes > 0 || MainHours > 0) MainTimer();
+                    if (mainTimerSeconds > 0) MainTimer();
                 }
 
                 if(isPaused) 
@@ -299,7 +264,7 @@ namespace CLI_TImer.MVVM.ViewModel
                     PauseTimer();
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(10);
             }
         }
 
@@ -308,32 +273,32 @@ namespace CLI_TImer.MVVM.ViewModel
         private void MainTimer()
         {
             if (!mainTimerRunning) return;
-            MainSeconds--;
 
-            if ((MainHours == 0 && MainMinutes == 0 && MainSeconds == 0) || MainHours < 0 || MainMinutes < 0)
+            mainTimerSeconds--;
+
+            int hours = mainTimerSeconds / 3600;
+            int minutes = (mainTimerSeconds % 3600)/ 60;
+            int seconds = mainTimerSeconds % 60;
+
+            if (mainTimerSeconds <= 0)
             {
-                MainHours = MainMinutes = MainSeconds = 0;
+                mainTimerSeconds = 0;
                 mainTimerRunning = false;
-                return;
             }
 
-            if (MainSeconds <= 0)
-            {
-                MainMinutes--;
-                MainSeconds = 59;
-            }
-
-            if (MainMinutes == 0 && MainHours > 0)
-            {
-                MainMinutes = 59;
-                MainHours--;
-            }
+            MainTimerText = $"{hours}h {minutes}m {seconds}s";
         }
 
         //Zählt den Pause Timer runter
         private void PauseTimer()
         {
-            PauseSeconds--;
+            pauseTimerSeconds--;
+
+            int hours = pauseTimerSeconds / 3600;
+            int minutes = (pauseTimerSeconds % 3600)/ 60;
+            int seconds = pauseTimerSeconds % 60;
+
+            string PauseTimerText = $"{hours}h {minutes}m {seconds}s";
 
             //Updates the Listview timer
             if (CommandHistory.Count > 0)
@@ -353,22 +318,10 @@ namespace CLI_TImer.MVVM.ViewModel
             }
 
 
-            if (PauseHours == 0 && PauseMinutes == 0 && PauseSeconds == 0)
+            if (pauseTimerSeconds <= 0)
             {
                 isPaused = false;
                 return;
-            }
-
-            if (PauseSeconds <= 0)
-            {
-                PauseMinutes--;
-                PauseSeconds = 59;
-            }
-
-            if (PauseMinutes == 0 && PauseHours > 0)
-            {
-                PauseMinutes= 59;
-                PauseHours--;
             }
         }
 
@@ -381,31 +334,29 @@ namespace CLI_TImer.MVVM.ViewModel
         private void ResetPauseTimer()
         {
             isPaused= false;
-            PauseHours = PauseMinutes = PauseSeconds = 0;
+            pauseTimerSeconds = 0;
         }
 
         private void ResetMainTimer()
         {
             mainTimerRunning = false;
-            MainHours = MainMinutes = MainSeconds = 0;
+            mainTimerSeconds = 0;
         }
         #endregion
 
         #region AppBehaviour
         //Close Button
+
         [RelayCommand]
-        public Task Close()
+        public static void Close()
         {
-            CloseApplication();
-            return Task.CompletedTask;
+            System.Windows.Application.Current.Shutdown();
         }
 
-        private  void CloseApplication()
+        public static void CloseEvent()
         {
             stopApp = true;
-            System.Windows.Application.Current.Shutdown();
         }
         #endregion
     }
 }
-
