@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 
@@ -205,9 +204,9 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 mainTimerSeconds += 3600 * hours + 60 * minutes + seconds;
 
-                string output = hours == 0 ? "" : $"{hours}h";
-                output += minutes == 0 ? "" : $"{minutes}min";
-                output += seconds == 0 ? "" : $"{seconds}h";
+                string output = hours == 0 ? "" : $"{hours}h ";
+                output += minutes == 0 ? "" : $"{minutes}m ";
+                output += seconds == 0 ? "" : $"{seconds}s";
 
                 AddToHistory("add", $"added {output} to the main timer", "");
             }
@@ -215,9 +214,9 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 pauseTimerSeconds += 3600 * hours + 60 * minutes + seconds;
 
-                string output = hours == 0 ? "" : $"{hours}h";
-                output += minutes == 0 ? "" : $"{minutes}min";
-                output += seconds == 0 ? "" : $"{seconds}h";
+                string output = hours == 0 ? "" : $"{hours}h ";
+                output += minutes == 0 ? "" : $"{minutes}m ";
+                output += seconds == 0 ? "" : $"{seconds}s";
 
                 AddToHistory("add", $"added {output} to the pause timer", "");
             }
@@ -264,7 +263,7 @@ namespace CLI_TImer.MVVM.ViewModel
                     PauseTimer();
                 }
 
-                Thread.Sleep(10);
+                Thread.Sleep(1000);
             }
         }
 
@@ -341,6 +340,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             mainTimerRunning = false;
             mainTimerSeconds = 0;
+            MainTimerText = "0h 0m 0s";
         }
         #endregion
 
