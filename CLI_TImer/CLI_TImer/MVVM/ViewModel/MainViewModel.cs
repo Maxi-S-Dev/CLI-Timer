@@ -12,11 +12,13 @@ namespace CLI_TImer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
+        #region variables
+
         //Main Timer 
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(MainTimerText))]
         private int mainTimerSeconds;
 
-        [ObservableProperty]
-        public string mainTimerText = "0h 0m 0s";
+        public string MainTimerText => $"{MainTimerSeconds / 3600}h {(MainTimerSeconds % 3600)/ 60}m {MainTimerSeconds % 60}s";
 
         //Pause Timer
         private int pauseTimerSeconds;
@@ -40,6 +42,8 @@ namespace CLI_TImer.MVVM.ViewModel
         readonly Thread timerThread;
 
         public virtual Dispatcher Dispatcher { get; protected set; }
+
+        #endregion
 
         public MainViewModel() 
         { 
@@ -65,38 +69,19 @@ namespace CLI_TImer.MVVM.ViewModel
             int minutes= 0;
             int seconds = 0;
 
-            if (command.Length == 2)
-            { 
-                string[] time = command[1].Split(':');
-
-                if(time.Length == 1)
-                    _=int.TryParse(time[0], out minutes);
-
-                if (time.Length == 2)
-                {
-                    _=int.TryParse(time[0], out minutes);
-                    _=int.TryParse(time[1], out seconds);
-                }
-
-                if (time.Length == 3)
-                {
-                    _=int.TryParse(time[0], out hours);
-                    _=int.TryParse(time[1], out minutes);
-                    _=int.TryParse(time[2], out seconds);
-                }
-            }
-
-            if (command[0] == "work" || command[0] == "start")
+            foreach(string s in command)
             {
-                if (hours == 0 && minutes == 0 && seconds == 0) Work(45);
-                else Work(hours, minutes, seconds);
+                if (s[s.Length-1] == 'h') hours = Convert.ToInt32(s.Remove(s.Length-1));
+                if (s[s.Length-1] == 'm') minutes= Convert.ToInt32(s.Remove(s.Length-1));
+                if (s[s.Length-1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
             }
 
-            else if (command[0] == "break")
-            {
-                if (hours == 0 && minutes == 0 && seconds == 0) Pause(20);
-                else Pause(hours, minutes, seconds);
-            }
+
+            if (command[0] == "work") Work(hours, minutes, seconds);
+            
+
+            if (command[0] == "break") Pause(hours, minutes, seconds);
+            
 
             else if (command[0] == "add")
             {
@@ -134,9 +119,9 @@ namespace CLI_TImer.MVVM.ViewModel
             isPaused = false;
             CommandHistory.Clear();   
         }
+        
+        
         //Starts Work profile
-        private void Work(int minutes) => Work(0, minutes, 0);
-
         private void Work(int hours, int minutes, int seconds)
         {
             if (mainTimerRunning)
@@ -145,18 +130,21 @@ namespace CLI_TImer.MVVM.ViewModel
                 return;
             }
 
+            if (hours == 0 && minutes == 0 && seconds == 0) minutes = 45;
+
             mainTimerRunning = true;
 
             mainTimerSeconds = 3600 * hours + 60 * minutes + seconds;
 
             AddToHistory("work", "we are now working", "");
         }
-        //Starts Pause profile
-        private void Pause(int minutes) => Pause(0, minutes, 0);
 
+        //Starts Pause profile
         private void Pause(int hours, int minutes, int seconds)
         {
             isPaused = true;
+
+            if (hours == 0 && minutes == 0 && seconds == 0) minutes = 20;
 
             pauseTimerSeconds = 3600 * hours + 60 * minutes + seconds;
 
@@ -171,7 +159,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             if (!isPaused)
             {
-                mainTimerSeconds -= 3600 * hours + 60 * minutes + seconds;
+                MainTimerSeconds -= 3600 * hours + 60 * minutes + seconds;
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -202,7 +190,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             if (!isPaused)
             {
-                mainTimerSeconds += 3600 * hours + 60 * minutes + seconds;
+                MainTimerSeconds += 3600 * hours + 60 * minutes + seconds;
 
                 string output = hours == 0 ? "" : $"{hours}h ";
                 output += minutes == 0 ? "" : $"{minutes}m ";
@@ -255,7 +243,7 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 if (!isPaused)
                 {
-                    if (mainTimerSeconds > 0) MainTimer();
+                    if (MainTimerSeconds > 0) MainTimer();
                 }
 
                 if(isPaused) 
@@ -273,19 +261,17 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             if (!mainTimerRunning) return;
 
-            mainTimerSeconds--;
+            MainTimerSeconds--;
 
-            int hours = mainTimerSeconds / 3600;
-            int minutes = (mainTimerSeconds % 3600)/ 60;
-            int seconds = mainTimerSeconds % 60;
+            int hours = MainTimerSeconds / 3600;
+            int minutes = (MainTimerSeconds % 3600)/ 60;
+            int seconds = MainTimerSeconds % 60;
 
-            if (mainTimerSeconds <= 0)
+            if (MainTimerSeconds <= 0)
             {
-                mainTimerSeconds = 0;
+                MainTimerSeconds = 0;
                 mainTimerRunning = false;
             }
-
-            MainTimerText = $"{hours}h {minutes}m {seconds}s";
         }
 
         //Zählt den Pause Timer runter
@@ -339,8 +325,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void ResetMainTimer()
         {
             mainTimerRunning = false;
-            mainTimerSeconds = 0;
-            MainTimerText = "0h 0m 0s";
+            MainTimerSeconds = 0;
         }
         #endregion
 

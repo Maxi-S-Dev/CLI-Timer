@@ -95,9 +95,9 @@
                                                Style="{StaticResource Output}"
                                                Text="{Binding answer}">
 
-                                        <TextBlock.Foreground>
-                                            <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
-                                        </TextBlock.Foreground>
+                                            <TextBlock.Foreground>
+                                                <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
+                                            </TextBlock.Foreground>
 
                                         </TextBlock>
 
@@ -109,9 +109,7 @@
                                                    Margin="15, 0, 0, 0"
                                                    Style="{StaticResource Output}"/>
 
-
                                     </StackPanel>
-                                    
 
                                 </StackPanel>
 
@@ -124,130 +122,12 @@
                             <ItemsPanelTemplate>
 
                                 <StackPanel VerticalAlignment="Bottom"/>
-                            
+
                             </ItemsPanelTemplate>
 
                         </ListBox.ItemsPanel>
 
-
-
                     </ListView>
-
-                    <!--
-                    <StackPanel>
-                        <StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock x:Name="TopPointer"
-                                           Text=">"
-                                           Style="{StaticResource Pointer}">
-
-                                </TextBlock>
- 
-                                <TextBlock x:Name="thirdLatesInput"
-                                           Style="{StaticResource Output}"
-                                           Foreground="White"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           Margin="7, 0, 0, 0">
-
-                                </TextBlock>
-
-
-                            </StackPanel>
-
-                            <TextBlock x:Name="thirdLatesInputInfo"
-                                       FontSize="16"
-                                       Style="{StaticResource Output}">
-
-                                <TextBlock.Foreground>
-                                    <LinearGradientBrush>
-                                        <GradientStop Color="#93291E" Offset="0"/>
-                                        <GradientStop Color="#ED213A" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </TextBlock.Foreground>
-
-                            </TextBlock>
-
-                        </StackPanel> 
-
-
-                        <StackPanel Margin="0, 10, 0, 10">
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock x:Name="MiddlePointer"
-                                           Text=">"
-                                           Style="{StaticResource Pointer}"/>
-
-                                <TextBlock x:Name="secondLatesInput"
-                                           Foreground="White"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           Margin="7, 0, 0, 0"
-                                           Style="{StaticResource Output}">
-                                </TextBlock>
-
-
-                            </StackPanel>
-
-                            <TextBlock x:Name="secondLatesInputInfo"
-                                       FontSize="16"
-                                       Style="{StaticResource Output}">
-
-                                <TextBlock.Foreground>
-                                    <LinearGradientBrush>
-                                        <GradientStop Color="#F37335" Offset="0"/>
-                                        <GradientStop Color="#FDC830" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </TextBlock.Foreground>
-
-                            </TextBlock>
-
-                        </StackPanel>
-
-                        <StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock x:Name="BottomPointer"
-                                           Text=">"
-                                           Style="{StaticResource Pointer}"/>
-
-                                <TextBlock x:Name="latesInput"
-                                           Foreground="White"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           Margin="7, 0, 0, 0">
-                                </TextBlock>
-
-
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-
-                                <TextBlock x:Name="latesInputInfo"                                       
-                                       FontSize="16">
-                                    <TextBlock.Foreground>
-                                        <LinearGradientBrush>
-                                            <GradientStop Color="#005AA7" Offset="0"/>
-                                            <GradientStop Color="#0083B0" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </TextBlock.Foreground>
-                                </TextBlock>
-
-                                <TextBlock x:Name="BreakCountdown"
-                                   FontSize="14" 
-                                   Foreground="#757276"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="1h 45m 10s"
-                                   Margin="15, 0, 0, 0"
-                                   Style="{StaticResource Output}"/>
-                            </StackPanel> 
-                        </StackPanel>
-                    </StackPanel>                
-                      -->
 
                     <!--Bottom Part-->
 
