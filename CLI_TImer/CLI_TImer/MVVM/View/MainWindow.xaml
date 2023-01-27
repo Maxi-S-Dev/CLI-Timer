@@ -1,9 +1,9 @@
-﻿<Window x:Class="CLI_TImer.MainWindow"
+﻿<Window x:Class="CLI_TImer.MVVM.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CLI_TImer"
+        xmlns:local="clr-namespace:CLI_TImer.MVVM.View"
         mc:Ignorable="d"
         Height="250" Width="450"
         WindowStyle="None"
@@ -14,11 +14,12 @@
 
     <Border CornerRadius="10, 10, 10, 10"
             Background="#2B3046">
+       
 
-        <StackPanel Height="250"
+        <StackPanel Height="250" 
                     >
             <Border Background="#242633"
-                    Height="20"
+                    Height="20" 
                     CornerRadius="10, 10, 0, 0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown">
 
@@ -47,8 +48,9 @@
                     Height="230">
 
                 <Grid HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Margin="0, 20, 0, 5">
+                      VerticalAlignment="Stretch"
+                      Margin="0, 20, 0, 5"
+                      >
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Threading;
+using CLI_TImer.Classes;
 
 
 namespace CLI_TImer.MVVM.ViewModel
@@ -76,12 +77,9 @@ namespace CLI_TImer.MVVM.ViewModel
                 if (s[s.Length-1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
             }
 
-
             if (command[0] == "work") Work(hours, minutes, seconds);
-            
 
-            if (command[0] == "break") Pause(hours, minutes, seconds);
-            
+            else if (command[0] == "break") Pause(hours, minutes, seconds);           
 
             else if (command[0] == "add")
             {
@@ -134,8 +132,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
             mainTimerRunning = true;
 
-            mainTimerSeconds = 3600 * hours + 60 * minutes + seconds;
-
+            MainTimerSeconds = Times.TimeToSeconds(hours, minutes, seconds);
+           
             AddToHistory("work", "we are now working", "");
         }
 
@@ -146,20 +144,21 @@ namespace CLI_TImer.MVVM.ViewModel
 
             if (hours == 0 && minutes == 0 && seconds == 0) minutes = 20;
 
-            pauseTimerSeconds = 3600 * hours + 60 * minutes + seconds;
+            pauseTimerSeconds = Times.TimeToSeconds(hours, minutes, seconds);
 
             pausePosition = CommandHistory.Count;
 
             AddToHistory("break", "we are taking a break", PauseTimerText);
         }
-        //subtracts time from current timer
+
+        //Subtracts time from current timer
         private void SubtractTimeFromCurrentTimer(int minutes) => SubtractTimeFromCurrentTimer(0, minutes, 0);
 
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
             if (!isPaused)
             {
-                MainTimerSeconds -= 3600 * hours + 60 * minutes + seconds;
+                MainTimerSeconds -= Times.TimeToSeconds(hours, minutes, seconds);
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -169,7 +168,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             else if (isPaused)
             {
-                pauseTimerSeconds -= 3600 * hours + 60 * minutes + seconds;
+                pauseTimerSeconds -= Times.TimeToSeconds(hours, minutes, seconds);
 
                 string output = hours == 0 ? "" : $"{hours}h";
                 output += minutes == 0 ? "" : $"{minutes}min";
@@ -190,7 +189,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             if (!isPaused)
             {
-                MainTimerSeconds += 3600 * hours + 60 * minutes + seconds;
+                MainTimerSeconds += Times.TimeToSeconds(hours, minutes, seconds);
 
                 string output = hours == 0 ? "" : $"{hours}h ";
                 output += minutes == 0 ? "" : $"{minutes}m ";
@@ -200,7 +199,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
             if (isPaused)
             {
-                pauseTimerSeconds += 3600 * hours + 60 * minutes + seconds;
+                pauseTimerSeconds += Times.TimeToSeconds(hours, minutes, seconds);
 
                 string output = hours == 0 ? "" : $"{hours}h ";
                 output += minutes == 0 ? "" : $"{minutes}m ";
@@ -263,10 +262,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
             MainTimerSeconds--;
 
-            int hours = MainTimerSeconds / 3600;
-            int minutes = (MainTimerSeconds % 3600)/ 60;
-            int seconds = MainTimerSeconds % 60;
-
             if (MainTimerSeconds <= 0)
             {
                 MainTimerSeconds = 0;
@@ -279,8 +274,8 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             pauseTimerSeconds--;
 
-            int hours = pauseTimerSeconds / 3600;
-            int minutes = (pauseTimerSeconds % 3600)/ 60;
+            int hours = Times.SecondsToHours(pauseTimerSeconds);
+            int minutes = Times.SecondsToMinutes(pauseTimerSeconds);
             int seconds = pauseTimerSeconds % 60;
 
             string PauseTimerText = $"{hours}h {minutes}m {seconds}s";

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using CLI_TImer.MVVM.ViewModel;
 using System.Windows.Media;
 
-namespace CLI_TImer
+namespace CLI_TImer.MVVM.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
