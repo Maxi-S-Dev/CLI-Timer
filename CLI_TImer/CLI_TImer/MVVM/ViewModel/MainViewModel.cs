@@ -51,7 +51,7 @@ namespace CLI_TImer.MVVM.ViewModel
             timerThread = new Thread(new ThreadStart(Countdown));
             timerThread.Start();     
 
-            Dispatcher= Dispatcher.CurrentDispatcher;
+            Dispatcher= Dispatcher.CurrentDispatcher;            
         }
 
         //Input Commands
@@ -72,9 +72,9 @@ namespace CLI_TImer.MVVM.ViewModel
 
             foreach(string s in command)
             {
-                if (s[s.Length-1] == 'h') hours = Convert.ToInt32(s.Remove(s.Length-1));
-                if (s[s.Length-1] == 'm') minutes= Convert.ToInt32(s.Remove(s.Length-1));
-                if (s[s.Length-1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
+                if (s[^1] == 'h') hours = Convert.ToInt32(s.Remove(s.Length-1));
+                if (s[^1] == 'm') minutes= Convert.ToInt32(s.Remove(s.Length-1));
+                if (s[^1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
             }
 
             if (command[0] == "work") Work(hours, minutes, seconds);
@@ -273,29 +273,9 @@ namespace CLI_TImer.MVVM.ViewModel
         private void PauseTimer()
         {
             pauseTimerSeconds--;
-
-            int hours = Times.SecondsToHours(pauseTimerSeconds);
-            int minutes = Times.SecondsToMinutes(pauseTimerSeconds);
-            int seconds = pauseTimerSeconds % 60;
-
-            string PauseTimerText = $"{hours}h {minutes}m {seconds}s";
-
-            //Updates the Listview timer
+            
             if (CommandHistory.Count > 0)
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    Command latestPause = CommandHistory[pausePosition];
-
-                    CommandHistory.Remove(latestPause);
-
-                    latestPause.output = PauseTimerText;
-
-                    CommandHistory.Add(latestPause);
-
-                    CommandHistory.Move(CommandHistory.Count -1, pausePosition);
-                }));
-            }
+                UpdatePauseTimerText();
 
 
             if (pauseTimerSeconds <= 0)
@@ -303,6 +283,25 @@ namespace CLI_TImer.MVVM.ViewModel
                 isPaused = false;
                 return;
             }
+        }
+
+        //Updates the Listview timer
+        private void UpdatePauseTimerText()
+        {
+            string PauseTimerText = $"{Times.SecondsToHours(pauseTimerSeconds)}h {Times.SecondsToMinutes(pauseTimerSeconds)}m {pauseTimerSeconds % 60}s";
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Command latestPause = CommandHistory[pausePosition];
+
+                CommandHistory.Remove(latestPause);
+
+                latestPause.output = PauseTimerText;
+
+                CommandHistory.Add(latestPause);
+
+                CommandHistory.Move(CommandHistory.Count -1, pausePosition);
+            }));
         }
 
         private void ResetAllTimers()
