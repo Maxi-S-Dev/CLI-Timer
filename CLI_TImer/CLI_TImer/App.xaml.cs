@@ -14,10 +14,11 @@ namespace CLI_TImer
     /// </summary>
     public partial class App : Application
     {
+        public static MainViewModel MainViewModel = new MainViewModel();
 
         protected override void OnExit(ExitEventArgs e)
         {
-            MainViewModel.CloseEvent();
+            
         }
 
     }
