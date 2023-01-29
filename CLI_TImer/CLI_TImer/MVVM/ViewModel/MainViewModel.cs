@@ -121,13 +121,9 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = Gradients.GradientStops() });
         }
-        //Clears the CommandLine
-        private void ClearCommandHistoy()
-        {
-            CommandHistory.Clear();
-        }
 
 
+        private void ClearCommandHistoy() => CommandHistory.Clear();    
         private void Work(int hours, int minutes, int seconds)
         {
             if (hours == 0 && minutes == 0 && seconds == 0) minutes = 45;
