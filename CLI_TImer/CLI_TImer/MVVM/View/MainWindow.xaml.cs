@@ -17,7 +17,7 @@ namespace CLI_TImer.MVVM.View
         {
             InitializeComponent();
 
-            DataContext = new MainViewModel();
+            DataContext = App.MainViewModel;
 
             Left = SystemParameters.PrimaryScreenWidth - Width - 20;
         }

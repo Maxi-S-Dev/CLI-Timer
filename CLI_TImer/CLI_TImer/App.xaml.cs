@@ -9,16 +9,8 @@ using System.Windows;
 
 namespace CLI_TImer
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            MainViewModel.CloseEvent();
-        }
-
+        public static MainViewModel MainViewModel = new MainViewModel();
     }
 }
