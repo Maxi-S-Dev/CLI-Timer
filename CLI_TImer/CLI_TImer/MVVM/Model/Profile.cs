@@ -9,9 +9,10 @@ namespace CLI_TImer.MVVM.Model
 {
     internal class Profile
     {
-        public string? Name { get; set; }
-        public string? Answer { get; set; }
-        public int? Time { get; set; }
-        public TimerType? TimerType { get; set; }
+        public string Name { get; set; }
+        public string[] Commands { get; set; }
+        public string Answer { get; set; }
+        public int Time { get; set; }
+        public TimerType TimerType { get; set; }
     }
 }

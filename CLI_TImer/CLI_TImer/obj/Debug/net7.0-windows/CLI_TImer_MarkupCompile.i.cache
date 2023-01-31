@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\
 CLI_TImer
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
 21325729245
 
-12-924740669
+13-832248862
 199-1239748438
 MVVM\View\MainWindow.xaml;Themes\Generic.xaml;
 

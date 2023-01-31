@@ -85,7 +85,8 @@ namespace CLI_TImer.MVVM.ViewModel
         #region commands
         private void CheckCommand(string _command)
         {
-            string[] command = _command.Split(' ');
+            string[]? command = _command.Split(' ');
+
             int hours = 0;
             int minutes = 0;
             int seconds = 0;
@@ -97,23 +98,52 @@ namespace CLI_TImer.MVVM.ViewModel
                 if (s[^1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
             }
 
-            if (command[0] == "work") Work(hours, minutes, seconds);
+            int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            else if (command[0] == "break") Pause(hours, minutes, seconds);
+            Profile? selectedProfile = ProfileSelector.getProfileFromCommand(command[0]);
 
-            else if (command[0] == "add") AddTimeToCurrentTimer(hours, minutes, seconds);
+            if (selectedProfile != null && resultTime != 0) selectedProfile.Time = resultTime;
 
-            else if (command[0] == "subtract") SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+            if (selectedProfile != null)
+            {
+                ExecuteProfile(selectedProfile);
+                return;
+            }
 
-            else if (command[0] == "end") ResetCurrentTimer();
+            switch(command[0])
+            {
+                case "add":
+                    AddTimeToCurrentTimer(hours, minutes, seconds);
+                    break;
 
-            else if (command[0] == "reset") ResetAllTimers();
+                case "start":
+                    timer.startMain();
+                    break;
 
-            else if (command[0] == "clear") ClearCommandHistoy();
+                case "subtract":
+                    SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+                    break;
 
-            else if (command[0] == "close") Close();
+                case "end":
+                    ResetCurrentTimer();
+                    break;
 
-            else AddToHistory("Error", "unknown Command", "");
+                case "reset":
+                    ResetAllTimers();
+                    break;
+
+                case "clear":
+                    ClearCommandHistoy();
+                    break;
+
+                case "close":
+                    Close();
+                    break;
+
+                default:
+                    AddToHistory("Error", "unknown Command", "");
+                    break;
+            }
         }
 
         //Adds a Command to the History
@@ -123,22 +153,16 @@ namespace CLI_TImer.MVVM.ViewModel
         }
 
 
-        private void ClearCommandHistoy() => CommandHistory.Clear();    
-        private void Work(int hours, int minutes, int seconds)
+        //Profile
+        private void ExecuteProfile(Profile profile)
         {
-            if (hours == 0 && minutes == 0 && seconds == 0) minutes = 45;
+            timer.SetAndStartTimerFromProfile(profile);
 
-            timer.setMainTimer(Times.TimeToSeconds(hours, minutes, seconds));
+            if (profile.TimerType == TimerType.second) pausePosition = CommandHistory.Count;
+            AddToHistory(profile.Name, profile.Answer, "");
         }
-        private void Pause(int hours, int minutes, int seconds)
-        {            
-            if (hours == 0 && minutes == 0 && seconds == 0) minutes = 20;
+        private void ClearCommandHistoy() => CommandHistory.Clear();    
 
-            timer.setSecondTimer(Times.TimeToSeconds(hours, minutes, seconds));
-            timer.startSecond();
-
-            pausePosition = CommandHistory.Count;
-        }
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
             timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));

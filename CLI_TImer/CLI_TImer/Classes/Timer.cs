@@ -1,16 +1,18 @@
 ﻿using CLI_TImer.MVVM.View;
 using CLI_TImer.MVVM.ViewModel;
 using System;
+using System.Configuration;
 using System.Windows.Threading;
+using CLI_TImer.MVVM.Model;
 
 namespace CLI_TImer.Classes
 {
     public sealed class Timer
     {
-        private int MainTimerSeconds = 1000;
+        private int MainTimerSeconds = 0;
         private int SecondTimerSeconds = 0;
 
-        private TimerType cT = TimerType.main;
+        private TimerType? cT = TimerType.main;
         private DispatcherTimer timer;
 
         private MainViewModel Vm;
@@ -42,6 +44,11 @@ namespace CLI_TImer.Classes
         //Set the Time of the Timer
         public void setMainTimer(int seconds) => MainTimerSeconds = seconds;
         public void setSecondTimer(int seconds) => SecondTimerSeconds= seconds;
+        public void setCurrentTimer(int seconds)
+        {
+            if (cT == TimerType.main) MainTimerSeconds = seconds;
+            if (cT == TimerType.second) SecondTimerSeconds= seconds;
+        }
 
         //Add Time to Timers
         public void AddSecondsToCurrentTimer(int seconds)
@@ -69,7 +76,13 @@ namespace CLI_TImer.Classes
         public void startSecond() => cT = TimerType.second;
 
         //Returns which timer is running
-        public TimerType getCurrentTimer() => cT;
+        public TimerType? getCurrentTimer() => cT;
+
+        internal void SetAndStartTimerFromProfile(Profile? p)
+        {
+            cT = p.TimerType;
+            setCurrentTimer(p.Time);
+        }
     }
 
     public enum TimerType
