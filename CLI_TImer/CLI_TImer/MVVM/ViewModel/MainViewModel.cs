@@ -4,12 +4,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Threading;
 using CLI_TImer.Classes;
-using System.Diagnostics;
-using System.Configuration;
-using System.Timers;
+using System.Windows.Input;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -93,14 +90,15 @@ namespace CLI_TImer.MVVM.ViewModel
 
             foreach (string s in command)
             {
-                if (s[^1] == 'h') hours = Convert.ToInt32(s.Remove(s.Length-1));
-                if (s[^1] == 'm') minutes= Convert.ToInt32(s.Remove(s.Length-1));
-                if (s[^1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
+                if (string.IsNullOrEmpty(s)) break;
+                if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
+                if (s[^1] == 'm') _=int.TryParse(s.Remove(s.Length-1), out minutes);
+                if (s[^1] == 's') _=int.TryParse(s.Remove(s.Length - 1), out seconds);
             }
 
             int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            Profile? selectedProfile = ProfileSelector.getProfileFromCommand(command[0]);
+            Profile? selectedProfile = ProfileManager.getProfileFromCommand(command[0]);
 
             if (selectedProfile != null && resultTime != 0) selectedProfile.Time = resultTime;
 
@@ -112,6 +110,10 @@ namespace CLI_TImer.MVVM.ViewModel
 
             switch(command[0])
             {
+                case "new":
+                    ProfileManager.AddNewProfile(command[1], command[2].Split(","), resultTime, command[command.Length - 1]);
+                    break;
+
                 case "add":
                     AddTimeToCurrentTimer(hours, minutes, seconds);
                     break;
