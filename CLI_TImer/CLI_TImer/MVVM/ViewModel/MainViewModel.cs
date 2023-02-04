@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using CLI_TImer.Classes;
 using System.Windows.Input;
+using System.IO;
+using CLI_TImer.Helpers;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -15,7 +17,7 @@ namespace CLI_TImer.MVVM.ViewModel
         #region variables
 
         [ObservableProperty]
-        public string mainTimerText = "";
+        public string mainTimerText = FileAccessHelper.MainDirectory();
 
         public string PauseTimerText = "";
 
@@ -112,6 +114,10 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 case "new":
                     ProfileManager.AddNewProfile(command[1], command[2].Split(","), resultTime, command[command.Length - 1]);
+                    break;
+
+                case "delete":
+                    ProfileManager.DeleteProfile(command[1]);
                     break;
 
                 case "add":
