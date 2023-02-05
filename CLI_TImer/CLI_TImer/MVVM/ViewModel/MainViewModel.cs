@@ -17,7 +17,7 @@ namespace CLI_TImer.MVVM.ViewModel
         #region variables
 
         [ObservableProperty]
-        public string mainTimerText = FileAccessHelper.MainDirectory();
+        public string? mainTimerText;
 
         public string PauseTimerText = "";
 
@@ -33,7 +33,7 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
-        Classes.Timer timer;
+        Timer timer;
 
         public virtual Dispatcher Dispatcher { get; protected set; }
 
@@ -42,11 +42,18 @@ namespace CLI_TImer.MVVM.ViewModel
         public MainViewModel()
         {
             timer = new(this);
+            SetMainTimerText(0);
 
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
 
         #region Set Timer Text
+
+        /// <summary>
+        /// Subtract Command
+        /// 
+        /// </summary>
+        
 
         internal void SetMainTimerText(int time)
         {
@@ -55,6 +62,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         internal void UpdatePauseTimerText(int seconds)
         {
+            if (CommandHistory.Count == 0) return;
             string PauseTimerText = $"{Times.SecondsToHours(seconds)}h {Times.SecondsToMinutes(seconds)}m {seconds % 60}s";
 
             Dispatcher.BeginInvoke(new Action(() =>

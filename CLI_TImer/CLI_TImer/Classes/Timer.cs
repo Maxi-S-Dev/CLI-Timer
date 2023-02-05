@@ -12,7 +12,7 @@ namespace CLI_TImer.Classes
         private int MainTimerSeconds = 0;
         private int SecondTimerSeconds = 0;
 
-        private TimerType? cT = TimerType.main;
+        private TimerType? cT = TimerType.stop;
         private DispatcherTimer timer;
 
         private MainViewModel Vm;
@@ -28,6 +28,8 @@ namespace CLI_TImer.Classes
 
         private void TimerCountdown(object? sender, EventArgs? e)
         {
+            if (cT == TimerType.stop) return;
+                
             if (cT == TimerType.main)
             {
                 MainTimerSeconds--;
@@ -46,15 +48,21 @@ namespace CLI_TImer.Classes
         public void setSecondTimer(int seconds) => SecondTimerSeconds= seconds;
         public void setCurrentTimer(int seconds)
         {
-            if (cT == TimerType.main) MainTimerSeconds = seconds;
+            if (cT == TimerType.main || cT == TimerType.stop) MainTimerSeconds = seconds;
             if (cT == TimerType.second) SecondTimerSeconds= seconds;
+
+            Vm.SetMainTimerText(MainTimerSeconds);
+            Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
         //Add Time to Timers
         public void AddSecondsToCurrentTimer(int seconds)
         {
-            if (cT == TimerType.main) MainTimerSeconds += seconds;
+            if (cT == TimerType.main || cT == TimerType.stop) MainTimerSeconds += seconds;
             if (cT == TimerType.second) SecondTimerSeconds+= seconds;
+
+            Vm.SetMainTimerText(MainTimerSeconds);
+            Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
         //Reset The Timers
@@ -88,6 +96,8 @@ namespace CLI_TImer.Classes
     public enum TimerType
     {
         main,
-        second
+        second,
+        both,
+        stop
     }
 }
