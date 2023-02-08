@@ -33,6 +33,8 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
+        Profile? selectedProfile;
+
         Timer timer;
 
         public virtual Dispatcher Dispatcher { get; protected set; }
@@ -108,15 +110,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
             int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            Profile? selectedProfile = ProfileManager.getProfileFromCommand(command[0]);
-
-            if (selectedProfile != null && resultTime != 0) selectedProfile.Time = resultTime;
-
-            if (selectedProfile != null)
-            {
-                ExecuteProfile(selectedProfile);
-                return;
-            }
+            if(RunProfile(command[0], resultTime) == true) return;
 
             switch(command[0])
             {
@@ -170,6 +164,22 @@ namespace CLI_TImer.MVVM.ViewModel
 
 
         //Profile
+        private bool RunProfile(string command, int time)
+        {
+            if (selectedProfile == ProfileManager.getProfileFromCommand(command)) return false;
+
+            selectedProfile = ProfileManager.getProfileFromCommand(command);
+
+            if (selectedProfile != null && time != 0) selectedProfile.Time = time;
+
+            if (selectedProfile != null)
+            {
+                ExecuteProfile(selectedProfile);
+                return true;
+            }
+            return false;
+        }
+
         private void ExecuteProfile(Profile profile)
         {
             timer.SetAndStartTimerFromProfile(profile);
