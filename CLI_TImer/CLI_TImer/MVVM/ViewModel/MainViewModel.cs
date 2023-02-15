@@ -50,13 +50,6 @@ namespace CLI_TImer.MVVM.ViewModel
         }
 
         #region Set Timer Text
-
-        /// <summary>
-        /// Subtract Command
-        /// 
-        /// </summary>
-        
-
         internal void SetMainTimerText(int time)
         {
             MainTimerText = $"{Times.SecondsToHours(time)}h {Times.SecondsToMinutes(time)}m {time % 60}s";
@@ -116,6 +109,10 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 case "new":
                     ProfileManager.AddNewProfile(command[1], command[2].Split(","), resultTime, command[command.Length - 1]);
+                    break;
+
+                case "change":
+                    ProfileManager.UpdateProfile(command[1], command[2], command[3]);
                     break;
 
                 case "delete":

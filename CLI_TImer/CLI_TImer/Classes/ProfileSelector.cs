@@ -27,8 +27,11 @@ namespace CLI_TImer.Classes
 
         internal static Profile? getProfileFromCommand(string command)
         {
+            if (ProfileList == null) ProfileList = new List<Profile>();
+
             foreach (Profile p in ProfileList)
-            { 
+            {
+                if (p.Name == command) return p;
                 foreach (string s in p.Commands)
                 {
                     if(command == s) return p;
@@ -61,6 +64,30 @@ namespace CLI_TImer.Classes
             SaveProfileList();
         }
 
+        internal static void UpdateProfile(string Name, string Property, string Value)
+        {
+            Profile? p = getProfileFromCommand(Name);
+
+            if (p == null) return;
+
+            ProfileList.Remove(p);
+
+            switch (Property)
+            {
+                case "name":
+                    p.Name = Value; 
+                    break;
+
+                case nameof(p.Answer):
+                    p.Answer = Value;
+                    break;
+            }
+
+            ProfileList.Add(p);
+            
+            SaveProfileList();
+        }
+
         private static void SaveProfileList()
         { 
             string json = JSONSerializer.ListToJSON(ProfileList);
@@ -70,7 +97,9 @@ namespace CLI_TImer.Classes
 
         private static void LoadProfileList()
         {
-            ProfileList = JSONSerializer.JSONToList(File.ReadAllText(Path.Combine(FileAccessHelper.MainDirectory(), "Profiles.json")));
+            string path = (Path.Combine(FileAccessHelper.MainDirectory(), "Profiles.json"));
+            if(File.Exists(path))
+                ProfileList = JSONSerializer.JSONToList(File.ReadAllText(path));
         }
     }
 }
