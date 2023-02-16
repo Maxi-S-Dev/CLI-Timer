@@ -9,6 +9,7 @@ using CLI_TImer.Classes;
 using System.Windows.Input;
 using System.IO;
 using CLI_TImer.Helpers;
+using System.Windows.Annotations;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -88,6 +89,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void CheckCommand(string _command)
         {
             string[]? command = _command.Split(' ');
+            string? answer = "";
 
             int hours = 0;
             int minutes = 0;
@@ -109,18 +111,27 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 case "new":
                     ProfileManager.AddNewProfile(command[1], command[2].Split(","), resultTime, command[command.Length - 1]);
+                    AddToHistory("new Command", $"added '{command[1]}' to command List", "");
                     break;
 
                 case "change":
                     ProfileManager.UpdateProfile(command[1], command[2], command[3]);
+                    AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
                     break;
 
                 case "delete":
                     ProfileManager.DeleteProfile(command[1]);
+                    AddToHistory("delete Profile", $"deleted {command[1]}", "");
                     break;
 
                 case "add":
                     AddTimeToCurrentTimer(hours, minutes, seconds);
+                    answer = "added ";
+                    answer +=  hours != 0 ? $"{hours} h " : "" ;
+                    answer +=  minutes != 0 ? $"{minutes} m " : "";
+                    answer +=  seconds != 0 ? $"{seconds} s " : "";
+                    answer += "to current timer";
+                    AddToHistory("add", answer, "");
                     break;
 
                 case "start":
@@ -129,6 +140,12 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "subtract":
                     SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+                    answer = "subtracted ";
+                    answer +=  hours != 0 ? $"{hours} h " : "";
+                    answer +=  minutes != 0 ? $"{minutes} m " : "";
+                    answer +=  seconds != 0 ? $"{seconds} s " : "";
+                    answer += "from current timer";
+                    AddToHistory("subtract", answer, "");
                     break;
 
                 case "end":

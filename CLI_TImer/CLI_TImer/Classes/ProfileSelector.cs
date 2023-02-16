@@ -78,7 +78,7 @@ namespace CLI_TImer.Classes
                     p.Name = Value; 
                     break;
 
-                case nameof(p.Answer):
+                case "answer":
                     p.Answer = Value;
                     break;
             }
