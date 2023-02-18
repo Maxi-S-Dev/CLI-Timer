@@ -11,7 +11,7 @@ namespace CLI_TImer.Helpers
     {
         internal static string MainDirectory()
         {
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SaveData");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CLI-Timer/SaveData");
 
             if(!File.Exists(path)) 
             { 

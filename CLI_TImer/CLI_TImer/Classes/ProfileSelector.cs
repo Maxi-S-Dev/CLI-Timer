@@ -14,10 +14,6 @@ namespace CLI_TImer.Classes
     internal class ProfileManager
     {
         private static List<Profile> ProfileList;
-        //{
-        //    new Profile { Name="work", Commands = new string[] { "work" }, Answer = "we are now working", Time = 2700, TimerType = TimerType.main },
-        //    new Profile { Name="pause", Commands = new string[] { "break", "pause" }, Answer = "taking a break", Time = 1200, TimerType = TimerType.second}
-        //};
 
         internal ProfileManager()
         {
@@ -27,7 +23,12 @@ namespace CLI_TImer.Classes
 
         internal static Profile? getProfileFromCommand(string command)
         {
-            if (ProfileList == null) ProfileList = new List<Profile>();
+            if (ProfileList == null) ProfileList = new List<Profile>
+            {
+                new Profile { Name="work", Commands = new string[] { "work" }, Answer = "we are now working", Time = 2700, TimerType = TimerType.main },
+                new Profile { Name="pause", Commands = new string[] { "break", "pause" }, Answer = "taking a break", Time = 1200, TimerType = TimerType.second}
+            };
+                
 
             foreach (Profile p in ProfileList)
             {

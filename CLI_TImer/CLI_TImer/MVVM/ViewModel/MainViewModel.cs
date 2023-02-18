@@ -136,6 +136,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "start":
                     timer.startMain();
+                    AddToHistory("start", "started main timer", "");
                     break;
 
                 case "subtract":
@@ -150,10 +151,12 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "end":
                     ResetCurrentTimer();
+                    AddToHistory("end", "stoped current timer", "");
                     break;
 
                 case "reset":
                     ResetAllTimers();
+                    AddToHistory("reset", "reseted all timers", "");
                     break;
 
                 case "clear":

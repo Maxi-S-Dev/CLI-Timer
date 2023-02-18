@@ -32,13 +32,13 @@ namespace CLI_TImer.Classes
                 
             if (cT == TimerType.main)
             {
-                MainTimerSeconds--;
+                MainTimerSeconds = MainTimerSeconds <= 0 ? 0: MainTimerSeconds -= 1;
                 Vm.SetMainTimerText(MainTimerSeconds);
                 return;
             }
             if (cT == TimerType.second) SecondTimerSeconds--;
             {
-                MainTimerSeconds--;
+                SecondTimerSeconds = SecondTimerSeconds <= 0 ? 0: SecondTimerSeconds -= 1;
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
             }
         }
