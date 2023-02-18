@@ -32,7 +32,7 @@ You don't have to manually set the time in the timer. You can use profiles. Prof
 ```
 work
 ```
-Now you can see, that a 45 Minute countdown started. Also in the command history you can see now, that you started the work profile and the answer tells you that you just started working.
+Now you can see, that a 45 Minute countdown started. Also in the command history you can see, that this profile is called "work" and it's answer tells you that you just started working.
 
 Let's say you have been really productive and you want to take a 20 minute break. Just type break
 ```
