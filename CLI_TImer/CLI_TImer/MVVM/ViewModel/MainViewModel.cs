@@ -110,11 +110,18 @@ namespace CLI_TImer.MVVM.ViewModel
             switch(command[0])
             {
                 case "new":
-                    ProfileManager.AddNewProfile(command[1], command[2].Split(","), resultTime, command[command.Length - 1]);
+                    ProfileManager.AddNewProfile(command[1], command[2], resultTime, command[command.Length - 1]);
                     AddToHistory("new Command", $"added '{command[1]}' to command List", "");
                     break;
 
                 case "change":
+                    
+                    if (command[2] == "time")
+                    {
+                        ProfileManager.UpdateProfile(command[1], resultTime);
+                        AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
+                        break;
+                    }
                     ProfileManager.UpdateProfile(command[1], command[2], command[3]);
                     AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
                     break;

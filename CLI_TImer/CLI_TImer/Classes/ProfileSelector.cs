@@ -33,20 +33,17 @@ namespace CLI_TImer.Classes
             foreach (Profile p in ProfileList)
             {
                 if (p.Name == command) return p;
-                foreach (string s in p.Commands)
-                {
-                    if(command == s) return p;
-                }
+                
             }
 
             return null;
         }
 
-        internal static void AddNewProfile(string Name, string[] Commands, int Time, string Type)
+        internal static void AddNewProfile(string Name, string answer, int Time, string Type)
         {
             TimerType tp = TimerType.main;
             if(Type == "second") tp = TimerType.second;
-            ProfileList.Add(new Profile { Name = Name, Commands = Commands, Time = Time, TimerType = tp });
+            ProfileList.Add(new Profile { Name = Name, Answer = answer, Time = Time, TimerType = tp });
 
             SaveProfileList();
         }
@@ -69,7 +66,7 @@ namespace CLI_TImer.Classes
         {
             Profile? p = getProfileFromCommand(Name);
 
-            if (p == null) return;
+            if (p is null) return;
 
             ProfileList.Remove(p);
 
@@ -85,7 +82,20 @@ namespace CLI_TImer.Classes
             }
 
             ProfileList.Add(p);
-            
+            SaveProfileList();
+        }
+
+        internal static void UpdateProfile(string Name, int Time)
+        {
+            Profile? p = getProfileFromCommand(Name);
+
+            if (p is null) return;
+
+            ProfileList.Remove(p);
+
+            p.Time = Time;
+
+            ProfileList.Add(p);
             SaveProfileList();
         }
 
