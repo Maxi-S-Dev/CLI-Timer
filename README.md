@@ -58,12 +58,12 @@ reset
 This command works just like "end" but it will reset all timers. (Main and secondary)
 
 ```
-add
+add <TimeToAdd>
 ```
 We have already used add once, but you can also use it while a timer is running to extend it's time.
 
 ```
-subtract
+subtract <TimeToSubtract>
 ```
 Just like add but the it will shorten the time.
 
