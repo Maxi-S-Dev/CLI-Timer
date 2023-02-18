@@ -100,11 +100,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
             if (_command.Split("'").Length == 3)
             {
-                command[2] = _command.Split("'")[1];
+                command[3] = _command.Split("'")[1];
             }
             else if (_command.Split('"').Length == 3)
             {
-                command[2] = _command.Split('"')[1];
+                command[3] = _command.Split('"')[1];
             }
 
                 foreach (string s in command)
