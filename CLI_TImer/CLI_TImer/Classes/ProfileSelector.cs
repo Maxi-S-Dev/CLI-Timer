@@ -32,8 +32,7 @@ namespace CLI_TImer.Classes
 
             foreach (Profile p in ProfileList)
             {
-                if (p.Name == command) return p;
-                
+                if (p.Name == command) return p;                
             }
 
             return null;

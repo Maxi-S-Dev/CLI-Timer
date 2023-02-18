@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.IO;
 using CLI_TImer.Helpers;
 using System.Windows.Annotations;
+using System.Linq;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -88,14 +89,25 @@ namespace CLI_TImer.MVVM.ViewModel
         #region commands
         private void CheckCommand(string _command)
         {
-            string[]? command = _command.Split(' ');
+            string[]? command = _command.Split(' ');           
+
             string? answer = "";
 
             int hours = 0;
             int minutes = 0;
             int seconds = 0;
 
-            foreach (string s in command)
+
+            if (_command.Split("'").Length == 3)
+            {
+                command[2] = _command.Split("'")[1];
+            }
+            else if (_command.Split('"').Length == 3)
+            {
+                command[2] = _command.Split('"')[1];
+            }
+
+                foreach (string s in command)
             {
                 if (string.IsNullOrEmpty(s)) break;
                 if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
