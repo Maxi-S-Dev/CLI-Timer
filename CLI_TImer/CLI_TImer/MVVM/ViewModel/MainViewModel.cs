@@ -4,46 +4,25 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Threading;
+using CLI_TImer.Classes;
+using System.Windows.Input;
+using System.IO;
+using CLI_TImer.Helpers;
+using System.Windows.Annotations;
+using System.Linq;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-        //Main Timer 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainSeconds;
-
+        #region variables
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainMinutes;
+        public string? mainTimerText;
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MainTimerText))]
-        public int mainHours;
+        public string PauseTimerText = "";
 
-        public string MainTimerText => $"{MainHours}h {MainMinutes}m {MainSeconds}s";
-
-
-        //Pause Timer
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseSeconds;
-
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseMinutes;
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PauseTimerText))]
-        public int pauseHours;
-
-        public string PauseTimerText => $"{PauseHours}h {PauseMinutes}m {PauseSeconds}s";
 
         //Inputs
         [ObservableProperty]
@@ -54,21 +33,50 @@ namespace CLI_TImer.MVVM.ViewModel
 
 
         //Code
-        private bool isPaused = false;
-        private bool mainTimerRunning = false;
-        private bool stopApp = false;
         private int pausePosition;
-        readonly Thread timerThread;
+
+        Profile? selectedProfile;
+
+        Timer timer;
 
         public virtual Dispatcher Dispatcher { get; protected set; }
 
-        public MainViewModel() 
-        { 
-            timerThread = new Thread(new ThreadStart(Countdown));
-            timerThread.Start();     
+        #endregion
+
+        public MainViewModel()
+        {
+            timer = new(this);
+            SetMainTimerText(0);
 
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
+
+        #region Set Timer Text
+        internal void SetMainTimerText(int time)
+        {
+            MainTimerText = $"{Times.SecondsToHours(time)}h {Times.SecondsToMinutes(time)}m {time % 60}s";
+        }
+
+        internal void UpdatePauseTimerText(int seconds)
+        {
+            if (CommandHistory.Count == 0) return;
+            string PauseTimerText = $"{Times.SecondsToHours(seconds)}h {Times.SecondsToMinutes(seconds)}m {seconds % 60}s";
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Command latestPause = CommandHistory[pausePosition];
+
+                CommandHistory.Remove(latestPause);
+
+                latestPause.output = PauseTimerText;
+
+                CommandHistory.Add(latestPause);
+
+                CommandHistory.Move(CommandHistory.Count -1, pausePosition);
+            }));
+        }
+
+        #endregion
 
         //Input Commands
         [RelayCommand]
@@ -78,329 +86,166 @@ namespace CLI_TImer.MVVM.ViewModel
             EnteredCommand = "";
         }
 
-        private void CheckCommand(string _command) 
+        #region commands
+        private void CheckCommand(string _command)
         {
-            string[] command = _command.Split(' ');
+            string[]? command = _command.Split(' ');           
+
+            string? answer = "";
+
             int hours = 0;
-            int minutes= 0;
+            int minutes = 0;
             int seconds = 0;
 
-            if (command.Length == 2)
-            { 
-                string[] time = command[1].Split(':');
 
-                if(time.Length == 1)
-                    _=int.TryParse(time[0], out minutes);
-
-                if (time.Length == 2)
-                {
-                    _=int.TryParse(time[0], out minutes);
-                    _=int.TryParse(time[1], out seconds);
-                }
-
-                if (time.Length == 3)
-                {
-                    _=int.TryParse(time[0], out hours);
-                    _=int.TryParse(time[1], out minutes);
-                    _=int.TryParse(time[2], out seconds);
-                }
-            }
-
-            if (command[0] == "work" || command[0] == "start")
+            if (_command.Split("'").Length == 3)
             {
-                if (hours == 0 && minutes == 0 && seconds == 0) Work(45);
-                else Work(hours, minutes, seconds);
+                command[3] = _command.Split("'")[1];
             }
-
-            else if (command[0] == "break")
+            else if (_command.Split('"').Length == 3)
             {
-                if (hours == 0 && minutes == 0 && seconds == 0) Pause(20);
-                else Pause(hours, minutes, seconds);
+                command[3] = _command.Split('"')[1];
             }
 
-            else if (command[0] == "add")
+                foreach (string s in command)
             {
-                if (hours == 0 && minutes == 0 && seconds == 0) AddTimeToCurrentTimer(10);
-                else AddTimeToCurrentTimer(hours, minutes, seconds);
+                if (string.IsNullOrEmpty(s)) break;
+                if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
+                if (s[^1] == 'm') _=int.TryParse(s.Remove(s.Length-1), out minutes);
+                if (s[^1] == 's') _=int.TryParse(s.Remove(s.Length - 1), out seconds);
             }
 
-            else if (command[0] == "subtract")
+            int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
+
+            if(RunProfile(command[0], resultTime) == true) return;
+
+            switch(command[0])
             {
-                if (hours == 0 && minutes == 0 && seconds == 0) SubtractTimeFromCurrentTimer(10);
-                else SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+                case "new":
+                    ProfileManager.AddNewProfile(command[1], command[2], resultTime, command[command.Length - 1]);
+                    AddToHistory("new Command", $"added '{command[1]}' to command List", "");
+                    break;
+
+                case "change":
+                    
+                    if (command[2] == "time")
+                    {
+                        ProfileManager.UpdateProfile(command[1], resultTime);
+                        AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
+                        break;
+                    }
+                    ProfileManager.UpdateProfile(command[1], command[2], command[3]);
+                    AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
+                    break;
+
+                case "delete":
+                    ProfileManager.DeleteProfile(command[1]);
+                    AddToHistory("delete Profile", $"deleted {command[1]}", "");
+                    break;
+
+                case "add":
+                    AddTimeToCurrentTimer(hours, minutes, seconds);
+                    answer = "added ";
+                    answer +=  hours != 0 ? $"{hours} h " : "" ;
+                    answer +=  minutes != 0 ? $"{minutes} m " : "";
+                    answer +=  seconds != 0 ? $"{seconds} s " : "";
+                    answer += "to current timer";
+                    AddToHistory("add", answer, "");
+                    break;
+
+                case "start":
+                    timer.startMain();
+                    AddToHistory("start", "started main timer", "");
+                    break;
+
+                case "subtract":
+                    SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+                    answer = "subtracted ";
+                    answer +=  hours != 0 ? $"{hours} h " : "";
+                    answer +=  minutes != 0 ? $"{minutes} m " : "";
+                    answer +=  seconds != 0 ? $"{seconds} s " : "";
+                    answer += "from current timer";
+                    AddToHistory("subtract", answer, "");
+                    break;
+
+                case "end":
+                    ResetCurrentTimer();
+                    AddToHistory("end", "stoped current timer", "");
+                    break;
+
+                case "reset":
+                    ResetAllTimers();
+                    AddToHistory("reset", "reseted all timers", "");
+                    break;
+
+                case "clear":
+                    ClearCommandHistoy();
+                    break;
+
+                case "close":
+                    Close();
+                    break;
+
+                default:
+                    AddToHistory("Error", "unknown Command", "");
+                    break;
             }
-
-            else if (command[0] == "end") EndCurrentTImer();
-
-            else if (command[0] == "reset") EndAllTimers();
-
-            else if (command[0] == "clear") ClearCommandHistoy();
-
-            else if (command[0] == "close") CloseApplication();
-
-            else CommandHistory.Add(new Command { title = "Error", answer = "unknown Command", output = "", gradientStops = Gradients.GradientStops() });
         }
 
-        private void ClearCommandHistoy()
+        //Adds a Command to the History
+        private void AddToHistory(string title, string answer, string output)
         {
-            ResetAllTimers();
-
-            isPaused = false;
-            CommandHistory.Clear();   
+            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = Gradients.GradientStops() });
         }
 
-        private void Work(int minutes) => Work(0, minutes, 0);
 
-        private void Work(int hours, int minutes, int seconds)
+        //Profile
+        private bool RunProfile(string command, int time)
         {
-            Command work;
-            if (mainTimerRunning)
+            if (selectedProfile == ProfileManager.getProfileFromCommand(command)) return false;
+
+            selectedProfile = ProfileManager.getProfileFromCommand(command);
+
+            if (selectedProfile != null && time != 0) selectedProfile.Time = time;
+
+            if (selectedProfile != null)
             {
-                work = new() { title = "work", answer = $"main timer already running. \nUse 'end' to stop the main Timer", output = "", gradientStops = Gradients.GradientStops() };
-                CommandHistory.Add(work);
-                return;
+                ExecuteProfile(selectedProfile);
+                return true;
             }
-
-            mainTimerRunning = true;
-            MainHours = hours;
-            MainMinutes = minutes;
-            MainSeconds = seconds;
-
-             work = new() { title = "work", answer = "we are now working", output = "", gradientStops = Gradients.GradientStops()};
-            CommandHistory.Add(work);
+            return false;
         }
 
-        private void Pause(int minutes) => Pause(0, minutes, 0);
-
-        private void Pause(int hours, int minutes, int seconds)
+        private void ExecuteProfile(Profile profile)
         {
-            isPaused = true;
-            PauseHours = hours;
-            PauseMinutes = minutes;
-            PauseSeconds = seconds;
-            pausePosition = CommandHistory.Count;
-            Command pause = new() { title = "break", answer = "we are taking a break", output = PauseTimerText, gradientStops= Gradients.GradientStops()};
-            CommandHistory.Add(pause);
-        }
+            timer.SetAndStartTimerFromProfile(profile);
 
-        private void SubtractTimeFromCurrentTimer(int minutes) => SubtractTimeFromCurrentTimer(0, minutes, 0);
+            if (profile.TimerType == TimerType.second) pausePosition = CommandHistory.Count;
+            AddToHistory(profile.Name, profile.Answer, "");
+        }
+        private void ClearCommandHistoy() => CommandHistory.Clear();    
 
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
-            if (!isPaused)
-            {
-                MainHours -= hours;
-                MainMinutes -= minutes;
-                MainSeconds -= seconds;
-
-                string output = hours == 0 ? "" : $"{hours}h";
-                output += minutes == 0 ? "" : $"{minutes}min";
-                output += seconds == 0 ? "" : $"{seconds}h";
-
-                Command cmd = new() { title = "subtract", answer = $"subtracted {output} from the main timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(cmd);
-            }
-            else if (isPaused)
-            {
-                PauseHours -= hours;
-                PauseMinutes -= minutes;
-                PauseSeconds -= seconds;
-
-                string output = hours == 0 ? "" : $"{hours}h";
-                output += minutes == 0 ? "" : $"{minutes}min";
-                output += seconds == 0 ? "" : $"{seconds}h";
-
-                Command cmd = new() { title = "subtract", answer = $"subtracted {output} from the pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(cmd);
-            }
+            timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));
         }
-
-        private void AddTimeToCurrentTimer(int minutes) => AddTimeToCurrentTimer(0, minutes, 0);
-
         private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
         {
-            Command command;
-            if (!mainTimerRunning) 
-            {
-                command = new() { title = "add", answer = $"no active timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(command);
-                return; 
-            }
-            if (!isPaused)
-            {
-                MainHours += hours;
-                MainMinutes += minutes;
-                MainSeconds += seconds;
-
-                string output = hours == 0 ? "" : $"{hours}h";
-                output += minutes == 0 ? "" : $"{minutes}min";
-                output += seconds == 0 ? "" : $"{seconds}h";
-
-                command = new() { title = "add", answer = $"added {output} to the main timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(command);
-            }
-            if (isPaused)
-            {
-                PauseHours += hours;
-                PauseMinutes += minutes;
-                PauseSeconds += seconds;
-
-                string output = hours == 0 ? "" : $"{hours}h";
-                output += minutes == 0 ? "" : $"{minutes}min";
-                output += seconds == 0 ? "" : $"{seconds}h";
-
-                Command pause = new() { title = "add", answer = $"added {output} to the pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
-            }
+            timer.AddSecondsToCurrentTimer(Times.TimeToSeconds(hours, minutes, seconds));
         }
+        private void ResetCurrentTimer() => timer.ResetCurrentTimer();
+        private void ResetAllTimers() => timer.ResetAllTimers();
 
-        private void EndCurrentTImer()
-        {
-            if (!isPaused)
-            {
-                ResetMainTimer();
-                mainTimerRunning = false;
-                Command pause = new() { title = "end", answer = "reseted pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
-            }
+        #endregion
 
-            if (isPaused)
-            {
-                ResetPauseTimer();
-                isPaused = false;
-                Command pause = new() { title = "end", answer = "reseted Pause timer", gradientStops= Gradients.GradientStops() };
-                CommandHistory.Add(pause);
-            }
-        }
-
-        private void EndAllTimers()
-        {
-            ResetAllTimers();
-            mainTimerRunning= false;
-            Command pause = new() { title = "reset", answer = "reseted all timers", gradientStops= Gradients.GradientStops() };
-            CommandHistory.Add(pause);
-        }
-
-        //Timer Management
-        private void Countdown()
-        {
-            while (true)
-            {
-                if (stopApp) break;
-
-                if (!isPaused)
-                {
-                    if (MainSeconds > 0 || MainMinutes > 0 || MainHours > 0) MainTimer();
-                }
-
-                if(isPaused) 
-                {
-                    PauseTimer();
-                }
-
-                Thread.Sleep(1000);
-            }
-        }
-
-        //Zählt den Main Timer runter
-        private void MainTimer()
-        {
-            if (!mainTimerRunning) return;
-            MainSeconds--;
-
-            if ((MainHours == 0 && MainMinutes == 0 && MainSeconds == 0) || MainHours < 0 || MainMinutes < 0)
-            {
-                MainHours = MainMinutes = MainSeconds = 0;
-                mainTimerRunning = false;
-                return;
-            }
-
-            if (MainSeconds <= 0)
-            {
-                MainMinutes--;
-                MainSeconds = 59;
-            }
-
-            if (MainMinutes == 0 && MainHours > 0)
-            {
-                MainMinutes = 59;
-                MainHours--;
-            }
-        }
-
-        //Zählt den Pause Timer runter
-        private void PauseTimer()
-        {
-            PauseSeconds--;
-
-            //Updates the Listview timer
-            if (CommandHistory.Count > 0)
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    Command latestPause = CommandHistory[pausePosition];
-
-                    CommandHistory.Remove(latestPause);
-
-                    latestPause.output = PauseTimerText;
-
-                    CommandHistory.Add(latestPause);
-
-                    CommandHistory.Move(CommandHistory.Count -1, pausePosition);
-                }));
-            }
-
-
-            if (PauseHours == 0 && PauseMinutes == 0 && PauseSeconds == 0)
-            {
-                isPaused = false;
-                return;
-            }
-
-            if (PauseSeconds <= 0)
-            {
-                PauseMinutes--;
-                PauseSeconds = 59;
-            }
-
-            if (PauseMinutes == 0 && PauseHours > 0)
-            {
-                PauseMinutes= 59;
-                PauseHours--;
-            }
-        }
-
-        private void ResetAllTimers()
-        {
-            ResetPauseTimer();
-            ResetMainTimer();
-        }
-
-        private void ResetPauseTimer()
-        {
-            isPaused= false;
-            PauseHours = PauseMinutes = PauseSeconds = 0;
-        }
-
-        private void ResetMainTimer()
-        {
-            mainTimerRunning = false;
-            MainHours = MainMinutes = MainSeconds = 0;
-        }
-
+        #region AppBehaviour
         //Close Button
-        [RelayCommand]
-        public Task Close()
-        {
-            CloseApplication();
-            return Task.CompletedTask;
-        }
 
-        private  void CloseApplication()
+        [RelayCommand]
+        public static void Close()
         {
-            stopApp = true;
             System.Windows.Application.Current.Shutdown();
         }
+        #endregion
     }
 }
-

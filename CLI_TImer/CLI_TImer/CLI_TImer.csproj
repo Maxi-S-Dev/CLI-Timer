@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\**" />
+    <EmbeddedResource Remove="Controls\**" />
+    <None Remove="Controls\**" />
+    <Page Remove="Controls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Fonts\ChivoMono-VariableFont_wght.ttf" />
     <None Remove="Fonts\NanumGothic-Regular.ttf" />
     <None Remove="Fonts\SpaceMono-Regular.ttf" />
@@ -19,11 +26,6 @@
     <Resource Include="Fonts\ChivoMono-VariableFont_wght.ttf" />
     <Resource Include="Fonts\NanumGothic-Regular.ttf" />
     <Resource Include="Fonts\SpaceMono-Regular.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="MVVM\View\" />
   </ItemGroup>
 
   <ItemGroup>
