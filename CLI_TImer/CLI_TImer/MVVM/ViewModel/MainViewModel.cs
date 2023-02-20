@@ -4,12 +4,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Threading;
 using CLI_TImer.Classes;
-using System.Diagnostics;
-using System.Configuration;
-using System.Timers;
+using System.Windows.Input;
+using System.IO;
+using CLI_TImer.Helpers;
+using System.Windows.Annotations;
+using System.Linq;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -18,7 +19,7 @@ namespace CLI_TImer.MVVM.ViewModel
         #region variables
 
         [ObservableProperty]
-        public string mainTimerText = "";
+        public string? mainTimerText;
 
         public string PauseTimerText = "";
 
@@ -34,7 +35,9 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
-        Classes.Timer timer;
+        Profile? selectedProfile;
+
+        Timer timer;
 
         public virtual Dispatcher Dispatcher { get; protected set; }
 
@@ -43,12 +46,12 @@ namespace CLI_TImer.MVVM.ViewModel
         public MainViewModel()
         {
             timer = new(this);
+            SetMainTimerText(0);
 
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
 
         #region Set Timer Text
-
         internal void SetMainTimerText(int time)
         {
             MainTimerText = $"{Times.SecondsToHours(time)}h {Times.SecondsToMinutes(time)}m {time % 60}s";
@@ -56,6 +59,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         internal void UpdatePauseTimerText(int seconds)
         {
+            if (CommandHistory.Count == 0) return;
             string PauseTimerText = $"{Times.SecondsToHours(seconds)}h {Times.SecondsToMinutes(seconds)}m {seconds % 60}s";
 
             Dispatcher.BeginInvoke(new Action(() =>
@@ -85,35 +89,107 @@ namespace CLI_TImer.MVVM.ViewModel
         #region commands
         private void CheckCommand(string _command)
         {
-            string[] command = _command.Split(' ');
+            string[]? command = _command.Split(' ');           
+
+            string? answer = "";
+
             int hours = 0;
             int minutes = 0;
             int seconds = 0;
 
-            foreach (string s in command)
+
+            if (_command.Split("'").Length == 3)
             {
-                if (s[^1] == 'h') hours = Convert.ToInt32(s.Remove(s.Length-1));
-                if (s[^1] == 'm') minutes= Convert.ToInt32(s.Remove(s.Length-1));
-                if (s[^1] == 's') seconds = Convert.ToInt32(s.Remove(s.Length-1));
+                command[3] = _command.Split("'")[1];
+            }
+            else if (_command.Split('"').Length == 3)
+            {
+                command[3] = _command.Split('"')[1];
             }
 
-            if (command[0] == "work") Work(hours, minutes, seconds);
+                foreach (string s in command)
+            {
+                if (string.IsNullOrEmpty(s)) break;
+                if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
+                if (s[^1] == 'm') _=int.TryParse(s.Remove(s.Length-1), out minutes);
+                if (s[^1] == 's') _=int.TryParse(s.Remove(s.Length - 1), out seconds);
+            }
 
-            else if (command[0] == "break") Pause(hours, minutes, seconds);
+            int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            else if (command[0] == "add") AddTimeToCurrentTimer(hours, minutes, seconds);
+            if(RunProfile(command[0], resultTime) == true) return;
 
-            else if (command[0] == "subtract") SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+            switch(command[0])
+            {
+                case "new":
+                    ProfileManager.AddNewProfile(command[1], command[2], resultTime, command[command.Length - 1]);
+                    AddToHistory("new Command", $"added '{command[1]}' to command List", "");
+                    break;
 
-            else if (command[0] == "end") ResetCurrentTimer();
+                case "change":
+                    
+                    if (command[2] == "time")
+                    {
+                        ProfileManager.UpdateProfile(command[1], resultTime);
+                        AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
+                        break;
+                    }
+                    ProfileManager.UpdateProfile(command[1], command[2], command[3]);
+                    AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
+                    break;
 
-            else if (command[0] == "reset") ResetAllTimers();
+                case "delete":
+                    ProfileManager.DeleteProfile(command[1]);
+                    AddToHistory("delete Profile", $"deleted {command[1]}", "");
+                    break;
 
-            else if (command[0] == "clear") ClearCommandHistoy();
+                case "add":
+                    AddTimeToCurrentTimer(hours, minutes, seconds);
+                    answer = "added ";
+                    answer +=  hours != 0 ? $"{hours} h " : "" ;
+                    answer +=  minutes != 0 ? $"{minutes} m " : "";
+                    answer +=  seconds != 0 ? $"{seconds} s " : "";
+                    answer += "to current timer";
+                    AddToHistory("add", answer, "");
+                    break;
 
-            else if (command[0] == "close") Close();
+                case "start":
+                    timer.startMain();
+                    AddToHistory("start", "started main timer", "");
+                    break;
 
-            else AddToHistory("Error", "unknown Command", "");
+                case "subtract":
+                    SubtractTimeFromCurrentTimer(hours, minutes, seconds);
+                    answer = "subtracted ";
+                    answer +=  hours != 0 ? $"{hours} h " : "";
+                    answer +=  minutes != 0 ? $"{minutes} m " : "";
+                    answer +=  seconds != 0 ? $"{seconds} s " : "";
+                    answer += "from current timer";
+                    AddToHistory("subtract", answer, "");
+                    break;
+
+                case "end":
+                    ResetCurrentTimer();
+                    AddToHistory("end", "stoped current timer", "");
+                    break;
+
+                case "reset":
+                    ResetAllTimers();
+                    AddToHistory("reset", "reseted all timers", "");
+                    break;
+
+                case "clear":
+                    ClearCommandHistoy();
+                    break;
+
+                case "close":
+                    Close();
+                    break;
+
+                default:
+                    AddToHistory("Error", "unknown Command", "");
+                    break;
+            }
         }
 
         //Adds a Command to the History
@@ -123,22 +199,32 @@ namespace CLI_TImer.MVVM.ViewModel
         }
 
 
-        private void ClearCommandHistoy() => CommandHistory.Clear();    
-        private void Work(int hours, int minutes, int seconds)
+        //Profile
+        private bool RunProfile(string command, int time)
         {
-            if (hours == 0 && minutes == 0 && seconds == 0) minutes = 45;
+            if (selectedProfile == ProfileManager.getProfileFromCommand(command)) return false;
 
-            timer.setMainTimer(Times.TimeToSeconds(hours, minutes, seconds));
+            selectedProfile = ProfileManager.getProfileFromCommand(command);
+
+            if (selectedProfile != null && time != 0) selectedProfile.Time = time;
+
+            if (selectedProfile != null)
+            {
+                ExecuteProfile(selectedProfile);
+                return true;
+            }
+            return false;
         }
-        private void Pause(int hours, int minutes, int seconds)
-        {            
-            if (hours == 0 && minutes == 0 && seconds == 0) minutes = 20;
 
-            timer.setSecondTimer(Times.TimeToSeconds(hours, minutes, seconds));
-            timer.startSecond();
+        private void ExecuteProfile(Profile profile)
+        {
+            timer.SetAndStartTimerFromProfile(profile);
 
-            pausePosition = CommandHistory.Count;
+            if (profile.TimerType == TimerType.second) pausePosition = CommandHistory.Count;
+            AddToHistory(profile.Name, profile.Answer, "");
         }
+        private void ClearCommandHistoy() => CommandHistory.Clear();    
+
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
             timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));

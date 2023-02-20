@@ -5,12 +5,10 @@ D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\CLI_TImer.dll
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\CLI_TImer.pdb
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Release\net7.0-windows\CommunityToolkit.Mvvm.dll
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer.csproj.AssemblyReference.cache
-D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\MainWindow.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\App.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer_MarkupCompile.cache
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer_MarkupCompile.lref
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\App.baml
-D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\MainWindow.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\Themes\Generic.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer.g.resources
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer.GeneratedMSBuildEditorConfig.editorconfig
@@ -48,3 +46,5 @@ C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\refint\CLI_TI
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer.pdb
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\CLI_TImer.genruntimeconfig.cache
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\ref\CLI_TImer.dll
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\MVVM\View\MainWindow.g.cs
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\MVVM\View\MainWindow.baml

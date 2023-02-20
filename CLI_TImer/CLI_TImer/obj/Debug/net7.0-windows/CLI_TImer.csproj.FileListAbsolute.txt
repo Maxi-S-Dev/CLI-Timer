@@ -74,12 +74,10 @@ C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Debug\net7.0-windows\CLI_TImer.dll
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Debug\net7.0-windows\CLI_TImer.pdb
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Debug\net7.0-windows\CommunityToolkit.Mvvm.dll
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer.csproj.AssemblyReference.cache
-C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MainWindow.g.cs
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\App.g.cs
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer_MarkupCompile.cache
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer_MarkupCompile.lref
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\App.baml
-C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MainWindow.baml
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\Generic.baml
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer.g.resources
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer.GeneratedMSBuildEditorConfig.editorconfig
@@ -94,3 +92,5 @@ C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer.genru
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\ref\CLI_TImer.dll
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainWindow.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainWindow.baml
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainWindow.g.cs
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainWindow.baml
