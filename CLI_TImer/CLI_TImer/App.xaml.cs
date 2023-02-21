@@ -15,11 +15,8 @@ namespace CLI_TImer
     {
         public static MainViewModel MainViewModel = new MainViewModel();
 
-        ProfileManager? PM = new ProfileManager();
-
         public App() 
         {
-            PM = null;
         }
     }
 }

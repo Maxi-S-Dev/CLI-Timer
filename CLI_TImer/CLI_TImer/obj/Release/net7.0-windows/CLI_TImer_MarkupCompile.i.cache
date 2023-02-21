@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET7_0;NETCOREAPP
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
-21325729245
+5-1253537536
 
-15-162273086
+19-765134880
 199-1239748438
-MVVM\View\MainWindow.xaml;Themes\Generic.xaml;
+MVVM\View\MainSettingsView.xaml;MVVM\View\MainWindow.xaml;MVVM\View\SettingsWindow.xaml;Themes\Generic.xaml;Themes\ToggelButton.xaml;
 
 True
 

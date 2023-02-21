@@ -11,12 +11,16 @@ using System.IO;
 using CLI_TImer.Helpers;
 using System.Windows.Annotations;
 using System.Linq;
+using CLI_TImer.MVVM.View;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
         #region variables
+
+        //Settings
+        SettingsWindow settingsWindow;
 
         [ObservableProperty]
         public string? mainTimerText;
@@ -47,6 +51,9 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             timer = new(this);
             SetMainTimerText(0);
+
+            settingsWindow = new SettingsWindow();
+            //settingsWindow.Show();
 
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
@@ -100,11 +107,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
             if (_command.Split("'").Length == 3)
             {
-                command[3] = _command.Split("'")[1];
+                answer = _command.Split("'")[1];
             }
             else if (_command.Split('"').Length == 3)
             {
-                command[3] = _command.Split('"')[1];
+                answer = _command.Split('"')[1];
             }
 
                 foreach (string s in command)
@@ -122,7 +129,7 @@ namespace CLI_TImer.MVVM.ViewModel
             switch(command[0])
             {
                 case "new":
-                    ProfileManager.AddNewProfile(command[1], command[2], resultTime, command[command.Length - 1]);
+                    ProfileManager.AddNewProfile(command[1], answer, resultTime, command[command.Length - 1]);
                     AddToHistory("new Command", $"added '{command[1]}' to command List", "");
                     break;
 
@@ -184,6 +191,10 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "close":
                     Close();
+                    break;
+
+                case "settings":
+                    //settingsWindow.Show();
                     break;
 
                 default:

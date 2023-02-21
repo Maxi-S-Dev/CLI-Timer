@@ -12,7 +12,7 @@ namespace CLI_TImer.Classes
         private int MainTimerSeconds = 0;
         private int SecondTimerSeconds = 0;
 
-        private TimerType? cT = TimerType.main;
+        private TimerType? cT = TimerType.main; 
         private DispatcherTimer timer;
 
         private MainViewModel Vm;
@@ -34,7 +34,7 @@ namespace CLI_TImer.Classes
                 Vm.SetMainTimerText(MainTimerSeconds);
                 return;
             }
-            if (cT == TimerType.second) SecondTimerSeconds--;
+            if (cT == TimerType.second)
             {
                 SecondTimerSeconds = SecondTimerSeconds <= 0 ? 0: SecondTimerSeconds -= 1;
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
