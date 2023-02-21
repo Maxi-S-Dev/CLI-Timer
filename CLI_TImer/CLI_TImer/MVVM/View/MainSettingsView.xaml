@@ -24,7 +24,7 @@
 
         <StackPanel>
 
-            <Border Background="Navy"
+            <Border Background="#272b3f"
                     Height="60"
                     Margin="10"
                     CornerRadius="10"
@@ -50,9 +50,10 @@
                                Grid.Row="1"
                                VerticalAlignment="Center"/>
 
-                    <ToggleButton Style="{DynamicResource ToggleButtonStyle1}" Grid.Column="1" Grid.RowSpan="2"
-                                  Width="50"
-                                  Height="20"/>
+                    <ToggleButton Style="{DynamicResource ToggleButtonStyle}" 
+                                  Grid.Column="1" Grid.RowSpan="2"
+                                  />
+                    <!--424a6c-->
 
                 </Grid>
             </Border>
