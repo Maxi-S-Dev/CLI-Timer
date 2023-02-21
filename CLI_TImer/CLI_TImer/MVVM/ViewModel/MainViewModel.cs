@@ -11,12 +11,16 @@ using System.IO;
 using CLI_TImer.Helpers;
 using System.Windows.Annotations;
 using System.Linq;
+using CLI_TImer.MVVM.View;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
         #region variables
+
+        //Settings
+        SettingsWindow settingsWindow;
 
         [ObservableProperty]
         public string? mainTimerText;
@@ -47,6 +51,9 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             timer = new(this);
             SetMainTimerText(0);
+
+            settingsWindow = new SettingsWindow();
+            settingsWindow.Show();
 
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
@@ -184,6 +191,10 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "close":
                     Close();
+                    break;
+
+                case "settings":
+                    settingsWindow.Show();
                     break;
 
                 default:
