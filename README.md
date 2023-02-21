@@ -13,7 +13,7 @@ In the bottom right you can find the main timer. Just type the following command
 ```
 add 1h 30m 20s
 ```
-Now the main timer displays this time. To start the main timer just type
+Now the main timer displays this time. To start the main timer just type:
 ```
 start
 ```
@@ -28,7 +28,7 @@ This will end the current timer. Why "current"?
 I'll show you.
 
 ### Using Profiles
-You don't have to manually set the time in the timer. You can use profiles. Profiles have predefined names, answers and times. You will lean later how to create your own. Some profiles are already implemented in the application. For example "work". Just type "work" in the command line.
+You don't have to set the time in the timer urself every time. You can simply use profiles. Profiles have predefined names, answers and lengths. You will learn later how to create your own. Some profiles are already implemented in the application. For example "work". Just type "work" in the command line.
 ```
 work
 ```
@@ -36,15 +36,15 @@ Now you can see, that a 45 Minute countdown started. Also in the command history
 
 Let's say you have been really productive and you want to take a 20 minute break. Just type break
 ```
-break
+pause
 ```
 The main Timer now has stopped and a second timer started running besides the answer. This is the secondary timer. If you now use the command 
 ```
 end
 ```
-the second timer, in this case the pause timer, will stop running and the main timer continuous.
+the second timer, in this case the pause timer, will stop running and the main timer continues.
 
-You can also override temporary how long a timer should run, by specifying the timer after the command name.
+You can also override temporary how long a timer should run, by specifying the time right after the profile name.
 ```
 work 20m
 ```
@@ -78,7 +78,7 @@ close
 This will close the application. (Why would you use the button in the top right)?.
 
 ### Create, Manage and Delete Profiles
-We have already introduced you into profiles, but did you know, that you can create your own? Let's create one together
+I have already introduced you into profiles, but did you know, that you can create your own? Let's create one together
 
 Write:
 ```

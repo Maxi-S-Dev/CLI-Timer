@@ -114,7 +114,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 answer = _command.Split('"')[1];
             }
 
-                foreach (string s in command)
+            foreach (string s in command)
             {
                 if (string.IsNullOrEmpty(s)) break;
                 if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
@@ -151,12 +151,11 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "add":
-                    AddTimeToCurrentTimer(hours, minutes, seconds);
+                    timer.AddSecondsToCurrentTimer(Times.TimeToSeconds(hours, minutes, seconds));
                     answer = "added ";
-                    answer +=  hours != 0 ? $"{hours} h " : "" ;
-                    answer +=  minutes != 0 ? $"{minutes} m " : "";
-                    answer +=  seconds != 0 ? $"{seconds} s " : "";
-                    answer += "to current timer";
+                    answer +=  hours != 0 ? $"{hours}h " : "" ;
+                    answer +=  minutes != 0 ? $"{minutes}m " : "";
+                    answer +=  seconds != 0 ? $"{seconds}s " : "";
                     AddToHistory("add", answer, "");
                     break;
 
@@ -168,10 +167,9 @@ namespace CLI_TImer.MVVM.ViewModel
                 case "subtract":
                     SubtractTimeFromCurrentTimer(hours, minutes, seconds);
                     answer = "subtracted ";
-                    answer +=  hours != 0 ? $"{hours} h " : "";
-                    answer +=  minutes != 0 ? $"{minutes} m " : "";
-                    answer +=  seconds != 0 ? $"{seconds} s " : "";
-                    answer += "from current timer";
+                    answer +=  hours != 0 ? $"{hours}h " : "";
+                    answer +=  minutes != 0 ? $"{minutes}m " : "";
+                    answer +=  seconds != 0 ? $"{seconds}s " : "";
                     AddToHistory("subtract", answer, "");
                     break;
 
@@ -181,7 +179,7 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "reset":
-                    ResetAllTimers();
+                    timer.ResetAllTimers();
                     AddToHistory("reset", "reseted all timers", "");
                     break;
 
@@ -242,10 +240,9 @@ namespace CLI_TImer.MVVM.ViewModel
         }
         private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
         {
-            timer.AddSecondsToCurrentTimer(Times.TimeToSeconds(hours, minutes, seconds));
+            
         }
         private void ResetCurrentTimer() => timer.ResetCurrentTimer();
-        private void ResetAllTimers() => timer.ResetAllTimers();
 
         #endregion
 
