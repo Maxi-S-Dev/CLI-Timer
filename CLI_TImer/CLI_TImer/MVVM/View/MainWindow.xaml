@@ -16,8 +16,7 @@
             Background="#2B3046">
        
 
-        <StackPanel Height="250" 
-                    >
+        <StackPanel Height="250">
             <Border Background="#242633"
                     Height="20" 
                     CornerRadius="10, 10, 0, 0"
