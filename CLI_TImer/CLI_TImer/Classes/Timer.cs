@@ -61,14 +61,19 @@ namespace CLI_TImer.Classes
         //Add Time to Timers
         public void AddSecondsToCurrentTimer(int seconds)
         {
-            if (cT == TimerType.main || cT == TimerType.stop) MainTimerSeconds += seconds;
-            if (cT == TimerType.second) SecondTimerSeconds+= seconds;
+            if (cT == TimerType.main || cT == TimerType.stop)
+            {
+                MainTimerSeconds += seconds;
+                Vm.SetMainTimerText(MainTimerSeconds);
+            }
+            if (cT == TimerType.second)
+            {
+                SecondTimerSeconds+= seconds;
+                Vm.UpdatePauseTimerText(SecondTimerSeconds);
+            }
 
             if (MainTimerSeconds < 0) MainTimerSeconds = 0;
             if (SecondTimerSeconds < 0 ) SecondTimerSeconds = 0;
-
-            Vm.SetMainTimerText(MainTimerSeconds);
-            Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
         //Reset The Timers

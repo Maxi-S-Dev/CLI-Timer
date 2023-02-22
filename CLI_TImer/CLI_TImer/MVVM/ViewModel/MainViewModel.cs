@@ -53,7 +53,7 @@ namespace CLI_TImer.MVVM.ViewModel
             SetMainTimerText(0);
 
             settingsWindow = new SettingsWindow();
-            //settingsWindow.Show();
+            settingsWindow.Show();
 
             Dispatcher= Dispatcher.CurrentDispatcher;
         }
@@ -175,7 +175,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "end":
                     ResetCurrentTimer();
-                    AddToHistory("end", "stoped current timer", "");
+                    AddToHistory("end", "stopped current timer", "");
                     break;
 
                 case "reset":

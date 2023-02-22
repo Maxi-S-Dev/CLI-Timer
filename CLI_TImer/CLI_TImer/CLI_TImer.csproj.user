@@ -29,7 +29,7 @@
     <Page Update="Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ToggelButton.xaml">
+    <Page Update="Themes\SettingStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
