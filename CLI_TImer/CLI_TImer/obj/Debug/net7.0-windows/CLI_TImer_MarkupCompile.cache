@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
-52035346834
+51022576311
 
-17-939781343
+172090930276
 199-1239748438
-MVVM\View\MainSettingsView.xaml;MVVM\View\MainWindow.xaml;MVVM\View\SettingsWindow.xaml;Themes\Generic.xaml;Themes\SettingStyles.xaml;
+MVVM\View\MainWindow.xaml;MVVM\View\SettingsWindow.xaml;MVVM\View\StartupSettingsView.xaml;Themes\Generic.xaml;Themes\SettingStyles.xaml;
 
 False
 

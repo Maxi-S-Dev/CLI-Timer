@@ -14,11 +14,11 @@ namespace CLI_TImer.MVVM.ViewModel
         [ObservableProperty]
         internal object currentView;
 
-        MainSettingsViewModel mainSettingsViewModel = new();
+        StartupSettingsViewModel startupSettingsViewModel= new();
 
         public SettingsWindowViewModel() 
         {
-            currentView = mainSettingsViewModel;
+            currentView = startupSettingsViewModel;
         }
     }
 }

@@ -7,9 +7,13 @@
              StartupUri="MVVM/View/MainWindow.xaml">
     <Application.Resources>
 
-        <DataTemplate DataType="{x:Type viewModel:MainSettingsViewModel}">
-            <view:MainSettingsView/>
+        <SolidColorBrush x:Key="PrimaryColor" Color="#2B3046"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#272b3f"/>
+
+        <DataTemplate DataType="{x:Type viewModel:StartupSettingsViewModel}">
+            <view:StartupSettingsView/>
         </DataTemplate>
+
 
 
         <Style x:Key="Pointer" TargetType="TextBlock">

@@ -96,9 +96,7 @@ C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainW
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainWindow.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\SettingsWindow.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\SettingsWindow.baml
-D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainSettingsView.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\GeneratedInternalTypeHelper.g.cs
-D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainSettingsView.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\ToggelButton.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainSettingsView.g.cs
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\SettingsWindow.g.cs
@@ -106,3 +104,5 @@ C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\GeneratedIntern
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\MainSettingsView.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\SettingsWindow.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\SettingStyles.baml
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\StartupSettingsView.g.cs
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\StartupSettingsView.baml
