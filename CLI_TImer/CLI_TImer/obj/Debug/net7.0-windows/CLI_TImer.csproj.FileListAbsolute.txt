@@ -106,3 +106,4 @@ C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\Setti
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\SettingStyles.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\StartupSettingsView.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\StartupSettingsView.baml
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\Temp.baml

@@ -9,6 +9,8 @@
 
         <SolidColorBrush x:Key="PrimaryColor" Color="#2B3046"/>
         <SolidColorBrush x:Key="SecondaryColor" Color="#272b3f"/>
+        <SolidColorBrush x:Key="TertiaryColor" Color="#3f4666"/>
+        <SolidColorBrush x:Key="PrimaryTextColor" Color="White"/>
 
         <DataTemplate DataType="{x:Type viewModel:StartupSettingsViewModel}">
             <view:StartupSettingsView/>

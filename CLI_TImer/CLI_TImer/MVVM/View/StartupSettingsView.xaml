@@ -84,7 +84,7 @@
                                 Grid.Column="1" Grid.RowSpan="2"
                                 HorizontalAlignment="Right">
 
-                        <ComboBox Style="{DynamicResource ComboboxStyle}" Height="24" Width="40" ItemsSource="{Binding ZeroToTwentyfour}" />
+                        <ComboBox Style="{DynamicResource ComboBoxStyle}" Height="24" Width="40" ItemsSource="{Binding ZeroToTwentyfour}" />
                         <TextBlock Text="h" VerticalAlignment="Center" Margin="5"/>
                         <ComboBox Style="{DynamicResource ComboBoxStyle1}" Height="24" Width="40" ItemsSource="{Binding ZeroToSixty}"/>
                         <TextBlock Text="m" VerticalAlignment="Center" Margin="5"/>
