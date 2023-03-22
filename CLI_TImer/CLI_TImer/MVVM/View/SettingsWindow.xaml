@@ -9,7 +9,39 @@
         Title="SettingsWindow" Height="450" Width="800"
         WindowStartupLocation="CenterOwner">
 
-    <Grid>
+    <Window.Resources>
+
+        <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="bg" CornerRadius="5">
+
+                            <ContentPresenter/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+
+                                <Setter Property="Background" 
+                                        Value="{StaticResource PrimaryColor}"
+                                        TargetName="bg"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="{StaticResource PrimaryColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -18,54 +50,103 @@
         <!--Side Panel-->
         <Border x:Name="SideBar"
                 Grid.Column="0"
-                Background="Navy"
+                Background="{StaticResource TopBarColor}"
                 Width="50">
 
-            <StackPanel>
+            <StackPanel HorizontalAlignment="Right">
 
                 <ToggleButton
                     Width="30"
                     Height="30"
-                    Margin="0, 5, 0, 0">
+                    Margin="0, 5, 10, 0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Style="{StaticResource ToggleButtonStyle}">
+
+                    <Image Style="{StaticResource BurgerMenu}" 
+                           x:Name="BurgerImage"
+                           Margin="0, 0, 0, 0">
+
+                        <Image.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        </Image.RenderTransform>
+
+                    </Image>
 
                     <ToggleButton.Triggers>
                         <!--Unfold Sidebar-->
                         <EventTrigger RoutedEvent="ToggleButton.Checked">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="SideBar"
-                                        Storyboard.TargetProperty="Width"
-                                        From="50"
-                                        To="150"
-                                        Duration="0:0:0.1"
-                                        />
+                                    <ThicknessAnimation Storyboard.TargetName="BurgerImage"
+                                                        Storyboard.TargetProperty="Margin"
+                                                        From="0, 0, 0, 0" To="0, 0, 0, 0"/>
+
+                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
+                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                     From="1" To="0.5"
+                                                     Duration="0:0:0.1"/>
+
+                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
+                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                     From="0.5" To="1"
+                                                     Duration="0:0:0.1"
+                                                     BeginTime="0:0:0.3"/>
+
+                                    <DoubleAnimation Storyboard.TargetName="SideBar"
+                                                     Storyboard.TargetProperty="Width"
+                                                     From="50" To="150"
+                                                     Duration="0:0:0.1"
+                                                     BeginTime="0:0:0.3"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        
+
                         <!--Retract Sidbar-->
-
                         <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            
                             <BeginStoryboard>
+                                
                                 <Storyboard>
-                                    <DoubleAnimation 
-                                        Storyboard.TargetName="SideBar"
-                                        Storyboard.TargetProperty="Width"
-                                        From="150"
-                                        To="50"
-                                        Duration="0:0:0.3"
-                                        />
+                                    <ThicknessAnimation Storyboard.TargetName="BurgerImage"
+                                                        Storyboard.TargetProperty="Margin"
+                                                        From="0, 0, 0, 0" To="15, 0, -15, 0"
+                                                        Duration="0:0:0.1"
+                                                        BeginTime="0:0:0"/>
+
+                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
+                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                     From="1" To="0.5"
+                                                     Duration="0:0:0.1"
+                                                     BeginTime="0:0:0"/>
+
+                                    <ThicknessAnimation Storyboard.TargetName="BurgerImage"
+                                                        Storyboard.TargetProperty="Margin"
+                                                        From="15, 0, -15, 0" To="0, 0, 0, 0"
+                                                        Duration="0:0:0.1"
+                                                        BeginTime="0:0:0.3"/>
+
+                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
+                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                     From="0.5" To="1"
+                                                     Duration="0:0:0.1"
+                                                     BeginTime="0:0:0.3"/>
+
+                                    <DoubleAnimation Storyboard.TargetName="SideBar"
+                                                     Storyboard.TargetProperty="Width"
+                                                     From="150"
+                                                     To="50"
+                                                     Duration="0:0:0.1"
+                                                     BeginTime="0:0:0.3"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-
                     </ToggleButton.Triggers>
-                    
+
                 </ToggleButton>
 
             </StackPanel>
-            
+
         </Border>
 
         <ContentControl Margin="5"

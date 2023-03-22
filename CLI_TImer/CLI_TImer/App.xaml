@@ -10,12 +10,17 @@
         <SolidColorBrush x:Key="PrimaryColor" Color="#2B3046"/>
         <SolidColorBrush x:Key="SecondaryColor" Color="#272b3f"/>
         <SolidColorBrush x:Key="TertiaryColor" Color="#3f4666"/>
+        <SolidColorBrush x:Key="TopBarColor" Color="#242633"/>
         <SolidColorBrush x:Key="PrimaryTextColor" Color="White"/>
+        <SolidColorBrush x:Key="SecondaryTextColor" Color="#757276"/>
 
         <DataTemplate DataType="{x:Type viewModel:StartupSettingsViewModel}">
             <view:StartupSettingsView/>
         </DataTemplate>
 
+        <Style x:Key="BurgerMenu" TargetType="Image">
+            <Setter Property="Source" Value="/Assets/BurgerMenu.png"/>
+        </Style>
 
 
         <Style x:Key="Pointer" TargetType="TextBlock">

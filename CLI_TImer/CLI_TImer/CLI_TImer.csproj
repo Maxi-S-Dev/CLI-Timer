@@ -17,12 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\BurgerMenu.png" />
     <None Remove="Fonts\ChivoMono-VariableFont_wght.ttf" />
     <None Remove="Fonts\NanumGothic-Regular.ttf" />
     <None Remove="Fonts\SpaceMono-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\BurgerMenu.png" />
     <Resource Include="Fonts\ChivoMono-VariableFont_wght.ttf" />
     <Resource Include="Fonts\NanumGothic-Regular.ttf" />
     <Resource Include="Fonts\SpaceMono-Regular.ttf" />
