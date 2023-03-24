@@ -41,10 +41,10 @@
 
         <Style x:Key="NavigationTb" TargetType="ToggleButton">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Width" Value="auto"/>
+            <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="40"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Margin" Value="0, 0, 5, 5"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0, 0, 0, 5"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -175,21 +175,22 @@
 
 
                 <!--Navigation Buttons-->
-                <StackPanel Background="Transparent" Margin="5, 20, 0, 0">
+                <StackPanel Background="Transparent" Margin="0, 20, 0, 0">
 
                     <!--General Settings-->
                     <ToggleButton Style="{StaticResource NavigationTb}"
                                   Command="{Binding ShowStartupSettingsCommand}">
-                        <Grid>
+                        <Grid Width="155">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                                      Stretch="Uniform"
                                      Width="30"
                                      Height="30"
-                                     Grid.Column="0">
+                                     Grid.Column="0"
+                                     HorizontalAlignment="Center">
                                 <Canvas Name="svg12" Width="960" Height="960">
                                     <Canvas.RenderTransform>
                                         <TranslateTransform X="0" Y="-96"/>
@@ -217,7 +218,7 @@
                                   Command="{Binding ShowProfileSettingsCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -252,7 +253,7 @@
                                   Command="{Binding ShowPaletteSettingsCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -287,7 +288,7 @@
                                   Command="{Binding ShowSoundSettingsCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
