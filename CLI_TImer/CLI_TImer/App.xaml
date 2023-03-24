@@ -53,6 +53,18 @@
         <DataTemplate DataType="{x:Type viewModel:StartupSettingsViewModel}">
             <view:StartupSettingsView/>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModel:ProfileSettingsViewModel}">
+            <view:ProfileSettingsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:PalettSettingViewModel}">
+            <view:PalettSettingsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:SoundSettingsViewModel}">
+            <view:SoundSettingsView/>
+        </DataTemplate>
 
         <Style x:Key="BurgerMenu" TargetType="Image">
             <Setter Property="Source" Value="/Assets/BurgerMenu.png"/>
