@@ -41,7 +41,7 @@
 
         <Style x:Key="NavigationTb" TargetType="ToggleButton">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Width" Value="40"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="Height" Value="40"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0, 0, 0, 5"/>
@@ -123,7 +123,7 @@
 
                                     <DoubleAnimation Storyboard.TargetName="SideBar"
                                                      Storyboard.TargetProperty="Width"
-                                                     From="50" To="155"
+                                                     From="50" To="160"
                                                      Duration="0:0:0.1"
                                                      BeginTime="0:0:0.1"/>
                                 </Storyboard>
@@ -162,7 +162,7 @@
 
                                     <DoubleAnimation Storyboard.TargetName="SideBar"
                                                      Storyboard.TargetProperty="Width"
-                                                     From="155"
+                                                     From="160"
                                                      To="50"
                                                      Duration="0:0:0.1"
                                                      BeginTime="0:0:0.1"/>
@@ -180,10 +180,10 @@
                     <!--General Settings-->
                     <ToggleButton Style="{StaticResource NavigationTb}"
                                   Command="{Binding ShowStartupSettingsCommand}">
-                        <Grid Width="155">
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                                      Stretch="Uniform"
@@ -218,7 +218,7 @@
                                   Command="{Binding ShowProfileSettingsCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -253,7 +253,7 @@
                                   Command="{Binding ShowPaletteSettingsCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
@@ -288,7 +288,7 @@
                                   Command="{Binding ShowSoundSettingsCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
