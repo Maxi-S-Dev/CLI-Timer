@@ -83,115 +83,24 @@
 
                 <!--Burger Menu Button-->
                 <ToggleButton
-                    Width="30"
-                    Height="30"
-                    Margin="10, 5, 10, 0"
+                    Width="50"
+                    Height="50"
+                    Margin="0, 5, 0, 0"
                     Background="Transparent"
                     BorderThickness="0"
-                    Style="{StaticResource BurgerMenuTb}"
-                    HorizontalAlignment="Left">
+                    Style="{StaticResource NavigationTb}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
 
-                    <Image Style="{StaticResource BurgerMenu}" 
-                           x:Name="BurgerImage"
-                           Margin="0, 0, 0, 0">
-
-                        <Image.RenderTransform>
-                            <ScaleTransform ScaleX="1" ScaleY="1"/>
-                        </Image.RenderTransform>
-
-                    </Image>
-
-                    <ToggleButton.Triggers>
-                        <!--Unfold Sidebar-->
-                        <EventTrigger RoutedEvent="ToggleButton.Checked">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetName="BurgerImage"
-                                                        Storyboard.TargetProperty="Margin"
-                                                        From="0, 0, 0, 0" To="0, 0, 0, 0"/>
-
-                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
-                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                     From="1" To="0.5"
-                                                     Duration="0:0:0.1"/>
-
-                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
-                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                     From="0.5" To="1"
-                                                     Duration="0:0:0.1"
-                                                     BeginTime="0:0:0.1"/>
-
-                                    <DoubleAnimation Storyboard.TargetName="SideBar"
-                                                     Storyboard.TargetProperty="Width"
-                                                     From="50" To="160"
-                                                     Duration="0:0:0.1"
-                                                     BeginTime="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-
-                        <!--Retract Sidbar-->
-                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                            
-                            <BeginStoryboard>
-                                
-                                <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetName="BurgerImage"
-                                                        Storyboard.TargetProperty="Margin"
-                                                        From="0, 0, 0, 0" To="15, 0, -15, 0"
-                                                        Duration="0:0:0.1"
-                                                        BeginTime="0:0:0"/>
-
-                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
-                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                     From="1" To="0.5"
-                                                     Duration="0:0:0.1"
-                                                     BeginTime="0:0:0"/>
-
-                                    <ThicknessAnimation Storyboard.TargetName="BurgerImage"
-                                                        Storyboard.TargetProperty="Margin"
-                                                        From="15, 0, -15, 0" To="0, 0, 0, 0"
-                                                        Duration="0:0:0.1"
-                                                        BeginTime="0:0:0.1"/>
-
-                                    <DoubleAnimation Storyboard.TargetName="BurgerImage"
-                                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                     From="0.5" To="1"
-                                                     Duration="0:0:0.1"
-                                                     BeginTime="0:0:0.1"/>
-
-                                    <DoubleAnimation Storyboard.TargetName="SideBar"
-                                                     Storyboard.TargetProperty="Width"
-                                                     From="160"
-                                                     To="50"
-                                                     Duration="0:0:0.1"
-                                                     BeginTime="0:0:0.1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ToggleButton.Triggers>
-
-                </ToggleButton>
-
-                
-                <!--Testing-->
-                <ToggleButton
-                    Width="30"
-                    Height="30"
-                    Margin="10, 5, 10, 0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Style="{StaticResource BurgerMenuTb}"
-                    HorizontalAlignment="Left">
-
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-                        <Canvas Name="svg4" Width="960" Height="960" Margin="0, 0, 0, 0">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Name="vb"
+                             Width="35" Height="35" Margin="0, -6.5, 0, 0">
+                        <Canvas Name="svg4" 
+                                Width="960" Height="960" Margin="0, 0, 0, 0">
                             <Canvas.RenderTransform>
                                 <ScaleTransform ScaleX="1" ScaleY="1"/>
                             </Canvas.RenderTransform>
                             <Canvas.Resources/>
-                            <!--Unknown tag: sodipodi:namedview-->
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path2" Fill="#000000">
+                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path2" Fill="White">
                                 <Path.Data>
                                     <PathGeometry Figures="M150 822.696q-14.424 0-24.245-9.871-9.82-9.871-9.82-24.37 0-14.498 9.82-24.194 9.821-9.696 24.245-9.696h660q14.424 0 24.245 9.871 9.82 9.871 9.82 24.37 0 14.498-9.82 24.194-9.821 9.696-24.245 9.696H150Zm0-212.631q-14.424 0-24.245-9.871-9.82-9.871-9.82-24.369 0-14.499 9.82-24.195 9.821-9.695 24.245-9.695h660q14.424 0 24.245 9.871 9.82 9.871 9.82 24.369 0 14.499-9.82 24.195-9.821 9.695-24.245 9.695H150Zm0-212.63q-14.424 0-24.245-9.871-9.82-9.871-9.82-24.37 0-14.498 9.82-24.314 9.821-9.815 24.245-9.815h660q14.424 0 24.245 9.991 9.82 9.99 9.82 24.489 0 14.498-9.82 24.194-9.821 9.696-24.245 9.696H150Z" FillRule="NonZero"/>
                                 </Path.Data>
@@ -204,7 +113,7 @@
                         <EventTrigger RoutedEvent="ToggleButton.Checked">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetName="svg4"
+                                    <ThicknessAnimation Storyboard.TargetName="vb"
                                                         Storyboard.TargetProperty="Margin"
                                                         From="0, 0, 0, 0" To="0, 0, 0, 0"/>
 
@@ -234,7 +143,7 @@
                             <BeginStoryboard>
 
                                 <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetName="svg4"
+                                    <ThicknessAnimation Storyboard.TargetName="vb"
                                                         Storyboard.TargetProperty="Margin"
                                                         From="0, 0, 0, 0" To="15, 0, -15, 0"
                                                         Duration="0:0:0.1"
@@ -246,7 +155,7 @@
                                                      Duration="0:0:0.1"
                                                      BeginTime="0:0:0"/>
 
-                                    <ThicknessAnimation Storyboard.TargetName="svg4"
+                                    <ThicknessAnimation Storyboard.TargetName="vb"
                                                         Storyboard.TargetProperty="Margin"
                                                         From="15, 0, -15, 0" To="0, 0, 0, 0"
                                                         Duration="0:0:0.1"
