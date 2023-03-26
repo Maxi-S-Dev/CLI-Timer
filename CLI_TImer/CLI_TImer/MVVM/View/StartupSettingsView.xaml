@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <StackPanel Background="{StaticResource PrimaryColor}">
-        <TextBlock Text="Startup"
+        <TextBlock Text="General Settings"
                    FontSize="40"
                    Foreground="White"
                    Margin="20, 10, 0, 0"/>
@@ -40,7 +40,7 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Start when booting this computer"
@@ -56,7 +56,7 @@
                 </Grid>
             </Border>
 
-            <!--Start on Boot-->
+            <!--Default Time-->
             <Border Background="#272b3f"
                     Height="60"
                     Margin="10"
@@ -71,7 +71,7 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Default Time"
@@ -84,20 +84,78 @@
                                 Grid.Column="1" Grid.RowSpan="2"
                                 HorizontalAlignment="Right">
 
-                        <ComboBox Style="{DynamicResource ComboBoxStyle}" Height="24" Width="40" ItemsSource="{Binding ZeroToTwentyfour}"/>
+                        <TextBox Style="{StaticResource InputFieldStyle}" 
+                                 Width="40" Height="25" Text="23 h"
+                                 Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
+                                 VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"/>
+
+                        <TextBox Style="{StaticResource InputFieldStyle}" 
+                                 Width="40" Height="25" Text="23 m"
+                                 Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
+                                 VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 Margin="5"/>
+
+                        <TextBox Style="{StaticResource InputFieldStyle}" 
+                                 Width="40" Height="25" Text="23 s"
+                                 Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
+                                 VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"/>
 
 
-                        <TextBlock Text="h" VerticalAlignment="Center" Margin="5"/>
-                        <ComboBox Style="{DynamicResource ComboBoxStyle1}" Height="24" Width="40" ItemsSource="{Binding ZeroToSixty}"/>
-                        <TextBlock Text="m" VerticalAlignment="Center" Margin="5"/>
-                        <ComboBox Height="24" Width="40" ItemsSource="{Binding ZeroToSixty}"/>
-                        <TextBlock Text="s" VerticalAlignment="Center" Margin="5"/>
                     </StackPanel>
                 </Grid>
             </Border>
+
+
+            <Border Background="{StaticResource SecondaryColor}"
+                    Height="60"
+                    Margin="10"
+                    CornerRadius="10"
+                    Padding="10, 5, 10, 5">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Animate Toggle Button"
+                               Style="{DynamicResource SettingHeaderStyle}"/>
+
+                    <TextBlock Text="A small collection of animations to choose from for the Burger Menu Button. Just for you Alex"
+                               Style="{DynamicResource SettingDescriptionStyle}"/>
+
+                    <ComboBox Grid.Column="1" Width="120" Height="25"
+                              Background="{StaticResource TertiaryColor}"
+                              Foreground="{StaticResource PrimaryTextColor}"
+                              Style="{StaticResource ComboBoxStyle}"
+                              VerticalAlignment="Center" VerticalContentAlignment="Center"
+                              Grid.RowSpan="2">
+
+                        <ComboBoxItem Content="CLI-Timer Style"/>
+                        <ComboBoxItem Content="Terminal Style"/>
+                        <ComboBoxItem Content="None"/>
+
+                    </ComboBox>
+
+                </Grid>
+            </Border>
+
+            <!--
+            Enable/Disable Animations
             
+            
+            -->
             
 
         </StackPanel>
     </StackPanel>
 </UserControl>
+
