@@ -1,4 +1,4 @@
-﻿    using CLI_TImer.MVVM.Model;
+﻿using CLI_TImer.MVVM.Model;
 using CLI_TImer.Themes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;

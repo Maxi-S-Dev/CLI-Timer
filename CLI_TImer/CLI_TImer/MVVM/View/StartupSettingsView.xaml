@@ -51,7 +51,9 @@
 
                     <ToggleButton Style="{DynamicResource ToggleButtonStyle}" 
                                   HorizontalAlignment="Right"
-                                  Margin="5"/>
+                                  Margin="5"
+                                  IsChecked="{Binding ShortcutExits}"
+                                  Command="{Binding ToggleStartupSettingCommand}"/>
 
                 </Grid>
             </Border>

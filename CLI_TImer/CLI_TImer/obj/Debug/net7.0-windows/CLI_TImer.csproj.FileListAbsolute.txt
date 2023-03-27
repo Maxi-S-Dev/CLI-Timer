@@ -120,3 +120,5 @@ D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\Sound
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\PalettSettingsView.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\ProfileSettingsView.baml
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\SoundSettingsView.baml
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Interop.IWshRuntimeLibrary.dll
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer.csproj.ResolveComReference.cache
