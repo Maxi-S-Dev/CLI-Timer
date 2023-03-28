@@ -53,7 +53,7 @@ namespace CLI_TImer.MVVM.View {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/CLI_TImer;component/mvvm/view/startupsettingsview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/CLI_TImer;V0.2.1.0;component/mvvm/view/startupsettingsview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\MVVM\View\StartupSettingsView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
