@@ -17,7 +17,6 @@ namespace CLI_TImer.Classes
 
         internal ProfileManager()
         {
-            Trace.WriteLine("df");
             LoadProfileList();
         }
 
@@ -107,9 +106,11 @@ namespace CLI_TImer.Classes
 
         private static void LoadProfileList()
         {
-            string path = (Path.Combine(FileAccessHelper.MainDirectory(), "Profiles.json"));
+            string path = Path.Combine(FileAccessHelper.MainDirectory(), "Profiles.json");
             if(File.Exists(path))
                 ProfileList = JSONSerializer.JSONToList(File.ReadAllText(path));
         }
+
+
     }
 }

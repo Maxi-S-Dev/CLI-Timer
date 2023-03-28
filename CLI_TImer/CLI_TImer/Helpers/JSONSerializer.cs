@@ -10,9 +10,9 @@ namespace CLI_TImer.Helpers
     {
         internal static string ListToJSON(List<Profile> list)
         {
-            string JsonString = JsonSerializer.Serialize(list);
+            string jsonString = JsonSerializer.Serialize(list);
 
-            return JsonString;
+            return jsonString;
         }
 
         internal static List<Profile> JSONToList(string jsonString)
@@ -20,6 +20,19 @@ namespace CLI_TImer.Helpers
             List<Profile>? list = JsonSerializer.Deserialize<List<Profile>>(jsonString);
 
             return list;
+        }
+
+        internal static string SettingsToJSON(Settings settings) 
+        {
+            string jsonString = JsonSerializer.Serialize(settings);
+            return jsonString;
+        }
+
+        internal static AppData? JSONToData(string jsonString) 
+        { 
+            AppData data = JsonSerializer.Deserialize<AppData>(jsonString);
+
+            return data;
         }
     }
 }
