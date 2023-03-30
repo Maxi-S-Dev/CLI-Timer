@@ -75,5 +75,18 @@ namespace CLI_TImer.Helpers
 
             SaveAppData();
         }
+
+        internal void AddNewProfile(Profile profile)
+        {
+            appData.profileList.Add(profile);
+            SaveAppData();
+        }
+
+
+        internal void DeleteProfile(Profile profile)
+        {
+            appData.profileList.Remove(profile);
+            SaveAppData();
+        }
     }
 }
