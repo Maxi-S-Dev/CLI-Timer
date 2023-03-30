@@ -87,7 +87,7 @@
                                 HorizontalAlignment="Right">
 
                         <TextBox Style="{StaticResource InputFieldStyle}" 
-                                 Width="40" Height="25" Text="23 h"
+                                 Width="40" Height="25" Text="{Binding HoursText}"
                                  Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
                                  VerticalAlignment="Center" VerticalContentAlignment="Center"
                                  HorizontalContentAlignment="Center"/>

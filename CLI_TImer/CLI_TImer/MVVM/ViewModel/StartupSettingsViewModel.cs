@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using IWshRuntimeLibrary;
+using System.Text.RegularExpressions;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -16,7 +17,44 @@ namespace CLI_TImer.MVVM.ViewModel
     {
         [ObservableProperty,]
         public bool shortcutExits;
-        
+
+        [ObservableProperty]
+        public string hoursText;
+
+        public string minutes;
+        public string seconds;
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.PropertyName == nameof(HoursText))
+            {
+
+                if (e.PropertyName == nameof(HoursText))
+                {
+                    int hours;
+
+                    bool success = int.TryParse(HoursText.Split('h')[0], out hours);
+                    if(!success) success = int.TryParse(HoursText.Split(' ')[0], out hours);
+
+                    if (!success)
+                    {
+                        RestoreDefaultValues();
+                        return;
+                    }
+
+                    
+
+                    Trace.WriteLine(hours);
+                }
+            }
+        }
+
+        private void RestoreDefaultValues()
+        {
+            throw new NotImplementedException();
+        }
 
         public StartupSettingsViewModel()
         {
@@ -49,5 +87,7 @@ namespace CLI_TImer.MVVM.ViewModel
             shortcut.TargetPath = targetPath;
             shortcut.Save();
         }
+
+         
     }
 }
