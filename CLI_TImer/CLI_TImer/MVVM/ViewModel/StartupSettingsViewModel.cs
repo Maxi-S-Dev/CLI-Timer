@@ -22,8 +22,6 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             shortcutExits = false;
 
-            Trace.WriteLine("Hallo");
-
             if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk")) ShortcutExits = true;
         }
 
@@ -36,10 +34,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk");
                 return;
             }
-           
-
             CreateShortCut();
-            
         }
 
         private void CreateShortCut()

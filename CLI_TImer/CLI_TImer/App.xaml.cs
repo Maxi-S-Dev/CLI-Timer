@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using CLI_TImer.Classes;
 using System.Diagnostics;
+using CLI_TImer.Helpers;
 
 namespace CLI_TImer
 {
@@ -17,6 +18,7 @@ namespace CLI_TImer
 
         public App() 
         {
+            AppDataManager.instance.Initlaize();
         }
     }
 }

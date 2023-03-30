@@ -56,6 +56,8 @@ namespace CLI_TImer.MVVM.ViewModel
             settingsWindow.Show();
 
             Dispatcher= Dispatcher.CurrentDispatcher;
+
+
         }
 
         #region Set Timer Text
