@@ -39,6 +39,10 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
+        private int hours = 0;
+        private int minutes = 0;
+        private int seconds = 0;
+
         Profile? selectedProfile;
 
         Timer timer;
@@ -57,7 +61,10 @@ namespace CLI_TImer.MVVM.ViewModel
 
             Dispatcher= Dispatcher.CurrentDispatcher;
 
+            int standardTime = AppDataManager.instance.GetStandardTime();
 
+            timer.setMainTimer(standardTime);
+            
         }
 
         #region Set Timer Text
@@ -101,10 +108,6 @@ namespace CLI_TImer.MVVM.ViewModel
             string[]? command = _command.Split(' ');           
 
             string? answer = "";
-
-            int hours = 0;
-            int minutes = 0;
-            int seconds = 0;
 
 
             if (_command.Split("'").Length == 3)
