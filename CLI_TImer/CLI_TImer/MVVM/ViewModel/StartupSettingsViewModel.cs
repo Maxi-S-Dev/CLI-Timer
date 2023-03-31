@@ -10,6 +10,9 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using IWshRuntimeLibrary;
 using System.Text.RegularExpressions;
+using CLI_TImer.Classes;
+using CLI_TImer.MVVM.Model;
+using CLI_TImer.Helpers;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -21,8 +24,16 @@ namespace CLI_TImer.MVVM.ViewModel
         [ObservableProperty]
         public string hoursText;
 
-        public string minutes;
-        public string seconds;
+        [ObservableProperty]
+        public string minutesText;
+
+        [ObservableProperty]
+        public string secondsText;
+
+
+        private int hours;
+        private int minutes;
+        private int seconds;
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
@@ -33,7 +44,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 if (e.PropertyName == nameof(HoursText))
                 {
-                    int hours;
 
                     bool success = int.TryParse(HoursText.Split('h')[0], out hours);
                     if(!success) success = int.TryParse(HoursText.Split(' ')[0], out hours);
@@ -44,21 +54,68 @@ namespace CLI_TImer.MVVM.ViewModel
                         return;
                     }
 
-                    
-
-                    Trace.WriteLine(hours);
+                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
+
+            else if (e.PropertyName == nameof(MinutesText))
+            {
+
+                if (e.PropertyName == nameof(MinutesText))
+                {
+
+                    bool success = int.TryParse(MinutesText.Split('m')[0], out minutes);
+                    if (!success) success = int.TryParse(MinutesText.Split(' ')[0], out minutes);
+
+                    if (!success)
+                    {
+                        RestoreDefaultValues();
+                        return;
+                    }
+
+                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
+                }
+            }
+
+            else if (e.PropertyName == nameof(SecondsText))
+            {
+
+                if (e.PropertyName == nameof(SecondsText))
+                {
+
+                    bool success = int.TryParse(SecondsText.Split('s')[0], out seconds);
+                    if (!success) success = int.TryParse(SecondsText.Split(' ')[0], out seconds);
+
+                    if (!success)
+                    {
+                        RestoreDefaultValues();
+                        return;
+                    }
+
+                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
+                }
+            }
+
+            RestoreDefaultValues();
+
+            RestoreDefaultValues();
         }
 
         private void RestoreDefaultValues()
         {
-            throw new NotImplementedException();
+            hours = Times.SecondsToHours(AppDataManager.instance.GetStandardTime());
+            minutes = Times.SecondsToMinutes(AppDataManager.instance.GetStandardTime());
+            seconds = AppDataManager.instance.GetStandardTime() % 60;
+
+            HoursText = hours + " h";
+            MinutesText = minutes + " m";
+            SecondsText = seconds + " s";
         }
 
         public StartupSettingsViewModel()
         {
             shortcutExits = false;
+            RestoreDefaultValues();
 
             if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk")) ShortcutExits = true;
         }

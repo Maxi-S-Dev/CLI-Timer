@@ -45,7 +45,7 @@ namespace CLI_TImer.Helpers
 
             if(appData is null) 
             {
-                loadDefaultppData();
+                LoadDefaultppData();
             }
         }
 
@@ -60,7 +60,7 @@ namespace CLI_TImer.Helpers
 
         internal List<Profile> getProfileList() => appData.profileList;
 
-        private void loadDefaultppData()
+        private void LoadDefaultppData()
         {
             appData = new();
 
@@ -88,5 +88,14 @@ namespace CLI_TImer.Helpers
             appData.profileList.Remove(profile);
             SaveAppData();
         }
+
+        internal int GetStandardTime() => appData.settings.standardTime;
+
+        internal void SetStandardTime(int time)
+        {
+            appData.settings.standardTime = time;
+            SaveAppData();
+        }
+        
     }
 }
