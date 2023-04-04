@@ -23,3 +23,9 @@ D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\CLI_T
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\ref\CLI_TImer.dll
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\MVVM\View\MainWindow.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\MVVM\View\MainWindow.baml
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\Themes\ToggelButton.baml
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\MVVM\View\MainSettingsView.g.cs
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\MVVM\View\SettingsWindow.g.cs
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\GeneratedInternalTypeHelper.g.cs
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\MVVM\View\MainSettingsView.baml
+D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Release\net7.0-windows\win-x86\MVVM\View\SettingsWindow.baml

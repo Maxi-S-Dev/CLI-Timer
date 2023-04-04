@@ -12,7 +12,7 @@ namespace CLI_TImer.Classes
         private int MainTimerSeconds = 0;
         private int SecondTimerSeconds = 0;
 
-        private TimerType? cT = TimerType.main;
+        private TimerType? cT = TimerType.stop; 
         private DispatcherTimer timer;
 
         private MainViewModel Vm;
@@ -31,14 +31,19 @@ namespace CLI_TImer.Classes
             if (cT == TimerType.main)
             {
                 MainTimerSeconds = MainTimerSeconds <= 0 ? 0: MainTimerSeconds -= 1;
+                if (MainTimerSeconds < 0) cT = TimerType.stop;
                 Vm.SetMainTimerText(MainTimerSeconds);
                 return;
             }
-            if (cT == TimerType.second) SecondTimerSeconds--;
+            if (cT == TimerType.second)
             {
                 SecondTimerSeconds = SecondTimerSeconds <= 0 ? 0: SecondTimerSeconds -= 1;
+                if (SecondTimerSeconds <= 0) cT = TimerType.main;
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
+                return;
             }
+            Vm.SetMainTimerText(MainTimerSeconds);
+            //Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
         //Set the Time of the Timer
@@ -56,15 +61,29 @@ namespace CLI_TImer.Classes
         //Add Time to Timers
         public void AddSecondsToCurrentTimer(int seconds)
         {
-            if (cT == TimerType.main) MainTimerSeconds += seconds;
-            if (cT == TimerType.second) SecondTimerSeconds+= seconds;
+            if (cT == TimerType.main || cT == TimerType.stop)
+            {
+                MainTimerSeconds += seconds;
+                Vm.SetMainTimerText(MainTimerSeconds);
+            }
+            if (cT == TimerType.second)
+            {
+                SecondTimerSeconds+= seconds;
+                Vm.UpdatePauseTimerText(SecondTimerSeconds);
+            }
 
+            if (MainTimerSeconds < 0) MainTimerSeconds = 0;
+            if (SecondTimerSeconds < 0 ) SecondTimerSeconds = 0;
+        }
+
+        //Reset The Timers
+        public void ResetAllTimers()
+        {
+            MainTimerSeconds = SecondTimerSeconds = 0;
             Vm.SetMainTimerText(MainTimerSeconds);
             Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
-        //Reset The Timers
-        public void ResetAllTimers() => MainTimerSeconds = SecondTimerSeconds = 0;
         public void ResetCurrentTimer() 
         {
             if (cT == TimerType.main) ResetMainTimer();
@@ -93,6 +112,7 @@ namespace CLI_TImer.Classes
 
     public enum TimerType
     {
+        stop,
         main,
         second,
         both,
