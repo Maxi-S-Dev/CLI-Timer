@@ -54,10 +54,6 @@ namespace CLI_TImer.Helpers
             File.WriteAllText(path, JSONSerializer.DataToJSON(appData));
         }
 
-
-        //Needed to create the first instance of this object
-        public void Initlaize() {}
-
         internal List<Profile> getProfileList() => appData.profileList;
 
         private void LoadDefaultppData()
