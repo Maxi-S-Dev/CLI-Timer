@@ -8,5 +8,6 @@ namespace CLI_TImer.MVVM.ViewModel
 {
     public class ProfileSettingsViewModel
     {
+        
     }
 }

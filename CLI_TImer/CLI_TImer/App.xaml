@@ -48,11 +48,8 @@
 
         </Style>
 
-
-
-
-        <DataTemplate DataType="{x:Type viewModel:StartupSettingsViewModel}">
-            <view:StartupSettingsView/>
+        <DataTemplate DataType="{x:Type viewModel:GernalSettingsViewModel}">
+            <view:GernalSettingsView/>
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type viewModel:ProfileSettingsViewModel}">
