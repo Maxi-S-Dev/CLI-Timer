@@ -13,13 +13,22 @@
                    Foreground="White"
                    Margin="20, 10, 0, 0"/>
 
-        <ListBox>
+        <ListView ItemsSource="{Binding Profiles}" Margin="10, 5, 10, 10" Background="Transparent">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <StackPanel Background="red">
+                        <Grid Background="NavajoWhite">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}"/>
+                        </Grid>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListView>
 
     </StackPanel>
 </UserControl>
