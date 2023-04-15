@@ -56,6 +56,12 @@ namespace CLI_TImer.Helpers
 
         internal List<Profile> getProfileList() => appData.profileList;
 
+        internal void SetProfileList(List<Profile> profileList) 
+        { 
+            appData.profileList = profileList;
+            SaveAppData();
+        }
+
         private void LoadDefaultppData()
         {
             appData = new();
@@ -77,7 +83,6 @@ namespace CLI_TImer.Helpers
             appData.profileList.Add(profile);
             SaveAppData();
         }
-
 
         internal void DeleteProfile(Profile profile)
         {

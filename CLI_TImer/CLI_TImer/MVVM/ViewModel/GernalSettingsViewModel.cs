@@ -35,6 +35,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private int minutes;
         private int seconds;
 
+        //Applys the time text and formats the output text
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
@@ -95,8 +96,6 @@ namespace CLI_TImer.MVVM.ViewModel
                     AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
-
-            RestoreDefaultValues();
 
             RestoreDefaultValues();
         }
