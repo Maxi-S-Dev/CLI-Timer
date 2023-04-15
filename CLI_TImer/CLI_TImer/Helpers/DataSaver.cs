@@ -7,7 +7,7 @@ using System.IO;
 
 namespace CLI_TImer.Helpers
 {
-    internal static class DataManager
+    internal static class DataSaver
     {
         internal static void SaveData(string data)
         {

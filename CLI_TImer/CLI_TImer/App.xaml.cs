@@ -18,7 +18,6 @@ namespace CLI_TImer
 
         public App() 
         {
-            AppDataManager.instance.Initlaize();
         }
     }
 }
