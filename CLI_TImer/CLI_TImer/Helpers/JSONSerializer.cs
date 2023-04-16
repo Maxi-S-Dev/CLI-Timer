@@ -28,17 +28,19 @@ namespace CLI_TImer.Helpers
             string jsonString = JsonSerializer.Serialize(data.profileList);
             jsonString += "&&";
             jsonString += JsonSerializer.Serialize(data.settings);
-            Trace.WriteLine(jsonString);
+            jsonString += "&&";
+            jsonString += JsonSerializer.Serialize(data.gradientList);
             return jsonString;
         }
 
         internal static AppData JSONToData(string jsonString) 
         { 
-            AppData data = new AppData();
+            AppData data = new();
             string dataString = jsonString;
 
             data.profileList = JsonSerializer.Deserialize<List<Profile>>(dataString.Split("&&")[0]);
             data.settings = JsonSerializer.Deserialize<Settings>(dataString.Split("&&")[1]);
+            data.gradientList = JsonSerializer.Deserialize<List<Gradient>>(dataString.Split("&&")[2]);
 
             return data;
         }

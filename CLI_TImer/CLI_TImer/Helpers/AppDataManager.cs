@@ -17,6 +17,7 @@ namespace CLI_TImer.Helpers
         private static readonly object padLock = new object();
 
         private AppData appData;
+
         private string path = Path.Combine(FileAccessHelper.MainDirectory(), "AppData.json");
 
         public static AppDataManager instance
@@ -38,6 +39,25 @@ namespace CLI_TImer.Helpers
             Trace.WriteLine(appData.settings.standardTime);
         }
 
+        #region Color Paletts
+
+        internal List<Gradient> GetGradientList() => appData.gradientList;
+
+        internal void SetGradientList(List<Gradient> gradientList)
+        {
+            appData.gradientList = gradientList;
+            SaveAppData();
+        }
+
+        internal void AddGradient(Gradient gradient)
+        {
+            appData.gradientList.Add(gradient);
+            SaveAppData();
+        }
+
+        #endregion
+
+        #region AppData
         private void LoadAppData()
         {
             if (File.Exists(path))
@@ -54,14 +74,6 @@ namespace CLI_TImer.Helpers
             File.WriteAllText(path, JSONSerializer.DataToJSON(appData));
         }
 
-        internal List<Profile> getProfileList() => appData.profileList;
-
-        internal void SetProfileList(List<Profile> profileList) 
-        { 
-            appData.profileList = profileList;
-            SaveAppData();
-        }
-
         private void LoadDefaultppData()
         {
             appData = new();
@@ -73,8 +85,28 @@ namespace CLI_TImer.Helpers
                 };
 
             appData.settings = new Settings()
-            { standardTime=1550 };
+            {
+                standardTime=1550
+            };
 
+            appData.gradientList = new List<Gradient>
+            {
+                new Gradient { Startr = 196, Startg = 113, Startb = 242, Endr = 247, Endg = 108, Endb = 198},
+                new Gradient { Startr = 95,  Startg = 197, Startb = 46,  Endr = 110, Endg = 238, Endb = 135},
+                new Gradient { Startr = 90,  Startg = 178, Startb = 247, Endr = 18,  Endg = 207, Endb = 243},
+                new Gradient { Startr = 247, Startg = 76,  Startb = 6,   Endr = 249, Endg = 188, Endb = 44 },
+                new Gradient { Startr = 173, Startg = 253, Startb = 162, Endr = 17,  Endg = 211, Endb = 243},
+                new Gradient { Startr = 44,  Startg = 178, Startb = 186, Endr = 251, Endg = 185, Endb = 45 }
+            };
+
+            SaveAppData();
+        }
+        #endregion
+
+        #region Profile List
+        internal void RemoveProfile(Profile profile)
+        {
+            appData.profileList.Remove(profile);
             SaveAppData();
         }
 
@@ -84,12 +116,17 @@ namespace CLI_TImer.Helpers
             SaveAppData();
         }
 
-        internal void DeleteProfile(Profile profile)
-        {
-            appData.profileList.Remove(profile);
+        internal void SetProfileList(List<Profile> profileList) 
+        { 
+            appData.profileList = profileList;
             SaveAppData();
         }
 
+        internal List<Profile> GetProfileList() => appData.profileList;
+
+        #endregion
+
+        #region StandardTime
         internal int GetStandardTime() => appData.settings.standardTime;
 
         internal void SetStandardTime(int time)
@@ -97,6 +134,8 @@ namespace CLI_TImer.Helpers
             appData.settings.standardTime = time;
             SaveAppData();
         }
-        
+
+        #endregion
+
     }
 }

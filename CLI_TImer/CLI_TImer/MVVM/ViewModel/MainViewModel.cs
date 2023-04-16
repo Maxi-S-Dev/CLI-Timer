@@ -1,5 +1,4 @@
 ﻿using CLI_TImer.MVVM.Model;
-using CLI_TImer.Themes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -12,6 +11,7 @@ using CLI_TImer.Helpers;
 using System.Windows.Annotations;
 using System.Linq;
 using CLI_TImer.MVVM.View;
+using System.Diagnostics;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -47,7 +47,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
         Timer timer;
 
+        Random random = new();
+
         public virtual Dispatcher Dispatcher { get; protected set; }
+
+        AppDataManager dataManager = AppDataManager.instance;
 
         #endregion
 
@@ -209,7 +213,11 @@ namespace CLI_TImer.MVVM.ViewModel
         //Adds a Command to the History
         private void AddToHistory(string title, string answer, string output)
         {
-            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = Gradients.GradientStops() });
+            int GradientNumber = random.Next(dataManager.GetGradientList().Count());
+
+            Trace.WriteLine(GradientNumber);
+
+            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = dataManager.GetGradientList()[GradientNumber].getGradient()});
         }
 
 

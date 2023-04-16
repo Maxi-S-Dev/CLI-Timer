@@ -33,7 +33,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             Profiles = new List<SettingsProfile>();
 
-            foreach (var profile in AppDataManager.instance.getProfileList())
+            foreach (var profile in AppDataManager.instance.GetProfileList())
             {
                 SettingsProfile p = new SettingsProfile();
 
