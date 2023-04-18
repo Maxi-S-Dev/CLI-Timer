@@ -29,7 +29,7 @@
                    Foreground="White"
                    Margin="20, 10, 0, 0"/>
 
-            <ListView ItemsSource="{Binding Profiles}" 
+            <ListView ItemsSource="{Binding Gradients}" 
                   Margin="10, 5, 10, 10" 
                   Background="Transparent"
                   BorderThickness="0" BorderBrush="Transparent">
@@ -44,7 +44,8 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBox Style="{StaticResource InputFieldStyle}"
+                                <TextBox Text="{Binding StartHex}"
+                                         Style="{StaticResource InputFieldStyle}"
                                          Grid.Column="0"/>
 
                                 <Label Content="Lorem Ipsum"

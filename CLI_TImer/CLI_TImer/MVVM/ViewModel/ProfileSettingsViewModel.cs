@@ -17,7 +17,7 @@ namespace CLI_TImer.MVVM.ViewModel
     internal partial class ProfileSettingsViewModel : ObservableObject
     {
         [ObservableProperty]
-        internal List<SettingsProfile> profiles;
+        public List<SettingsProfile> profiles;
 
         [ObservableProperty]
         internal List<TimerType> timerTypes;
