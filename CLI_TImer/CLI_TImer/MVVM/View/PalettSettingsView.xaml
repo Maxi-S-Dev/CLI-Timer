@@ -13,30 +13,48 @@
                 <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/SettingStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/Temp.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Border" x:Key="AnimateBorderStyle">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Active}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                 From="0" To="50" Duration="0:0:0:0.25"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
         </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Background="{StaticResource PrimaryColor}">
+        <DockPanel Background="{StaticResource PrimaryColor}">
             <TextBlock Text="Color Palettes"
                    FontSize="40"
                    Foreground="White"
-                   Margin="20, 10, 0, 0"/>
+                   Margin="20, 10, 0, 0" DockPanel.Dock="Top"/>
 
             <ListView ItemsSource="{Binding Gradients}" 
-                  Margin="10, 5, 10, 10" 
-                  Background="Transparent"
-                  BorderThickness="0" BorderBrush="Transparent">
+                      Margin="10, 5, 10, 10" VerticalAlignment="Stretch"
+                      Background="Transparent"
+                      BorderThickness="0" BorderBrush="Transparent"
+                      ItemContainerStyle="{DynamicResource ProfileListItemContainer}"
+                      ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      DockPanel.Dock="Top">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <Grid>
+                        <Grid>
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -44,25 +62,50 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBox Text="{Binding StartHex}"
-                                         Style="{StaticResource InputFieldStyle}"
-                                         Grid.Column="0"/>
+                            <TextBox Text="{Binding StartHex}"
+                                     Style="{StaticResource InputFieldStyle}"
+                                     Grid.Column="0" FontSize="14" Width="80"
+                                     VerticalContentAlignment="Center" VerticalAlignment="Center">
 
-                                <Label Content="Lorem Ipsum"
-                                       Grid.Column="1"/>
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{Binding StartColor}"/>
+                                </TextBox.Background>
+                                
+                            </TextBox>
 
-                                <TextBox Style="{StaticResource InputFieldStyle}"
-                                         Grid.Column="0"/>
-                            </Grid>
-                        </StackPanel>
+                            <Label Content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
+                                   Grid.Column="1" 
+                                   FontSize="17" 
+                                   HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                                   VerticalAlignment="Center" VerticalContentAlignment="Center">
+
+                                <Label.Foreground>
+                                    <LinearGradientBrush>
+                                        <GradientStop Color="{Binding StartColor}" Offset="0"/>
+                                        <GradientStop Color="{Binding EndColor}" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Label.Foreground>
+                                
+                            </Label>
+
+                            <TextBox Text="{Binding EndHex}"
+                                     Style="{StaticResource InputFieldStyle}"
+                                     Grid.Column="2" FontSize="14" Width="80"
+                                     VerticalContentAlignment="Center" VerticalAlignment="Center">
+
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{Binding EndColor}"/>
+                                </TextBox.Background>
+                                
+                            </TextBox>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListView>
 
-        </StackPanel>
+        </DockPanel>
 
-        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="2" Margin="-5" >
-
+        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="1" Margin="-5" Height="50" Style="{StaticResource AnimateBorderStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

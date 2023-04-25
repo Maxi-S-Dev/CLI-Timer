@@ -12,7 +12,10 @@ namespace CLI_TImer.MVVM.ViewModel
     public partial class PalettSettingViewModel : ObservableObject
     {
         [ObservableProperty]
-        private List<Gradient> gradients;
+        public List<Gradient> gradients;
+
+        [ObservableProperty]
+        public bool active = true;
         public PalettSettingViewModel() 
         { 
             PopulateGradientList();
@@ -20,9 +23,9 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void PopulateGradientList()
         {
-            var gradientList = new List<Gradient>();
+            Gradients = new List<Gradient>();
 
-            gradientList = AppDataManager.instance.GetGradientList().Select(x => x.Copy()).ToList();
+            Gradients = AppDataManager.instance.GetGradientList().Select(x => x.Copy()).ToList();
         }
     }
 }
