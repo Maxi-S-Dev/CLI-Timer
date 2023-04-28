@@ -21,7 +21,7 @@ namespace CLI_TImer.MVVM.ViewModel
         [ObservableProperty]
         public bool active = true;
 
-        [ObservableProperty, NotifyPropertyChangedFor(nameof(Active))]
+        [ObservableProperty]
         public Gradient selectedGradient;
 
         public PalettSettingViewModel() 
@@ -33,10 +33,10 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             base.OnPropertyChanged(e);
 
-            if (e.PropertyName == nameof(SelectedGradient))
+            if (e.PropertyName == nameof(SelectedGradient.StartHex))
             {
                 Active = true;
-                Trace.WriteLine($"Was Geht | {Active}");
+                Trace.WriteLine($"{SelectedGradient.StartHex}");
             }
         }
         private void PopulateGradientList()

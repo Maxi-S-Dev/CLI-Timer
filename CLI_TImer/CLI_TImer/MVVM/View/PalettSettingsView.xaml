@@ -18,26 +18,13 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Active}" Value="True">
                         <Setter Property="Visibility" Value="Visible"/>
-                        <DataTrigger.EnterActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Height"
-                                                     From="0" To="50"  Duration="0:0:0:0.25"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </DataTrigger.EnterActions>
+                        
                     </DataTrigger>
 
                     <DataTrigger Binding="{Binding Active}" Value="False">
                         <Setter Property="Visibility" Value="Hidden"/>
-                        <DataTrigger.EnterActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Height"
-                                                     From="50" To="0"  Duration="0:0:0:0.25"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </DataTrigger.EnterActions>
+                        
+                        
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -115,7 +102,7 @@
 
             <ListView ItemsSource="{Binding Gradients}" 
                       Margin="10, 5, 10, 10" VerticalAlignment="Stretch"
-                      Background="Red"
+                      Background="Transparent"
                       BorderThickness="0" BorderBrush="Transparent"
                       ItemContainerStyle="{DynamicResource ProfileListItemContainer}"
                       ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -130,15 +117,15 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                            <Button Content="{Binding StartHex}"  
-                                    Style="{StaticResource ColorFieldStyle}"
-                                    Grid.Column="0">
+                            <TextBox Text="{Binding StartHex}"  
+                                     
+                                     Grid.Column="0">
 
-                                <Button.Background>
+                                <TextBox.Background>
                                     <SolidColorBrush Color="{Binding StartColor}"/>
-                                </Button.Background>
+                                </TextBox.Background>
                                 
-                            </Button>
+                            </TextBox>
 
                             <Label Content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
                                    Grid.Column="1" 
@@ -155,16 +142,16 @@
                                 
                             </Label>
 
-                            <Button Content="{Binding EndHex}"
+                            <TextBox Text="{Binding EndHex}"
                                    Style="{StaticResource ColorFieldStyle}"
                                    Grid.Column="2"
                                    >
 
-                                <Button.Background>
+                                <TextBox.Background>
                                     <SolidColorBrush Color="{Binding EndColor}"/>
-                                </Button.Background>
+                                </TextBox.Background>
                                 
-                            </Button>
+                            </TextBox>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -200,6 +187,5 @@
             </Grid>
 
         </Border>
-
     </Grid>
 </UserControl>

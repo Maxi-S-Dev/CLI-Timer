@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -19,9 +20,14 @@ namespace CLI_TImer.MVVM.Model
         {
             get
             {
-                return StartColor.ToString();
+                return $"#{StartColor.ToString().Remove(0, 3)}";
             }
-            set { }
+            set 
+            {
+                Trace.WriteLine("HI");
+                StartRGB = Convert.ToInt32(value.Remove(0, 1), 16);
+                Trace.WriteLine(StartRGB);
+            }
         }
 
         [JsonIgnore]
@@ -29,7 +35,7 @@ namespace CLI_TImer.MVVM.Model
         {
             get
             {
-                return EndColor.ToString();
+                return $"#{StartColor.ToString().Remove(0, 3)}";
             }
             set { }
         }
