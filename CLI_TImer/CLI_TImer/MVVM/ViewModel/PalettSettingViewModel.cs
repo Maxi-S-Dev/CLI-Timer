@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -18,11 +20,25 @@ namespace CLI_TImer.MVVM.ViewModel
 
         [ObservableProperty]
         public bool active = true;
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(Active))]
+        public Gradient selectedGradient;
+
         public PalettSettingViewModel() 
         { 
             PopulateGradientList();
         }
 
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.PropertyName == nameof(SelectedGradient))
+            {
+                Active = true;
+                Trace.WriteLine($"Was Geht | {Active}");
+            }
+        }
         private void PopulateGradientList()
         {
             Gradients = new List<Gradient>();
@@ -35,7 +51,7 @@ namespace CLI_TImer.MVVM.ViewModel
         public void SaveButtonPressed()
         {
             Active = false;
-            Trace.WriteLine("Hallo Welt");
+            Trace.WriteLine($"Hallo Welt | {Active}");
         }
     }
 }
