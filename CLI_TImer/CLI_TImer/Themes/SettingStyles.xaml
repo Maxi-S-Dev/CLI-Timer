@@ -416,7 +416,15 @@
                             Padding="5, 0, 3, 0"
                             >
 
-                        <TextBox Text="{TemplateBinding Text}" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}"/>
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                      FontSize="{TemplateBinding FontSize}"  
+                                      Focusable="false" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden"
+                                      BorderThickness="0"
+                                      VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                      HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                                      Height="25"/>
 
                     </Border>
 

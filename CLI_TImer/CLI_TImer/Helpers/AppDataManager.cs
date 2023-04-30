@@ -8,6 +8,7 @@ using CLI_TImer.MVVM.Model;
 using System.IO;
 using CLI_TImer.Classes;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace CLI_TImer.Helpers
 {

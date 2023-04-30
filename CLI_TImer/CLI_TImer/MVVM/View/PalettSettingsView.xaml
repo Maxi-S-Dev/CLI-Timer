@@ -118,7 +118,7 @@
                                 </Grid.ColumnDefinitions>
 
                             <TextBox Text="{Binding StartHex}"  
-                                     
+                                     Style="{StaticResource ColorFieldStyle}"
                                      Grid.Column="0">
 
                                 <TextBox.Background>
@@ -143,9 +143,9 @@
                             </Label>
 
                             <TextBox Text="{Binding EndHex}"
-                                   Style="{StaticResource ColorFieldStyle}"
-                                   Grid.Column="2"
-                                   >
+                                     Style="{StaticResource ColorFieldStyle}"
+                                     Grid.Column="2"
+                                     >
 
                                 <TextBox.Background>
                                     <SolidColorBrush Color="{Binding EndColor}"/>

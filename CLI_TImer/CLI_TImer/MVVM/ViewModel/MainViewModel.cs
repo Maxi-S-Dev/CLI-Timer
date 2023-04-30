@@ -251,10 +251,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));
         }
-        private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
-        {
-            
-        }
+
         private void ResetCurrentTimer() => timer.ResetCurrentTimer();
 
         #endregion

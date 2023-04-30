@@ -1,5 +1,8 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -10,10 +13,12 @@ using System.Windows.Media;
 
 namespace CLI_TImer.MVVM.Model
 {
-    public class Gradient
+    public class Gradient : INotifyPropertyChanged
     {
         public int StartRGB { get; set; }
         public int EndRGB { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonIgnore]
         public string StartHex
@@ -24,9 +29,8 @@ namespace CLI_TImer.MVVM.Model
             }
             set 
             {
-                Trace.WriteLine("HI");
                 StartRGB = Convert.ToInt32(value.Remove(0, 1), 16);
-                Trace.WriteLine(StartRGB);
+                OnPropertyChanged(nameof(StartRGB));
             }
         }
 
@@ -37,7 +41,10 @@ namespace CLI_TImer.MVVM.Model
             {
                 return $"#{StartColor.ToString().Remove(0, 3)}";
             }
-            set { }
+            set 
+            {
+                EndRGB = Convert.ToInt32(value.Remove(0, 1), 16);
+            }
         }
 
         [JsonIgnore]
@@ -48,7 +55,7 @@ namespace CLI_TImer.MVVM.Model
                 byte r = (byte)((StartRGB >> 16) & 0xFF);
                 byte g = (byte)((StartRGB >> 8) & 0xFF);
                 byte b = (byte)(StartRGB & 0xFF);
-                return System.Windows.Media.Color.FromRgb(r, g, b);
+                return Color.FromRgb(r, g, b);
             }
             set { }
         }
@@ -61,12 +68,10 @@ namespace CLI_TImer.MVVM.Model
                 byte r = (byte)((EndRGB >> 16) & 0xFF);
                 byte g = (byte)((EndRGB >> 8) & 0xFF);
                 byte b = (byte)(EndRGB & 0xFF);
-                return System.Windows.Media.Color.FromRgb(r, g, b);
+                return Color.FromRgb(r, g, b);
             }
             set { }
-        }
-
-        
+        }        
 
         internal GradientStopCollection getGradient()
         {
@@ -89,6 +94,11 @@ namespace CLI_TImer.MVVM.Model
         internal Gradient Copy()
         {
             return (Gradient)this.MemberwiseClone();
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
