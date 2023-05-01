@@ -104,8 +104,6 @@ D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\SettingS
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\Temp.baml
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\SettingStyles.baml
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Themes\Temp.baml
-C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\StartupSettingsView.g.cs
-C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\StartupSettingsView.baml
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\PalettSettingsView.g.cs
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\ProfileSettingsView.g.cs
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\SoundSettingsView.g.cs
@@ -124,3 +122,5 @@ C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\Interop.IWshRun
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\CLI_TImer.csproj.ResolveComReference.cache
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\GernalSettingsView.g.cs
 D:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\GernalSettingsView.baml
+C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\GernalSettingsView.g.cs
+C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows\MVVM\View\GernalSettingsView.baml

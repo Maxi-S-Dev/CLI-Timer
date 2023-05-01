@@ -18,7 +18,7 @@ namespace CLI_TImer.Classes
         internal static Profile? getProfileFromCommand(string command)
         {              
 
-            foreach (Profile p in appDataManager.getProfileList())
+            foreach (Profile p in appDataManager.GetProfileList())
             {
                 if (p.Name == command) return p;                
             }
@@ -39,7 +39,7 @@ namespace CLI_TImer.Classes
             Profile? p = getProfileFromCommand(name);
             if(p is null) return;
 
-            appDataManager.DeleteProfile(p);
+            appDataManager.RemoveProfile(p);
             
         }
 
@@ -49,7 +49,7 @@ namespace CLI_TImer.Classes
 
             if (p is null) return;
 
-            appDataManager.DeleteProfile(p);
+            appDataManager.RemoveProfile(p);
 
             switch (Property)
             {
@@ -71,7 +71,7 @@ namespace CLI_TImer.Classes
 
             if (p is null) return;
 
-            appDataManager.DeleteProfile(p);
+            appDataManager.RemoveProfile(p);
 
             p.Time = Time;
 

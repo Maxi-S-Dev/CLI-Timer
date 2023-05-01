@@ -17,7 +17,7 @@ namespace CLI_TImer.MVVM.ViewModel
     internal partial class ProfileSettingsViewModel : ObservableObject
     {
         [ObservableProperty]
-        internal List<SettingsProfile> profiles;
+        public List<SettingsProfile> profiles;
 
         [ObservableProperty]
         internal List<TimerType> timerTypes;
@@ -25,7 +25,6 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             PopulateProfilesList();
             PopulateTimerTypeList();
-            Trace.Write("");
         }
 
         //Creates a List that contains the values for the UI
@@ -33,7 +32,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             Profiles = new List<SettingsProfile>();
 
-            foreach (var profile in AppDataManager.instance.getProfileList())
+            foreach (var profile in AppDataManager.instance.GetProfileList())
             {
                 SettingsProfile p = new SettingsProfile();
 
@@ -52,7 +51,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void PopulateTimerTypeList()
         {
-            timerTypes = Enum.GetValues(typeof(TimerType)).Cast<TimerType>().ToList();
+             TimerTypes = Enum.GetValues(typeof(TimerType)).Cast<TimerType>().ToList();
         }
 
         [RelayCommand]

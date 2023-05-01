@@ -32,6 +32,9 @@ namespace CLI_TImer.MVVM.View
         {
             InitializeComponent();
 
+            TextBlock tb = new();
+
+            
         }
     }
 }

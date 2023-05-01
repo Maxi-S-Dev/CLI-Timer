@@ -27,6 +27,7 @@ namespace CLI_TImer.MVVM.View
             DragMove();
         }
 
+        //Scroll to the bottom of the command list
         private void list_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 

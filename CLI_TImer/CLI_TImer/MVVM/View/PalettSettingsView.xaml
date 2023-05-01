@@ -4,9 +4,200 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CLI_TImer.MVVM.View"
+             xmlns:converter="clr-namespace:CLI_TImer.Helpers"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/SettingStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/Temp.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="FocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+            <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+            <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+            <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <converter:HexToBrushConverter x:Key="HexToBrushConverter"/>
+            <converter:HexToColorConverter x:Key="HexToColorConverter"/>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Background="{StaticResource PrimaryColor}">
+            <TextBlock Text="Color Palettes"
+                   FontSize="40"
+                   Foreground="White"
+                   Margin="20, 10, 0, 0" DockPanel.Dock="Top"/>
+
+            <ListView ItemsSource="{Binding Gradients}" 
+                      Margin="10, 5, 10, 10" VerticalAlignment="Stretch"
+                      Background="Transparent"
+                      BorderThickness="0" BorderBrush="Transparent"
+                      ItemContainerStyle="{DynamicResource ProfileListItemContainer}"
+                      ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      DockPanel.Dock="Top" SelectedItem="{Binding SelectedGradient}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                            <TextBox Text="{Binding StartHex}"  
+                                     Style="{StaticResource ColorFieldStyle}"
+                                     Grid.Column="0"
+                                     Background="{Binding StartHex, Converter={StaticResource HexToBrushConverter}}">
+                            </TextBox>
+
+                            <Label Content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
+                                   Grid.Column="1" 
+                                   FontSize="17" 
+                                   HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                                   VerticalAlignment="Center" VerticalContentAlignment="Center">
+
+                                <Label.Foreground>
+                                    <LinearGradientBrush>
+                                        <GradientStop Color="{Binding StartHex, Converter={StaticResource HexToColorConverter}}" Offset="0"/>
+                                        <GradientStop Color="{Binding EndHex, Converter={StaticResource HexToColorConverter}}" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Label.Foreground>
+
+
+                            </Label>
+
+                            <TextBox Text="{Binding EndHex}"
+                                     Style="{StaticResource ColorFieldStyle}"
+                                     Grid.Column="2"
+                                     Background="{Binding EndHex, Converter={StaticResource HexToBrushConverter}}">
+                            </TextBox>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListView>
+
+            <Border Width="20" Height="20" Background="Red"/>
+
+        </DockPanel>
+
+        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="1" Margin="-5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="{StaticResource TertiaryColor}" Grid.Column="0"
+                        Margin="20, 5, 0, 5"
+                        CornerRadius="10"
+                        BorderThickness="2" Padding="5" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource ButtonStyle1}" Height="24"
+                            Background="Transparent"
+                            Content="New Gradient" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
+                            Command="{Binding NewGradientCommand}"
+                        
+                        BorderBrush="Transparent" BorderThickness="0"/>
+                </Border>
+
+                <Border Background="#ff5447" Grid.Column="1"
+                        Margin="5, 5, 0, 5" HorizontalAlignment="Right"
+                        CornerRadius="10"
+                        BorderThickness="2" Padding="5">
+                    <Button Style="{DynamicResource ButtonStyle1}" Height="24" 
+                            Background="Transparent"
+                            Content="Delete Seleceted" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
+                            Command="{Binding DeleteSelectedCommand}"
+                        
+                        BorderBrush="Transparent" BorderThickness="0"/>
+                </Border>
+
+                <Label Content="Just leave the menu to discard the changes" 
+                       Grid.Column="3" VerticalAlignment="Center"
+                       FontSize="13" Foreground="LightGray"
+                       />
+
+                <Border Background="#6EEE87" Grid.Column="4"
+                        Margin="0, 5, 20, 5"
+                        CornerRadius="10"
+                        BorderThickness="2" Padding="5">
+                    <Button Style="{DynamicResource ButtonStyle1}" Height="24" 
+                            Background="Transparent"
+                            Content="Save Changes" FontSize="15" Foreground="Black"
+                            Command="{Binding SaveButtonPressedCommand}"
+                        
+                        BorderBrush="Transparent" BorderThickness="0"/>
+                </Border>
+
+            </Grid>
+
+        </Border>
     </Grid>
 </UserControl>
