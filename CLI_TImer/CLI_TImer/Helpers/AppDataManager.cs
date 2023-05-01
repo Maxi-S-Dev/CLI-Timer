@@ -19,7 +19,7 @@ namespace CLI_TImer.Helpers
 
         private AppData appData;
 
-        private string path = Path.Combine(FileAccessHelper.MainDirectory(), "AppData.json");
+        private string path = Path.Combine(FileAccessHelper.MainDirectory(), "TestData.json");
 
         public static AppDataManager instance
         {
@@ -92,12 +92,12 @@ namespace CLI_TImer.Helpers
 
             appData.gradientList = new List<Gradient>
             {
-                new Gradient { StartRGB = (196 << 16) | (113 << 8) | 242, EndRGB = (247 << 16) | (108 << 8) | 198},
-                new Gradient { StartRGB = (95  << 16) | (197 << 8) | 46,  EndRGB = (110 << 16) | (238 << 8) | 135},
-                new Gradient { StartRGB = (90  << 16) | (178 << 8) | 247, EndRGB = (18  << 16) | (207 << 8) | 243},
-                new Gradient { StartRGB = (247 << 16) | (76  << 8) | 6,   EndRGB = (249 << 16) | (188 << 8) | 44 },
-                new Gradient { StartRGB = (173 << 16) | (253 << 8) | 162, EndRGB = (17  << 16) | (211 << 8) | 243},
-                new Gradient { StartRGB = (44  << 16) | (178 << 8) | 186, EndRGB = (251 << 16) | (185 << 8) | 45 }
+                new Gradient { StartHex = "#C471F2", EndHex = "#F76CC6"},
+                new Gradient { StartHex = "#5FC52E", EndHex = "#6EEE87"},
+                new Gradient { StartHex = "#5AB2F7", EndHex = "#12CFF3"},
+                new Gradient { StartHex = "#F74C06", EndHex = "#F9BC2C"},
+                new Gradient { StartHex = "#ADFDA2", EndHex = "#11D3F3"},
+                new Gradient { StartHex = "#2CB2BA", EndHex = "#FBB92D"}
             };
 
             SaveAppData();
@@ -147,3 +147,10 @@ namespace CLI_TImer.Helpers
 //                new Gradient { Startr = 247, Startg = 76, Startb = 6, Endr = 249, Endg = 188, Endb = 44 },
 //                new Gradient { Startr = 173, Startg = 253, Startb = 162, Endr = 17, Endg = 211, Endb = 243 },
 //                new Gradient { Startr = 44, Startg = 178, Startb = 186, Endr = 251, Endg = 185, Endb = 45 }
+
+//new Gradient { StartRGB = (196 << 16) | (113 << 8) | 242, EndRGB = (247 << 16) | (108 << 8) | 198 },
+//                new Gradient { StartRGB = (95  << 16) | (197 << 8) | 46, EndRGB = (110 << 16) | (238 << 8) | 135 },
+//                new Gradient { StartRGB = (90  << 16) | (178 << 8) | 247, EndRGB = (18  << 16) | (207 << 8) | 243 },
+//                new Gradient { StartRGB = (247 << 16) | (76  << 8) | 6, EndRGB = (249 << 16) | (188 << 8) | 44 },
+//                new Gradient { StartRGB = (173 << 16) | (253 << 8) | 162, EndRGB = (17  << 16) | (211 << 8) | 243 },
+//                new Gradient { StartRGB = (44  << 16) | (178 << 8) | 186, EndRGB = (251 << 16) | (185 << 8) | 45 }

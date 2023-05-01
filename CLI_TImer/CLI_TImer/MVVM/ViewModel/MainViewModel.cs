@@ -12,6 +12,7 @@ using System.Windows.Annotations;
 using System.Linq;
 using CLI_TImer.MVVM.View;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -27,7 +28,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public string PauseTimerText = "";
 
-
+        HexToColorConverter HexToColorConverter;
         //Inputs
         [ObservableProperty]
         public string enteredCommand = string.Empty;
@@ -215,9 +216,16 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             int GradientNumber = random.Next(dataManager.GetGradientList().Count());
 
-            Trace.WriteLine(GradientNumber);
+            var StartRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
 
-            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = dataManager.GetGradientList()[GradientNumber].getGradient()});
+            GradientStopCollection gradientStopCollection = new()
+            {
+                new GradientStop(Color.FromRgb((byte)((StartRgb >> 16) & 0xFF), (byte)((StartRgb >> 8) & 0xFF), (byte)(StartRgb& 0xFF)), 0),
+                new GradientStop(Color.FromRgb((byte)((EndRgb >> 16) & 0xFF), (byte)((EndRgb >> 8) & 0xFF), (byte)(EndRgb& 0xFF)), 1)
+            };
+
+            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = gradientStopCollection});
         }
 
 

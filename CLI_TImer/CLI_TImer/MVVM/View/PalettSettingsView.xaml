@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CLI_TImer.MVVM.View"
+             xmlns:converter="clr-namespace:CLI_TImer.Helpers"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/SettingStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/Temp.xaml"/>
@@ -18,16 +20,16 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Active}" Value="True">
                         <Setter Property="Visibility" Value="Visible"/>
-                        
+
                     </DataTrigger>
 
                     <DataTrigger Binding="{Binding Active}" Value="False">
                         <Setter Property="Visibility" Value="Hidden"/>
-                        
-                        
+
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+
             <Style x:Key="FocusVisual">
                 <Setter Property="Control.Template">
                     <Setter.Value>
@@ -84,6 +86,9 @@
                 </Setter>
             </Style>
 
+
+            <converter:HexToBrushConverter x:Key="HexToBrushConverter"/>
+            <converter:HexToColorConverter x:Key="HexToColorConverter"/>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -119,12 +124,8 @@
 
                             <TextBox Text="{Binding StartHex}"  
                                      Style="{StaticResource ColorFieldStyle}"
-                                     Grid.Column="0">
-
-                                <TextBox.Background>
-                                    <SolidColorBrush Color="{Binding StartColor}"/>
-                                </TextBox.Background>
-                                
+                                     Grid.Column="0"
+                                     Background="{Binding StartHex, Converter={StaticResource HexToBrushConverter}}">
                             </TextBox>
 
                             <Label Content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
@@ -135,23 +136,24 @@
 
                                 <Label.Foreground>
                                     <LinearGradientBrush>
-                                        <GradientStop Color="{Binding StartColor}" Offset="0"/>
-                                        <GradientStop Color="{Binding EndColor}" Offset="1"/>
+                                        <GradientStop Color="{Binding StartHex, Converter={StaticResource HexToColorConverter}}" Offset="0"/>
+                                        <GradientStop Color="{Binding EndHex, Converter={StaticResource HexToColorConverter}}" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Label.Foreground>
-                                
+
+
                             </Label>
 
                             <TextBox Text="{Binding EndHex}"
                                      Style="{StaticResource ColorFieldStyle}"
                                      Grid.Column="2"
-                                     >
+                                     Background="{Binding EndHex, Converter={StaticResource HexToBrushConverter}}">
 
-                                <TextBox.Background>
-                                    <SolidColorBrush Color="{Binding EndColor}"/>
-                                </TextBox.Background>
+                                
                                 
                             </TextBox>
+
+
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
