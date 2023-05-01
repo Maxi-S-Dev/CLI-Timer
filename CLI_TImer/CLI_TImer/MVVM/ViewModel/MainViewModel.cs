@@ -1,5 +1,4 @@
 ﻿using CLI_TImer.MVVM.Model;
-using CLI_TImer.Themes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -12,6 +11,8 @@ using CLI_TImer.Helpers;
 using System.Windows.Annotations;
 using System.Linq;
 using CLI_TImer.MVVM.View;
+using System.Diagnostics;
+using System.Windows.Media;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -27,7 +28,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public string PauseTimerText = "";
 
-
+        HexToColorConverter HexToColorConverter;
         //Inputs
         [ObservableProperty]
         public string enteredCommand = string.Empty;
@@ -47,7 +48,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
         Timer timer;
 
+        Random random = new();
+
         public virtual Dispatcher Dispatcher { get; protected set; }
+
+        AppDataManager dataManager = AppDataManager.instance;
 
         #endregion
 
@@ -209,7 +214,18 @@ namespace CLI_TImer.MVVM.ViewModel
         //Adds a Command to the History
         private void AddToHistory(string title, string answer, string output)
         {
-            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = Gradients.GradientStops() });
+            int GradientNumber = random.Next(dataManager.GetGradientList().Count());
+
+            var StartRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+
+            GradientStopCollection gradientStopCollection = new()
+            {
+                new GradientStop(Color.FromRgb((byte)((StartRgb >> 16) & 0xFF), (byte)((StartRgb >> 8) & 0xFF), (byte)(StartRgb& 0xFF)), 0),
+                new GradientStop(Color.FromRgb((byte)((EndRgb >> 16) & 0xFF), (byte)((EndRgb >> 8) & 0xFF), (byte)(EndRgb& 0xFF)), 1)
+            };
+
+            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = gradientStopCollection});
         }
 
 
@@ -243,10 +259,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));
         }
-        private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
-        {
-            
-        }
+
         private void ResetCurrentTimer() => timer.ResetCurrentTimer();
 
         #endregion

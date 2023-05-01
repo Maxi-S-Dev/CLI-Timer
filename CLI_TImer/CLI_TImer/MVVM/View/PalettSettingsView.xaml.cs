@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CLI_TImer.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace CLI_TImer.MVVM.View
         public PalettSettingsView()
         {
             InitializeComponent();
+
+            DataContext = new PalettSettingViewModel();
         }
     }
 }

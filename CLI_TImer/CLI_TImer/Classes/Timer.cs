@@ -115,6 +115,5 @@ namespace CLI_TImer.Classes
         stop,
         main,
         second,
-        both,
     }
 }

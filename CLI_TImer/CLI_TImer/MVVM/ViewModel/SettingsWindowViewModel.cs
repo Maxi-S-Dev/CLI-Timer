@@ -16,7 +16,7 @@ namespace CLI_TImer.MVVM.ViewModel
         [ObservableProperty]
         internal object? currentView;
 
-        StartupSettingsViewModel? startupSettingsViewModel= new();
+        GernalSettingsViewModel? startupSettingsViewModel= new();
         PalettSettingViewModel? palettSettingViewModel= new();
         SoundSettingsViewModel? soundSettingsViewModel= new();
         ProfileSettingsViewModel? profileSettingsViewModel= new();

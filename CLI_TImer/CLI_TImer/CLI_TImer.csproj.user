@@ -18,7 +18,7 @@
     <Compile Update="MVVM\View\SoundSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\StartupSettingsView.xaml.cs">
+    <Compile Update="MVVM\View\GernalSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\SettingsWindow.xaml.cs">
@@ -35,7 +35,7 @@
     <Page Update="MVVM\View\SoundSettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\StartupSettingsView.xaml">
+    <Page Update="MVVM\View\GernalSettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\MainWindow.xaml">
