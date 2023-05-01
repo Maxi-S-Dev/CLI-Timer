@@ -10,25 +10,11 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/SettingStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/Temp.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <Style TargetType="Border" x:Key="AnimateBorderStyle">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Active}" Value="True">
-                        <Setter Property="Visibility" Value="Visible"/>
-
-                    </DataTrigger>
-
-                    <DataTrigger Binding="{Binding Active}" Value="False">
-                        <Setter Property="Visibility" Value="Hidden"/>
-
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
 
             <Style x:Key="FocusVisual">
                 <Setter Property="Control.Template">
@@ -148,39 +134,63 @@
                                      Style="{StaticResource ColorFieldStyle}"
                                      Grid.Column="2"
                                      Background="{Binding EndHex, Converter={StaticResource HexToBrushConverter}}">
-
-                                
-                                
                             </TextBox>
-
 
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListView>
 
+            <Border Width="20" Height="20" Background="Red"/>
+
         </DockPanel>
 
-        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="1" Margin="-5" Style="{StaticResource AnimateBorderStyle}">
+        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="1" Margin="-5">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="Just leave the menu to discard the changes" 
-                       Grid.Column="1" VerticalAlignment="Center"
-                       FontSize="13" Foreground="LightGray"
-                       />
+                <Border Background="{StaticResource TertiaryColor}" Grid.Column="0"
+                        Margin="20, 5, 0, 5"
+                        CornerRadius="10"
+                        BorderThickness="2" Padding="5" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource ButtonStyle1}" Height="24"
+                            Background="Transparent"
+                            Content="New Gradient" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
+                            Command="{Binding NewGradientCommand}"
+                        
+                        BorderBrush="Transparent" BorderThickness="0"/>
+                </Border>
 
-                <Border Background="{StaticResource TertiaryColor}" Grid.Column="2"
-                        Margin="10, 5, 20, 5"
+                <Border Background="#ff5447" Grid.Column="1"
+                        Margin="5, 5, 0, 5" HorizontalAlignment="Right"
                         CornerRadius="10"
                         BorderThickness="2" Padding="5">
                     <Button Style="{DynamicResource ButtonStyle1}" Height="24" 
                             Background="Transparent"
-                            Content="Save Changes" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
+                            Content="Delete Seleceted" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
+                            Command="{Binding DeleteSelectedCommand}"
+                        
+                        BorderBrush="Transparent" BorderThickness="0"/>
+                </Border>
+
+                <Label Content="Just leave the menu to discard the changes" 
+                       Grid.Column="3" VerticalAlignment="Center"
+                       FontSize="13" Foreground="LightGray"
+                       />
+
+                <Border Background="#6EEE87" Grid.Column="4"
+                        Margin="0, 5, 20, 5"
+                        CornerRadius="10"
+                        BorderThickness="2" Padding="5">
+                    <Button Style="{DynamicResource ButtonStyle1}" Height="24" 
+                            Background="Transparent"
+                            Content="Save Changes" FontSize="15" Foreground="Black"
                             Command="{Binding SaveButtonPressedCommand}"
                         
                         BorderBrush="Transparent" BorderThickness="0"/>

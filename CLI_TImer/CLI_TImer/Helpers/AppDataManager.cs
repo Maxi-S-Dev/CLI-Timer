@@ -50,12 +50,6 @@ namespace CLI_TImer.Helpers
             SaveAppData();
         }
 
-        internal void AddGradient(Gradient gradient)
-        {
-            appData.gradientList.Add(gradient);
-            SaveAppData();
-        }
-
         #endregion
 
         #region AppData

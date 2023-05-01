@@ -25,7 +25,6 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             PopulateProfilesList();
             PopulateTimerTypeList();
-            Trace.Write("");
         }
 
         //Creates a List that contains the values for the UI
@@ -52,7 +51,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void PopulateTimerTypeList()
         {
-            timerTypes = Enum.GetValues(typeof(TimerType)).Cast<TimerType>().ToList();
+             TimerTypes = Enum.GetValues(typeof(TimerType)).Cast<TimerType>().ToList();
         }
 
         [RelayCommand]

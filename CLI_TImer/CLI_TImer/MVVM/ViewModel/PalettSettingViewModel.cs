@@ -18,7 +18,7 @@ namespace CLI_TImer.MVVM.ViewModel
     public partial class PalettSettingViewModel : ObservableObject
     {
         [ObservableProperty]
-        public ObservableCollection<Gradient> gradients;
+        public List<Gradient> gradients;
 
         [ObservableProperty]
         public bool active = true;
@@ -28,60 +28,40 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private Gradient[] selectedHistory = new Gradient[2];
 
-        public PalettSettingViewModel() 
+        internal PalettSettingViewModel() 
         { 
-            CreatedGradientCollection();
+            CreateGradientCollection();
         }
 
 
-
-        private void UpdateListView()
+        #region GradientCollectionEvents
+        private void CreateGradientCollection()
         {
-            Gradient g = SelectedGradient;
-            int index = Gradients.IndexOf(SelectedGradient);
-            Gradients.Remove(SelectedGradient);
-            Gradients.Insert(index, g);
-        }
-        private void CreatedGradientCollection()
-        {
-            Gradients = new ObservableCollection<Gradient>(AppDataManager.instance.GetGradientList().Select(x => x.Copy()).ToList());
-            Gradients.CollectionChanged += CollectionChanged;
+            Gradients = new List<Gradient>(AppDataManager.instance.GetGradientList().Select(x => x.Copy()).ToList());
         }
 
-
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Trace.WriteLine("Collection Changed");
-            if(e.OldItems != null) 
-            {
-                foreach (INotifyPropertyChanged item in e.OldItems) 
-                { 
-                    item.PropertyChanged -= ItemPropertyChanged;
-                }
-            }
-            
-            if(e.NewItems != null)
-            {
-                foreach(INotifyPropertyChanged item in e.NewItems)
-                {
-                    item.PropertyChanged += ItemPropertyChanged;
-                }
-            }
-        }
-
-        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Trace.WriteLine(e.PropertyName);
-            UpdateListView();
-        }
+        #endregion
 
 
-
+        #region Save,Delete,New Buttons
         //Saves all Changes and hides the save Menu
         [RelayCommand]
         public void SaveButtonPressed()
         {
-            Active = false;
+            AppDataManager.instance.SetGradientList(Gradients.ToList());
         }
+
+        [RelayCommand]
+        public void NewGradient()
+        {
+            Gradients.Add(new Gradient { StartHex="#FFFFFF", EndHex="#FFFFFF" });
+        }
+
+        [RelayCommand] 
+        public void DeleteSelected()
+        {
+            Gradients.Remove(SelectedGradient);
+        }
+        #endregion
     }
 }
