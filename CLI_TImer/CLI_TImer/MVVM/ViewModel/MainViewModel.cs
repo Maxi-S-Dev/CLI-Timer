@@ -22,6 +22,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         //Settings
         SettingsWindow settingsWindow;
+        SoundPlayer soundPlayer = new();
 
         [ObservableProperty]
         public string? mainTimerText;
@@ -95,7 +96,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public void MainTimerFinished()
         {
-
+            Trace.WriteLine("ViewModel");
+            soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav");
         }
 
         public void SecondaryTimerFinished()
