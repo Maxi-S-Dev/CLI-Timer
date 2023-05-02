@@ -19,7 +19,7 @@ namespace CLI_TImer.Helpers
 
         private AppData appData;
 
-        private string path = Path.Combine(FileAccessHelper.MainDirectory(), "TestData.json");
+        private readonly string path = Path.Combine(FileAccessHelper.MainDirectory(), "AppData.json");
 
         public static AppDataManager instance
         {
@@ -37,7 +37,6 @@ namespace CLI_TImer.Helpers
         public AppDataManager()
         {
             LoadAppData();
-            Trace.WriteLine(appData.settings.standardTime);
         }
 
         #region Color Paletts
@@ -62,6 +61,7 @@ namespace CLI_TImer.Helpers
             {
                 LoadDefaultppData();
             }
+            { }
         }
 
         private void SaveAppData()

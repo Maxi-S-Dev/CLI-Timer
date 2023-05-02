@@ -28,7 +28,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public string PauseTimerText = "";
 
-        HexToColorConverter HexToColorConverter;
         //Inputs
         [ObservableProperty]
         public string enteredCommand = string.Empty;
@@ -61,9 +60,6 @@ namespace CLI_TImer.MVVM.ViewModel
             timer = new(this);
             SetMainTimerText(0);
 
-            settingsWindow = new SettingsWindow();
-            settingsWindow.Show();
-
             Dispatcher= Dispatcher.CurrentDispatcher;
 
             int standardTime = AppDataManager.instance.GetStandardTime();
@@ -95,6 +91,16 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 CommandHistory.Move(CommandHistory.Count -1, pausePosition);
             }));
+        }
+
+        public void MainTimerFinished()
+        {
+
+        }
+
+        public void SecondaryTimerFinished()
+        {
+
         }
 
         #endregion
@@ -134,7 +140,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
             int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            if(RunProfile(command[0], resultTime) == true) return;
+            if (RunProfile(command[0], resultTime) == true)
+            {
+                
+                return;
+            }
 
             switch(command[0])
             {
@@ -202,7 +212,8 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "settings":
-                    //settingsWindow.Show();
+                    settingsWindow = new SettingsWindow();
+                    settingsWindow.Show();
                     break;
 
                 default:

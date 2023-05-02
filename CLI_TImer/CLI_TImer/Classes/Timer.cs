@@ -4,6 +4,10 @@ using System;
 using System.Configuration;
 using System.Windows.Threading;
 using CLI_TImer.MVVM.Model;
+using System.Media;
+using System.Windows.Media;
+using CLI_TImer.Helpers;
+using System.IO;
 
 namespace CLI_TImer.Classes
 {
@@ -16,6 +20,8 @@ namespace CLI_TImer.Classes
         private DispatcherTimer timer;
 
         private MainViewModel Vm;
+
+        private MediaPlayer player = new();
 
         public Timer(MainViewModel Vm)
         {
@@ -31,8 +37,14 @@ namespace CLI_TImer.Classes
             if (cT == TimerType.main)
             {
                 MainTimerSeconds = MainTimerSeconds <= 0 ? 0: MainTimerSeconds -= 1;
-                if (MainTimerSeconds < 0) cT = TimerType.stop;
+                if (MainTimerSeconds == 0)
+                {   
+                    cT = TimerType.stop;
+                    player.Open(new Uri(@"C://Windows/Media/Alarm04.wav"));
+                    player.Play();
+                }
                 Vm.SetMainTimerText(MainTimerSeconds);
+
                 return;
             }
             if (cT == TimerType.second)
@@ -42,8 +54,6 @@ namespace CLI_TImer.Classes
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
                 return;
             }
-            Vm.SetMainTimerText(MainTimerSeconds);
-            //Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
         //Set the Time of the Timer

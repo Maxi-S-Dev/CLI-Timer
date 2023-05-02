@@ -16,7 +16,7 @@ namespace CLI_TImer.Helpers
             if(!File.Exists(path)) 
             { 
                 Directory.CreateDirectory(path);
-            }
+            }   
 
             return path;
         }
