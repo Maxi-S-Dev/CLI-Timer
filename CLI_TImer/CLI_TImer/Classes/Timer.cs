@@ -54,6 +54,7 @@ namespace CLI_TImer.Classes
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
                 return;
             }
+            Vm.SetMainTimerText(MainTimerSeconds);
         }
 
         //Set the Time of the Timer
