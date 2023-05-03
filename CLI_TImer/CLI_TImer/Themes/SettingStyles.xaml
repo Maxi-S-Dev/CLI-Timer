@@ -398,7 +398,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource TertiaryColor}"/>
+                <Setter Property="Background" Value="{StaticResource TopBarColor}"/>
             </Trigger>
 
             <Trigger Property="IsSelected" Value="False">

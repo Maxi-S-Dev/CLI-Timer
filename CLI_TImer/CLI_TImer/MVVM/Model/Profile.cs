@@ -15,6 +15,8 @@ namespace CLI_TImer.MVVM.Model
         public int Time { get; set; }
         public TimerType TimerType { get; set; }
 
+        public string RingtonePath { get; set; }
+
         public Profile Copy()
         {
             return (Profile)this.MemberwiseClone();

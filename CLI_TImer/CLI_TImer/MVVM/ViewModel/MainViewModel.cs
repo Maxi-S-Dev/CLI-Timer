@@ -96,13 +96,24 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public void MainTimerFinished()
         {
-            Trace.WriteLine("ViewModel");
-            soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav");
+            if(string.IsNullOrEmpty(selectedProfile.RingtonePath))
+            {
+                soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav");
+                return;
+            }
+
+            soundPlayer.playSound(selectedProfile.RingtonePath);
         }
 
         public void SecondaryTimerFinished()
         {
+            if (string.IsNullOrEmpty(selectedProfile.RingtonePath))
+            {
+                soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav");
+                return;
+            }
 
+            soundPlayer.playSound(selectedProfile.RingtonePath);
         }
 
         #endregion
