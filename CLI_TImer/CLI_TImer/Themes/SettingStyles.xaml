@@ -384,7 +384,7 @@
         <GradientStop Color="#FFECF4FC" Offset="0.0"/>
         <GradientStop Color="#FFDCECFC" Offset="1.0"/>
     </LinearGradientBrush>
-    <Style x:Key="ProfileListItemContainer" TargetType="{x:Type ListViewItem}">
+    <Style x:Key="ListItemContainer" TargetType="{x:Type ListViewItem}">
 
         <Setter Property="Template">
             <Setter.Value>
@@ -403,6 +403,18 @@
 
             <Trigger Property="IsSelected" Value="False">
                 <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ProfileListItemContainer" TargetType="ListViewItem" BasedOn="{StaticResource ListItemContainer}">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Height" Value="100"/>
+            </Trigger>
+
+            <Trigger Property="IsSelected" Value="False">
+                <Setter Property="Height" Value="30"/>
             </Trigger>
         </Style.Triggers>
     </Style>
