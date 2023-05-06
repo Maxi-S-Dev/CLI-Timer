@@ -42,6 +42,7 @@
                   Background="Transparent"
                   BorderThickness="0" BorderBrush="Transparent">
                 <ListBox.ItemTemplate>
+                    
                     <DataTemplate>
                         <StackPanel>
                             <Grid>
