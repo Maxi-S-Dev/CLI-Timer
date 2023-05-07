@@ -235,8 +235,7 @@
 
     
     <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Grid.Column" Value="1"/>
-        <Setter Property="Grid.RowSpan" Value="2"/>
+
         <Setter Property="Template">
             <Setter.Value>
 
@@ -256,7 +255,7 @@
                                 <GradientStop Color="#191a24" Offset="1" x:Name="DarkOffset"/>
                                 <GradientStop Color="#3d4166" Offset="1" x:Name="LightOffset"/>
                                 <GradientStop Color="#3d4166" Offset="2"/>
-
+ 
                             </LinearGradientBrush>
 
                         </Border.Background>
@@ -268,10 +267,7 @@
                                      Width="14"
                                      Height="14"
                                      HorizontalAlignment="Left"
-                                     Margin="3,0,0,0"
-                                     />
-
-
+                                     Margin="3,0,0,0"/>
 
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True"/>
 
@@ -410,11 +406,11 @@
     <Style x:Key="ProfileListItemContainer" TargetType="ListViewItem" BasedOn="{StaticResource ListItemContainer}">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Height" Value="100"/>
+                <Setter Property="Height" Value="124.5"/>
             </Trigger>
 
             <Trigger Property="IsSelected" Value="False">
-                <Setter Property="Height" Value="30"/>
+                <Setter Property="Height" Value="62"/>
             </Trigger>
         </Style.Triggers>
     </Style>

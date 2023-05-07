@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace CLI_TImer.MVVM.ViewModel
     internal partial class ProfileSettingsViewModel : ObservableObject
     {
         [ObservableProperty]
-        public List<SettingsProfile> profiles;
+        public ObservableCollection<SettingsProfile> profiles;
 
         [ObservableProperty]
         internal List<TimerType> timerTypes;
@@ -30,7 +31,7 @@ namespace CLI_TImer.MVVM.ViewModel
         //Creates a List that contains the values for the UI
         private void PopulateProfilesList()
         {
-            Profiles = new List<SettingsProfile>();
+            Profiles = new ObservableCollection<SettingsProfile>();
 
             foreach (var profile in AppDataManager.instance.GetProfileList())
             {
@@ -44,6 +45,11 @@ namespace CLI_TImer.MVVM.ViewModel
                 p.Minutes = $"{Times.SecondsToMinutes(profile.Time)} m";
                 p.Seconds = $"{profile.Time % 60} s";
 
+                p.RingtoneMinutes = $"{Times.SecondsToMinutes(profile.RingtoneDuration)} m";
+                p.RingtoneSeconds = $"{profile.RingtoneDuration % 60} s";
+
+                p.RingtonePath = profile.RingtonePath;
+                p.RingtoneEnabled = profile.RingtoneEnabled;
 
                 Profiles.Add(p);
             }
@@ -67,6 +73,9 @@ namespace CLI_TImer.MVVM.ViewModel
                 profile.Answer = p.Answer;
                 profile.TimerType = p.TimerType;
                 profile.Time = Times.TimeToSeconds(p.hours, p.minutes, p.seconds);
+                profile.RingtonePath = p.RingtonePath;
+                profile.RingtoneDuration = Times.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
+                profile.RingtoneEnabled = p.RingtoneEnabled;
 
                 profileList.Add(profile);
             }
@@ -104,6 +113,8 @@ namespace CLI_TImer.MVVM.ViewModel
         public int hours { get; set; }
         public int minutes { get; set; }
         public int seconds { get; set; }
+        public int ringtoneSeconds { get; set; }
+        public int ringtoneMinutes { get; set; }
 
         public string Hours
         {
@@ -166,6 +177,55 @@ namespace CLI_TImer.MVVM.ViewModel
                 seconds = s;
             }
         }
+
+        public string RingtonePath { get; set; }
+
+        public string RingtoneMinutes
+        {
+            get => $"{ringtoneMinutes} m";
+            set
+            {
+                int m;
+                bool success = int.TryParse(value.Split('m')[0], out m);
+                if (!success) success = int.TryParse(value.Split(' ')[0], out m);
+
+                if (!success)
+                {
+                    return;
+                }
+
+                if (m > 60)
+                {
+                    int s = Times.MinutesToSeconds(m);
+                    m = Times.SecondsToMinutes(s);
+                }
+                ringtoneMinutes = m;
+            }
+        }
+        public string RingtoneSeconds
+        {
+            get => $"{ringtoneSeconds} s";
+            set
+            {
+                int s;
+                bool success = int.TryParse(value.Split('s')[0], out s);
+                if (!success) success = int.TryParse(value.Split(' ')[0], out s);
+
+                if (!success)
+                {
+                    return;
+                }
+
+                if (s > 60)
+                {
+                    s %= 60;
+                }
+
+                ringtoneSeconds = s;
+            }
+        }
+
+        public bool RingtoneEnabled { get; set; }
 
         public IEnumerable<TimerType> TimerTypeValues
         {
