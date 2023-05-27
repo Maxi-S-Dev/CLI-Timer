@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CLI_TImer.MVVM.View"
+             xmlns:control="clr-namespace:CLI_TImer.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -38,11 +39,11 @@
                    Margin="20, 10, 0, 0"/>
 
             <ListView ItemContainerStyle="{DynamicResource ProfileListItemContainer}" ItemsSource="{Binding Profiles}" 
-                  Margin="10, 5, 10, 10" 
-                  Background="Transparent"
-                  BorderThickness="0" BorderBrush="Transparent">
+                      Margin="10, 5, 10, 10" 
+                      Background="Transparent"
+                      BorderThickness="0" BorderBrush="Transparent" Name="ListView"
+                      SelectedItem="{Binding SelectedProfile}">
                 <ListBox.ItemTemplate>
-                    
                     <DataTemplate>
                         <StackPanel>
                             <Grid>
@@ -112,14 +113,57 @@
 
                                 <Label Content="Ringtone:" HorizontalAlignment="Right" Style="{StaticResource DescriptionLabel}" Grid.Row="2"/>
 
-                                <TextBox Text="{Binding RingtonePath}" 
-                                         Style="{StaticResource InputFieldStyle}"
-                                         FontSize="16"
-                                         Background="{StaticResource TertiaryColor}" Foreground="White"
-                                         TextAlignment="Left" VerticalContentAlignment="Center" Margin="0, 0, 5, 0"
-                                         Grid.Column="1" Grid.Row="2"
-                                         Height="25"
-                                         VerticalAlignment="Center"/>
+
+                                <Grid Grid.Column="1"
+                                      Grid.Row="2">
+
+                                    <TextBox Text="{Binding DisplayRingtonePath}"
+                                             Style="{StaticResource InputFieldStyle}"
+                                             FontSize="16"
+                                             Background="{StaticResource TertiaryColor}"
+                                             Foreground="White"
+                                             TextAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Margin="0, 0, 5, 0"
+                                             Grid.Row="2"
+                                             Height="25"
+                                             VerticalAlignment="Center"
+                                             Name="PathBox"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                                    <TextBlock IsHitTestVisible="False"
+                                               Text="Enter Path to Audio File (empty for default)"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Margin="10,0,0,0"
+                                               Foreground="DarkGray">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility"
+                                                        Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=PathBox}"
+                                                                 Value="">
+                                                        <Setter Property="Visibility"
+                                                                Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <Button Content="Search Explorer"
+                                            Style="{StaticResource UnderlineOnHover}"
+                                            HorizontalAlignment="Right"
+                                            Background="Transparent"
+                                            Foreground="White"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0" 
+                                            Margin="0, 0, 10, 0"
+                                            Command="{Binding ElementName=ListView, Path=DataContext.SearchFileExplorerForAudioCommand}"/>
+
+                                </Grid>
+
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2" >
                                     <TextBox Style="{StaticResource InputFieldStyle}" 
@@ -134,6 +178,9 @@
                                              VerticalAlignment="Center" VerticalContentAlignment="Center"
                                              HorizontalContentAlignment="Center" Margin="5, 0, 5, 0"/>
 
+                                    <control:Switch Toggled="{Binding RingtoneEnabled}"/>
+
+                                    <!--
                                     <ToggleButton Style="{StaticResource ToggleButtonStyle}"
                                                   HorizontalAlignment="Right"
                                                   Margin="5"
@@ -144,7 +191,7 @@
                                             <ScaleTransform ScaleX="0.9" ScaleY="0.90"/>
                                         </ToggleButton.LayoutTransform>
 
-                                    </ToggleButton>
+                                    </ToggleButton> -->
                                     
                                     
 

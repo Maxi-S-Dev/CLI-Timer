@@ -3,6 +3,7 @@ using CLI_TImer.Helpers;
 using CLI_TImer.MVVM.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,12 @@ namespace CLI_TImer.MVVM.ViewModel
 
         [ObservableProperty]
         internal List<TimerType> timerTypes;
+
+        [ObservableProperty]
+        public SettingsProfile selectedProfile;
+
+        private int selectedProfileIndex { get { return Profiles.IndexOf(SelectedProfile); } }
+
         internal ProfileSettingsViewModel()
         {
             PopulateProfilesList();
@@ -63,6 +70,7 @@ namespace CLI_TImer.MVVM.ViewModel
         [RelayCommand]
         public void SaveChanges()
         {
+            Trace.WriteLine("Save");
             List<Profile> profileList = new();
 
             foreach (var p in Profiles)
@@ -81,7 +89,6 @@ namespace CLI_TImer.MVVM.ViewModel
             }
 
             AppDataManager.instance.SetProfileList(profileList);
-
         }
 
         public IEnumerable<TimerType> TimerTypeValues
@@ -90,6 +97,19 @@ namespace CLI_TImer.MVVM.ViewModel
             {
                 return Enum.GetValues(typeof(TimerType))
                     .Cast<TimerType>();
+            }
+        }
+
+        [RelayCommand]
+        public void SearchFileExplorerForAudio()
+        {
+            Trace.WriteLine("Open Explorer");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3|All files (*.*)|*.*";
+            if(openFileDialog.ShowDialog() == true)
+            {
+                profiles[selectedProfileIndex].RingtonePath = openFileDialog.FileName;
+                Trace.WriteLine(openFileDialog.FileName);
             }
         }
     }
@@ -178,7 +198,19 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
 
-        public string RingtonePath { get; set; }
+        public string RingtonePath { get; set; } = "";
+        public string DisplayRingtonePath 
+        { 
+            get 
+            {
+                if (string.IsNullOrEmpty(RingtonePath)) return string.Empty;
+                string[] pathPieces = RingtonePath.Split(@"\");
+                return pathPieces[0] + @"\...\" + pathPieces[pathPieces.Length -2] + @"\" + pathPieces[pathPieces.Length-1];
+                    
+            } 
+
+            set { RingtonePath = value; }
+        }
 
         public string RingtoneMinutes
         {
