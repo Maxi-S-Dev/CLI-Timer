@@ -14,6 +14,7 @@ using CLI_TImer.MVVM.View;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Controls;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -107,6 +108,18 @@ namespace CLI_TImer.MVVM.ViewModel
             }
 
             soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
+
+            new ToastContentBuilder()
+                .AddText(mainRunningProfile.Name + " finished")
+                .AddText("Your work time is over")
+
+                .AddButton(new ToastButton()
+                    .SetContent("Stop"))
+
+                .AddButton (new ToastButton()
+                    .SetContent("Add 5m"))
+
+                .Show();
         }
 
         public void SecondaryTimerFinished()
