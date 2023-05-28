@@ -104,22 +104,24 @@ namespace CLI_TImer.MVVM.ViewModel
             if (string.IsNullOrEmpty(mainRunningProfile.RingtonePath))
             {
                 soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
-                return;
+            }
+            else
+            {
+                soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
             }
 
-            soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
+            if(mainRunningProfile.NotificationEnabled == true) 
+            {
+                new ToastContentBuilder()
+                    .AddText(mainRunningProfile.Name + " finished")
+                    .AddText(mainRunningProfile.NotificationText)
+                    .AddButton(new ToastButton()
+                        .SetContent("Stop"))
+                    .AddButton(new ToastButton()
+                        .SetContent("Add 5m"))
+                    .Show();
+            }
 
-            new ToastContentBuilder()
-                .AddText(mainRunningProfile.Name + " finished")
-                .AddText("Your work time is over")
-
-                .AddButton(new ToastButton()
-                    .SetContent("Stop"))
-
-                .AddButton (new ToastButton()
-                    .SetContent("Add 5m"))
-
-                .Show();
         }
 
         public void SecondaryTimerFinished()
@@ -128,11 +130,26 @@ namespace CLI_TImer.MVVM.ViewModel
             if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
             {
                 soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
-                return;
+            }
+            else
+            {
+                soundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
             }
 
-            soundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
+            if(secondaryRunningProfile.NotificationEnabled == true) 
+            {
+                new ToastContentBuilder()
+                .AddText(secondaryRunningProfile.Name + " finished")
+                .AddText(secondaryRunningProfile.NotificationText)
+                .AddButton(new ToastButton()
+                    .SetContent("Stop"))
+                .AddButton(new ToastButton()
+                    .SetContent("Add 5m"))
+                .Show();
+            }
+
         }
+
 
         #endregion
 

@@ -17,8 +17,10 @@ namespace CLI_TImer.MVVM.Model
 
         public string RingtonePath { get; set; }
         public int RingtoneDuration { get; set; }
-
         public bool RingtoneEnabled { get; set; }
+
+        public string NotificationText { get; set; } = string.Empty;
+        public bool NotificationEnabled { get; set; } = false;
 
         public Profile Copy()
         {
@@ -30,6 +32,9 @@ namespace CLI_TImer.MVVM.Model
     { 
         string Name { get; set; }
         string Answer { get; set; }
+
+        string NotificationText { get ; set; }
+        bool NotificationEnabled { get; set; }
 
         string RingtonePath { get; set; }
         bool RingtoneEnabled { get; set; } 

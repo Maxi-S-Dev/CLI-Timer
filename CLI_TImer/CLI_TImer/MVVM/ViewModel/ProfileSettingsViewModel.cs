@@ -58,6 +58,9 @@ namespace CLI_TImer.MVVM.ViewModel
                 p.RingtonePath = profile.RingtonePath;
                 p.RingtoneEnabled = profile.RingtoneEnabled;
 
+                p.NotificationText = profile.NotificationText;
+                p.NotificationEnabled = profile.NotificationEnabled;
+
                 Profiles.Add(p);
             }
         }
@@ -84,6 +87,8 @@ namespace CLI_TImer.MVVM.ViewModel
                 profile.RingtonePath = p.RingtonePath;
                 profile.RingtoneDuration = Times.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
                 profile.RingtoneEnabled = p.RingtoneEnabled; 
+                profile.NotificationText = p.NotificationText;
+                profile.NotificationEnabled = p.NotificationEnabled;
                 
                 Trace.WriteLine(p.Name + "RingtoneEnabled" + p.RingtoneEnabled);
 
@@ -260,16 +265,10 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
 
-        private bool ringtoneEnabled;
-        public bool RingtoneEnabled 
-        {
-            get => ringtoneEnabled;
-            set 
-            {
-                ringtoneEnabled = value;
-                Trace.WriteLine("Changed RingtoneEnabled" + ringtoneEnabled);
-            }
-        }
+        public bool RingtoneEnabled { get; set; }
+
+        public string NotificationText { get; set; }
+        public bool NotificationEnabled { get; set; }
 
         public IEnumerable<TimerType> TimerTypeValues
         {
