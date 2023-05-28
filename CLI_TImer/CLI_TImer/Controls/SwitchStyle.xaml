@@ -1,0 +1,133 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CLI_TImer.Controls">
+    
+    <Style TargetType="local:Switch">
+        <Style.Resources>
+            <SolidColorBrush x:Key="IsCheckedBackgroundColor"
+                             Color="#0078d4" />
+            <!--Background When IsChecked = true-->
+            <SolidColorBrush x:Key="IsNotCheckedBackgroundColor"
+                             Color="Transparent" />
+            <!--BorderBrush When IsChecked = false-->
+
+            <SolidColorBrush x:Key="IsCheckedBorderColor"
+                             Color="#0078d4" />
+            <!--BorderBrush When IsChecked = false-->
+            <SolidColorBrush x:Key="IsNotCHeckedBorderColor"
+                             Color="#cecece" />
+            <!--BorderBrush When IsChecked = false-->
+
+            <SolidColorBrush x:Key="IsCheckedSliderColor"
+                             Color="#828282" />
+            <SolidColorBrush x:Key="IsNotCheckedSliderColor"
+                             Color="#5a5a5a" />
+        </Style.Resources>
+
+        <Setter Property="BorderThickness"
+                Value="1" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:Switch">
+                    <ControlTemplate.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Name="Target"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="10">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ControlTemplate.Resources>
+
+
+                    <Button Background="Blue"
+                            BorderBrush="Blue"
+                            BorderThickness="1"
+                            Width="38"
+                            Height="20"
+                            Name="Trigger">
+                        <Ellipse Width="12"
+                                 Height="12"
+                                 Name="Slider"
+                                 Fill="White">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform x:Name="MoveBaby"
+                                                    X="-10" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="ValueStates">
+                                <VisualState Name="Toggled">
+                                    <Storyboard>
+
+                                        <DoubleAnimation Duration="0:0:0.1"
+                                                         To="10"
+                                                         Storyboard.TargetProperty="X"
+                                                         Storyboard.TargetName="MoveBaby"
+                                                         BeginTime="0" />
+                                        <ColorAnimation Duration="0:0:0.2"
+                                                        To="#0078d4"
+                                                        Storyboard.TargetName="Trigger"
+                                                        Storyboard.TargetProperty="(Background).(Color)"
+                                                        BeginTime="0" />
+
+                                        <ColorAnimation Duration="0:0:0.2"
+                                                        To="#0078d4"
+                                                        Storyboard.TargetName="Trigger"
+                                                        Storyboard.TargetProperty="BorderBrush.Color"
+                                                        BeginTime="0" />
+
+                                        <ColorAnimation Duration="0:0:0.2"
+                                                        To="White"
+                                                        Storyboard.TargetName="Slider"
+                                                        Storyboard.TargetProperty="Fill.Color"
+                                                        BeginTime="0" />
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="UnToggled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.1"
+                                                         To="-10"
+                                                         Storyboard.TargetProperty="X"
+                                                         Storyboard.TargetName="MoveBaby" />
+
+                                        <ColorAnimation Duration="0:0:0.2"
+                                                        To="Transparent"
+                                                        Storyboard.TargetName="Trigger"
+                                                        Storyboard.TargetProperty="(Background).(Color)"
+                                                        BeginTime="0" />
+
+                                        <ColorAnimation Duration="0:0:0.2"
+                                                        To="#cecece"
+                                                        Storyboard.TargetName="Trigger"
+                                                        Storyboard.TargetProperty="BorderBrush.Color"
+                                                        BeginTime="0" />
+
+                                        <ColorAnimation Duration="0:0:0.2"
+                                                        To="#5a5a5a"
+                                                        Storyboard.TargetName="Slider"
+                                                        Storyboard.TargetProperty="Fill.Color"
+                                                        BeginTime="0" />
+
+                                    </Storyboard>
+
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

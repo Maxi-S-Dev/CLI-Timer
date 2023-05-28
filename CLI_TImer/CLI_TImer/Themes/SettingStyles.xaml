@@ -235,8 +235,7 @@
 
     
     <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Grid.Column" Value="1"/>
-        <Setter Property="Grid.RowSpan" Value="2"/>
+
         <Setter Property="Template">
             <Setter.Value>
 
@@ -256,7 +255,7 @@
                                 <GradientStop Color="#191a24" Offset="1" x:Name="DarkOffset"/>
                                 <GradientStop Color="#3d4166" Offset="1" x:Name="LightOffset"/>
                                 <GradientStop Color="#3d4166" Offset="2"/>
-
+ 
                             </LinearGradientBrush>
 
                         </Border.Background>
@@ -268,10 +267,7 @@
                                      Width="14"
                                      Height="14"
                                      HorizontalAlignment="Left"
-                                     Margin="3,0,0,0"
-                                     />
-
-
+                                     Margin="3,0,0,0"/>
 
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True"/>
 
@@ -384,7 +380,7 @@
         <GradientStop Color="#FFECF4FC" Offset="0.0"/>
         <GradientStop Color="#FFDCECFC" Offset="1.0"/>
     </LinearGradientBrush>
-    <Style x:Key="ProfileListItemContainer" TargetType="{x:Type ListViewItem}">
+    <Style x:Key="ListItemContainer" TargetType="{x:Type ListViewItem}">
 
         <Setter Property="Template">
             <Setter.Value>
@@ -398,11 +394,23 @@
 
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource TertiaryColor}"/>
+                <Setter Property="Background" Value="{StaticResource TopBarColor}"/>
             </Trigger>
 
             <Trigger Property="IsSelected" Value="False">
                 <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ProfileListItemContainer" TargetType="ListViewItem" BasedOn="{StaticResource ListItemContainer}">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Height" Value="124.5"/>
+            </Trigger>
+
+            <Trigger Property="IsSelected" Value="False">
+                <Setter Property="Height" Value="62"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -445,6 +453,46 @@
 
         </Setter>
 
+    </Style>
+
+    <Style TargetType="Button" x:Key="UnderlineOnHover">
+        <Setter Property="Background"
+                Value="Transparent" />
+
+        <Setter Property="BorderBrush"
+                Value="Transparent" />
+
+        <Setter Property="BorderThickness"
+                Value="0" />
+
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Height="19">
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   FontSize="11"
+                                   Foreground="White"
+                                   Name="TextBox"
+                                   VerticalAlignment="Center">
+
+                        </TextBlock>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="TextBox"
+                                    Property="TextDecorations"
+                                    Value="Underline" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
     </Style>
     <!--#endregion-->
 </ResourceDictionary>

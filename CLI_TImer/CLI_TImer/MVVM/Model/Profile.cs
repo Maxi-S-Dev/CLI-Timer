@@ -15,6 +15,11 @@ namespace CLI_TImer.MVVM.Model
         public int Time { get; set; }
         public TimerType TimerType { get; set; }
 
+        public string RingtonePath { get; set; }
+        public int RingtoneDuration { get; set; }
+
+        public bool RingtoneEnabled { get; set; }
+
         public Profile Copy()
         {
             return (Profile)this.MemberwiseClone();
@@ -25,6 +30,9 @@ namespace CLI_TImer.MVVM.Model
     { 
         string Name { get; set; }
         string Answer { get; set; }
+
+        string RingtonePath { get; set; }
+        bool RingtoneEnabled { get; set; } 
         TimerType TimerType { get; set; }
     }
 }

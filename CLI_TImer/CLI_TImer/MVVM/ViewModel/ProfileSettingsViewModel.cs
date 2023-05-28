@@ -3,8 +3,10 @@ using CLI_TImer.Helpers;
 using CLI_TImer.MVVM.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -17,10 +19,16 @@ namespace CLI_TImer.MVVM.ViewModel
     internal partial class ProfileSettingsViewModel : ObservableObject
     {
         [ObservableProperty]
-        public List<SettingsProfile> profiles;
+        public ObservableCollection<SettingsProfile> profiles;
 
         [ObservableProperty]
         internal List<TimerType> timerTypes;
+
+        [ObservableProperty]
+        public SettingsProfile selectedProfile;
+
+        private int selectedProfileIndex { get { return Profiles.IndexOf(SelectedProfile); } }
+
         internal ProfileSettingsViewModel()
         {
             PopulateProfilesList();
@@ -30,7 +38,7 @@ namespace CLI_TImer.MVVM.ViewModel
         //Creates a List that contains the values for the UI
         private void PopulateProfilesList()
         {
-            Profiles = new List<SettingsProfile>();
+            Profiles = new ObservableCollection<SettingsProfile>();
 
             foreach (var profile in AppDataManager.instance.GetProfileList())
             {
@@ -44,6 +52,11 @@ namespace CLI_TImer.MVVM.ViewModel
                 p.Minutes = $"{Times.SecondsToMinutes(profile.Time)} m";
                 p.Seconds = $"{profile.Time % 60} s";
 
+                p.RingtoneMinutes = $"{Times.SecondsToMinutes(profile.RingtoneDuration)} m";
+                p.RingtoneSeconds = $"{profile.RingtoneDuration % 60} s";
+
+                p.RingtonePath = profile.RingtonePath;
+                p.RingtoneEnabled = profile.RingtoneEnabled;
 
                 Profiles.Add(p);
             }
@@ -57,6 +70,7 @@ namespace CLI_TImer.MVVM.ViewModel
         [RelayCommand]
         public void SaveChanges()
         {
+            Trace.WriteLine("Save");
             List<Profile> profileList = new();
 
             foreach (var p in Profiles)
@@ -67,20 +81,38 @@ namespace CLI_TImer.MVVM.ViewModel
                 profile.Answer = p.Answer;
                 profile.TimerType = p.TimerType;
                 profile.Time = Times.TimeToSeconds(p.hours, p.minutes, p.seconds);
+                profile.RingtonePath = p.RingtonePath;
+                profile.RingtoneDuration = Times.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
+                profile.RingtoneEnabled = p.RingtoneEnabled; 
+                
+                Trace.WriteLine(p.Name + "RingtoneEnabled" + p.RingtoneEnabled);
+
 
                 profileList.Add(profile);
             }
 
             AppDataManager.instance.SetProfileList(profileList);
-
         }
 
-        public IEnumerable<TimerType> TimerTypeValues
+        //public IEnumerable<TimerType> TimerTypeValues
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(TimerType))
+        //            .Cast<TimerType>();
+        //    }
+        //}
+
+        [RelayCommand]
+        public void SearchFileExplorerForAudio()
         {
-            get
+            Trace.WriteLine("Open Explorer");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Audio Files (*.wav;*.mp3)|*.wav;*.mp3|All files (*.*)|*.*";
+            if(openFileDialog.ShowDialog() == true)
             {
-                return Enum.GetValues(typeof(TimerType))
-                    .Cast<TimerType>();
+                profiles[selectedProfileIndex].RingtonePath = openFileDialog.FileName;
+                Trace.WriteLine(openFileDialog.FileName);
             }
         }
     }
@@ -104,6 +136,8 @@ namespace CLI_TImer.MVVM.ViewModel
         public int hours { get; set; }
         public int minutes { get; set; }
         public int seconds { get; set; }
+        public int ringtoneSeconds { get; set; }
+        public int ringtoneMinutes { get; set; }
 
         public string Hours
         {
@@ -123,7 +157,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
         public string Minutes
-        {
+        {   
             get => $"{minutes} m";
             set
             {
@@ -164,6 +198,76 @@ namespace CLI_TImer.MVVM.ViewModel
                 }
 
                 seconds = s;
+            }
+        }
+
+        public string RingtonePath { get; set; } = "";
+        public string DisplayRingtonePath 
+        { 
+            get 
+            {
+                if (string.IsNullOrEmpty(RingtonePath)) return string.Empty;
+                string[] pathPieces = RingtonePath.Split(@"\");
+                return pathPieces[0] + @"\...\" + pathPieces[pathPieces.Length -2] + @"\" + pathPieces[pathPieces.Length-1];
+                    
+            } 
+
+            set { RingtonePath = value; }
+        }
+
+        public string RingtoneMinutes
+        {
+            get => $"{ringtoneMinutes} m";
+            set
+            {
+                int m;
+                bool success = int.TryParse(value.Split('m')[0], out m);
+                if (!success) success = int.TryParse(value.Split(' ')[0], out m);
+
+                if (!success)
+                {
+                    return;
+                }
+
+                if (m > 60)
+                {
+                    int s = Times.MinutesToSeconds(m);
+                    m = Times.SecondsToMinutes(s);
+                }
+                ringtoneMinutes = m;
+            }
+        }
+        public string RingtoneSeconds
+        {
+            get => $"{ringtoneSeconds} s";
+            set
+            {
+                int s;
+                bool success = int.TryParse(value.Split('s')[0], out s);
+                if (!success) success = int.TryParse(value.Split(' ')[0], out s);
+
+                if (!success)
+                {
+                    return;
+                }
+
+                if (s > 60)
+                {
+                    s %= 60;
+                }
+
+                ringtoneSeconds = s;
+            }
+        }
+
+        private bool ringtoneEnabled;
+        public bool RingtoneEnabled 
+        {
+            get => ringtoneEnabled;
+            set 
+            {
+                ringtoneEnabled = value;
+                Trace.WriteLine("Changed RingtoneEnabled" + ringtoneEnabled);
             }
         }
 
