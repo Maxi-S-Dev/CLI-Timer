@@ -40,8 +40,7 @@ namespace CLI_TImer.Classes
                 if (MainTimerSeconds == 0)
                 {   
                     cT = TimerType.stop;
-                    player.Open(new Uri(@"C://Windows/Media/Alarm04.wav"));
-                    player.Play();
+                    Vm.MainTimerFinished();
                 }
                 Vm.SetMainTimerText(MainTimerSeconds);
 
@@ -50,7 +49,11 @@ namespace CLI_TImer.Classes
             if (cT == TimerType.second)
             {
                 SecondTimerSeconds = SecondTimerSeconds <= 0 ? 0: SecondTimerSeconds -= 1;
-                if (SecondTimerSeconds <= 0) cT = TimerType.main;
+                if (SecondTimerSeconds <= 0)
+                {
+                    Vm.SecondaryTimerFinished();
+                    cT = TimerType.main;
+                }
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
                 return;
             }

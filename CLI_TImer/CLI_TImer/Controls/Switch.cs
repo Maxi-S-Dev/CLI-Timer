@@ -18,14 +18,16 @@ namespace CLI_TImer.Controls
     {
         public static DependencyProperty ToggledProperty = DependencyProperty.Register("Toggled", typeof(bool), typeof(Switch), new PropertyMetadata(false));
 
+        private bool toggled = false;
 
         public bool Toggled
         {
             get => (bool)GetValue(ToggledProperty);
             set
             {
+                toggled = value;
                 SetValue(ToggledProperty, value);
-                Trace.WriteLine("Toggled");
+                Trace.WriteLine("Toggled:" + toggled);
                 UpdateVisualState();
             }
         }
@@ -73,8 +75,6 @@ namespace CLI_TImer.Controls
         {
             if (Toggled) VisualStateManager.GoToState(this, "Toggled", true);
             if (!Toggled) VisualStateManager.GoToState(this, "UnToggled", true);
-
-            Trace.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
         }
     }
 }

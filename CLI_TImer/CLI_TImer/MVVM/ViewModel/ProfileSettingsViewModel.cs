@@ -83,7 +83,10 @@ namespace CLI_TImer.MVVM.ViewModel
                 profile.Time = Times.TimeToSeconds(p.hours, p.minutes, p.seconds);
                 profile.RingtonePath = p.RingtonePath;
                 profile.RingtoneDuration = Times.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
-                profile.RingtoneEnabled = p.RingtoneEnabled;
+                profile.RingtoneEnabled = p.RingtoneEnabled; 
+                
+                Trace.WriteLine(p.Name + "RingtoneEnabled" + p.RingtoneEnabled);
+
 
                 profileList.Add(profile);
             }
@@ -91,14 +94,14 @@ namespace CLI_TImer.MVVM.ViewModel
             AppDataManager.instance.SetProfileList(profileList);
         }
 
-        public IEnumerable<TimerType> TimerTypeValues
-        {
-            get
-            {
-                return Enum.GetValues(typeof(TimerType))
-                    .Cast<TimerType>();
-            }
-        }
+        //public IEnumerable<TimerType> TimerTypeValues
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(TimerType))
+        //            .Cast<TimerType>();
+        //    }
+        //}
 
         [RelayCommand]
         public void SearchFileExplorerForAudio()
@@ -154,7 +157,7 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
         public string Minutes
-        {
+        {   
             get => $"{minutes} m";
             set
             {
@@ -257,7 +260,16 @@ namespace CLI_TImer.MVVM.ViewModel
             }
         }
 
-        public bool RingtoneEnabled { get; set; }
+        private bool ringtoneEnabled;
+        public bool RingtoneEnabled 
+        {
+            get => ringtoneEnabled;
+            set 
+            {
+                ringtoneEnabled = value;
+                Trace.WriteLine("Changed RingtoneEnabled" + ringtoneEnabled);
+            }
+        }
 
         public IEnumerable<TimerType> TimerTypeValues
         {

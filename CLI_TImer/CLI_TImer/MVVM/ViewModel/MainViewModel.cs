@@ -13,6 +13,7 @@ using System.Linq;
 using CLI_TImer.MVVM.View;
 using System.Diagnostics;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -45,6 +46,8 @@ namespace CLI_TImer.MVVM.ViewModel
         private int seconds = 0;
 
         Profile? selectedProfile;
+        Profile? mainRunningProfile;
+        Profile? secondaryRunningProfile;
 
         Timer timer;
 
@@ -96,24 +99,26 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public void MainTimerFinished()
         {
-            if(string.IsNullOrEmpty(selectedProfile.RingtonePath))
+            if(mainRunningProfile.RingtoneEnabled == false) return;
+            if (string.IsNullOrEmpty(mainRunningProfile.RingtonePath))
             {
-                soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav");
+                soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
                 return;
             }
 
-            soundPlayer.playSound(selectedProfile.RingtonePath);
+            soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
         }
 
         public void SecondaryTimerFinished()
         {
-            if (string.IsNullOrEmpty(selectedProfile.RingtonePath))
+            if(secondaryRunningProfile.RingtoneEnabled == false) return;
+            if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
             {
-                soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav");
+                soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
                 return;
             }
 
-            soundPlayer.playSound(selectedProfile.RingtonePath);
+            soundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
         }
 
         #endregion
@@ -260,14 +265,15 @@ namespace CLI_TImer.MVVM.ViewModel
 
             selectedProfile = ProfileManager.getProfileFromCommand(command);
 
-            if (selectedProfile != null && time != 0) selectedProfile.Time = time;
+            if(selectedProfile == null) return false;
 
-            if (selectedProfile != null)
-            {
-                ExecuteProfile(selectedProfile);
-                return true;
-            }
-            return false;
+            if (time != 0) selectedProfile.Time = time;
+
+            if(selectedProfile.TimerType == TimerType.main) mainRunningProfile = selectedProfile;
+            if(selectedProfile.TimerType == TimerType.second) secondaryRunningProfile = selectedProfile;
+
+            ExecuteProfile(selectedProfile);
+            return true;
         }
 
         private void ExecuteProfile(Profile profile)
