@@ -1,5 +1,4 @@
 ﻿using CLI_TImer.MVVM.Model;
-using CLI_TImer.Themes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -12,6 +11,10 @@ using CLI_TImer.Helpers;
 using System.Windows.Annotations;
 using System.Linq;
 using CLI_TImer.MVVM.View;
+using System.Diagnostics;
+using System.Windows.Media;
+using System.Windows.Controls;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -21,12 +24,12 @@ namespace CLI_TImer.MVVM.ViewModel
 
         //Settings
         SettingsWindow settingsWindow;
+        SoundPlayer soundPlayer = new();
 
         [ObservableProperty]
         public string? mainTimerText;
 
         public string PauseTimerText = "";
-
 
         //Inputs
         [ObservableProperty]
@@ -39,11 +42,21 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
+        private int hours = 0;
+        private int minutes = 0;
+        private int seconds = 0;
+
         Profile? selectedProfile;
+        Profile? mainRunningProfile;
+        Profile? secondaryRunningProfile;
 
         Timer timer;
 
+        Random random = new();
+
         public virtual Dispatcher Dispatcher { get; protected set; }
+
+        AppDataManager dataManager = AppDataManager.instance;
 
         #endregion
 
@@ -52,10 +65,12 @@ namespace CLI_TImer.MVVM.ViewModel
             timer = new(this);
             SetMainTimerText(0);
 
-            settingsWindow = new SettingsWindow();
-            //settingsWindow.Show();
-
             Dispatcher= Dispatcher.CurrentDispatcher;
+
+            int standardTime = AppDataManager.instance.GetStandardTime();
+
+            timer.setMainTimer(standardTime);
+            
         }
 
         #region Set Timer Text
@@ -83,6 +98,59 @@ namespace CLI_TImer.MVVM.ViewModel
             }));
         }
 
+        public void MainTimerFinished()
+        {
+            if(mainRunningProfile.RingtoneEnabled == false) return;
+            if (string.IsNullOrEmpty(mainRunningProfile.RingtonePath))
+            {
+                soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
+            }
+            else
+            {
+                soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
+            }
+
+            if(mainRunningProfile.NotificationEnabled == true) 
+            {
+                new ToastContentBuilder()
+                    .AddText(mainRunningProfile.Name + " finished")
+                    .AddText(mainRunningProfile.NotificationText)
+                    .AddButton(new ToastButton()
+                        .SetContent("Stop"))
+                    .AddButton(new ToastButton()
+                        .SetContent("Add 5m"))
+                    .Show();
+            }
+
+        }
+
+        public void SecondaryTimerFinished()
+        {
+            if(secondaryRunningProfile.RingtoneEnabled == false) return;
+            if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
+            {
+                soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
+            }
+            else
+            {
+                soundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
+            }
+
+            if(secondaryRunningProfile.NotificationEnabled == true) 
+            {
+                new ToastContentBuilder()
+                .AddText(secondaryRunningProfile.Name + " finished")
+                .AddText(secondaryRunningProfile.NotificationText)
+                .AddButton(new ToastButton()
+                    .SetContent("Stop"))
+                .AddButton(new ToastButton()
+                    .SetContent("Add 5m"))
+                .Show();
+            }
+
+        }
+
+
         #endregion
 
         //Input Commands
@@ -99,10 +167,6 @@ namespace CLI_TImer.MVVM.ViewModel
             string[]? command = _command.Split(' ');           
 
             string? answer = "";
-
-            int hours = 0;
-            int minutes = 0;
-            int seconds = 0;
 
 
             if (_command.Split("'").Length == 3)
@@ -124,7 +188,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
             int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            if(RunProfile(command[0], resultTime) == true) return;
+            if (RunProfile(command[0], resultTime) == true)
+            {
+                
+                return;
+            }
 
             switch(command[0])
             {
@@ -175,7 +243,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 case "end":
                     ResetCurrentTimer();
-                    AddToHistory("end", "stoped current timer", "");
+                    AddToHistory("end", "stopped current timer", "");
                     break;
 
                 case "reset":
@@ -192,7 +260,8 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "settings":
-                    //settingsWindow.Show();
+                    settingsWindow = new SettingsWindow();
+                    settingsWindow.Show();
                     break;
 
                 default:
@@ -204,7 +273,18 @@ namespace CLI_TImer.MVVM.ViewModel
         //Adds a Command to the History
         private void AddToHistory(string title, string answer, string output)
         {
-            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = Gradients.GradientStops() });
+            int GradientNumber = random.Next(dataManager.GetGradientList().Count());
+
+            var StartRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+
+            GradientStopCollection gradientStopCollection = new()
+            {
+                new GradientStop(Color.FromRgb((byte)((StartRgb >> 16) & 0xFF), (byte)((StartRgb >> 8) & 0xFF), (byte)(StartRgb& 0xFF)), 0),
+                new GradientStop(Color.FromRgb((byte)((EndRgb >> 16) & 0xFF), (byte)((EndRgb >> 8) & 0xFF), (byte)(EndRgb& 0xFF)), 1)
+            };
+
+            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = gradientStopCollection});
         }
 
 
@@ -215,14 +295,15 @@ namespace CLI_TImer.MVVM.ViewModel
 
             selectedProfile = ProfileManager.getProfileFromCommand(command);
 
-            if (selectedProfile != null && time != 0) selectedProfile.Time = time;
+            if(selectedProfile == null) return false;
 
-            if (selectedProfile != null)
-            {
-                ExecuteProfile(selectedProfile);
-                return true;
-            }
-            return false;
+            if (time != 0) selectedProfile.Time = time;
+
+            if(selectedProfile.TimerType == TimerType.main) mainRunningProfile = selectedProfile;
+            if(selectedProfile.TimerType == TimerType.second) secondaryRunningProfile = selectedProfile;
+
+            ExecuteProfile(selectedProfile);
+            return true;
         }
 
         private void ExecuteProfile(Profile profile)
@@ -238,10 +319,7 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));
         }
-        private void AddTimeToCurrentTimer(int hours, int minutes, int seconds)
-        {
-            
-        }
+
         private void ResetCurrentTimer() => timer.ResetCurrentTimer();
 
         #endregion

@@ -13,24 +13,12 @@ namespace CLI_TImer.Classes
 {
     internal class ProfileManager
     {
-        private static List<Profile> ProfileList;
-
-        internal ProfileManager()
-        {
-            Trace.WriteLine("df");
-            LoadProfileList();
-        }
+        private static AppDataManager appDataManager = AppDataManager.instance;
 
         internal static Profile? getProfileFromCommand(string command)
-        {
-            if (ProfileList == null) ProfileList = new List<Profile>
-            {
-                new Profile { Name="work", Commands = new string[] { "work" }, Answer = "we are now working", Time = 2700, TimerType = TimerType.main },
-                new Profile { Name="pause", Commands = new string[] { "break", "pause" }, Answer = "taking a break", Time = 1200, TimerType = TimerType.second}
-            };
-                
+        {              
 
-            foreach (Profile p in ProfileList)
+            foreach (Profile p in appDataManager.GetProfileList())
             {
                 if (p.Name == command) return p;                
             }
@@ -41,24 +29,18 @@ namespace CLI_TImer.Classes
         internal static void AddNewProfile(string Name, string answer, int Time, string Type)
         {
             TimerType tp = TimerType.main;
-            if(Type == "second") tp = TimerType.second;
-            ProfileList.Add(new Profile { Name = Name, Answer = answer, Time = Time, TimerType = tp });
+            if (Type == "second") tp = TimerType.second;
 
-            SaveProfileList();
+            appDataManager.AddNewProfile(new Profile { Name = Name, Answer = answer, Time = Time, TimerType = tp });
         }
 
-        internal static void DeleteProfile(string Name) 
+        internal static void DeleteProfile(string name) 
         {
-            foreach(Profile p in ProfileList) 
-            {
-                if (p.Name == Name)
-                {
-                    ProfileList.Remove(p);
-                    break;
-                }
-            }
+            Profile? p = getProfileFromCommand(name);
+            if(p is null) return;
 
-            SaveProfileList();
+            appDataManager.RemoveProfile(p);
+            
         }
 
         internal static void UpdateProfile(string Name, string Property, string Value)
@@ -67,7 +49,7 @@ namespace CLI_TImer.Classes
 
             if (p is null) return;
 
-            ProfileList.Remove(p);
+            appDataManager.RemoveProfile(p);
 
             switch (Property)
             {
@@ -80,8 +62,7 @@ namespace CLI_TImer.Classes
                     break;
             }
 
-            ProfileList.Add(p);
-            SaveProfileList();
+            appDataManager.AddNewProfile(p);
         }
 
         internal static void UpdateProfile(string Name, int Time)
@@ -90,26 +71,11 @@ namespace CLI_TImer.Classes
 
             if (p is null) return;
 
-            ProfileList.Remove(p);
+            appDataManager.RemoveProfile(p);
 
             p.Time = Time;
 
-            ProfileList.Add(p);
-            SaveProfileList();
-        }
-
-        private static void SaveProfileList()
-        { 
-            string json = JSONSerializer.ListToJSON(ProfileList);
-
-            File.WriteAllText(Path.Combine(FileAccessHelper.MainDirectory(), "Profiles.json"), json);
-        }
-
-        private static void LoadProfileList()
-        {
-            string path = (Path.Combine(FileAccessHelper.MainDirectory(), "Profiles.json"));
-            if(File.Exists(path))
-                ProfileList = JSONSerializer.JSONToList(File.ReadAllText(path));
+            appDataManager.AddNewProfile(p);
         }
     }
 }

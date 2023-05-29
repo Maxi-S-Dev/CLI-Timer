@@ -12,12 +12,18 @@
         AllowsTransparency="True"
         Background="Transparent">
 
+    <Window.Resources>
+
+        
+
+    </Window.Resources>
+
     <Border CornerRadius="10, 10, 10, 10"
-            Background="#2B3046">
+            Background="{StaticResource PrimaryColor}">
        
 
         <StackPanel Height="250">
-            <Border Background="#242633"
+            <Border Background="{StaticResource TopBarColor}"
                     Height="20" 
                     CornerRadius="10, 10, 0, 0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown">
@@ -48,8 +54,7 @@
 
                 <Grid HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
-                      Margin="0, 20, 0, 5"
-                      >
+                      Margin="0, 20, 0, 5">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -78,23 +83,23 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text=">"
-                                                       Style="{StaticResource Pointer}"/>
+                                                   Style="{StaticResource Pointer}"/>
 
 
                                         <TextBlock Text="{Binding title}"
-                                                       Style="{StaticResource Output}"
-                                                       Foreground="White"
-                                                       VerticalAlignment="Center"
-                                                       FontSize="16"
-                                                       Margin="7, 0, 0, 0"/>
+                                                   Style="{StaticResource Output}"
+                                                   Foreground="{StaticResource PrimaryTextColor}"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="16"
+                                                   Margin="7, 0, 0, 0"/>
 
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock x:Name="thirdLatesInputInfo"
-                                               FontSize="16"
-                                               Style="{StaticResource Output}"
-                                               Text="{Binding answer}">
+                                                   FontSize="16"
+                                                   Style="{StaticResource Output}"
+                                                   Text="{Binding answer}">
 
                                             <TextBlock.Foreground>
                                                 <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
@@ -103,7 +108,7 @@
                                         </TextBlock>
 
                                         <TextBlock FontSize="14" 
-                                                   Foreground="#757276"
+                                                   Foreground="{StaticResource SecondaryTextColor}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{Binding output}"
@@ -132,20 +137,42 @@
 
                     <!--Bottom Part-->
 
-                        <StackPanel Margin="0, 0, 0, 10" 
+                    <StackPanel Margin="0, 0, 0, 10" 
                                 VerticalAlignment="Bottom" 
                                 HorizontalAlignment="Left"
                                 Orientation="Horizontal" 
                                 Grid.Row="1">
 
-                        <Border Background="#272b3f"
+
+                        <TextBox Style="{StaticResource InputFieldStyle}"
+                                 Text="{Binding EnteredCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="{StaticResource SecondaryColor}"
+                                 Foreground="{StaticResource PrimaryTextColor}"
+                                 FontSize="16"
+                                 CaretBrush="{StaticResource PrimaryTextColor}"
+                                 Width="300"
+                                 Height="30">
+
+                            <TextBox.InputBindings>
+
+                                <KeyBinding Key="Enter"
+                                            Command="{Binding SendCommand}"/>
+
+                            </TextBox.InputBindings>
+
+                        </TextBox>
+
+<!--
+
+                        <Border Background="{StaticResource SecondaryColor}"
                                 Width="300"
                                 Height="30"
                                 CornerRadius="10"
                                 Padding="5, 0, 3, 0">
 
                             <TextBox Background="Transparent"
-                                     Foreground="White"
+                                     Foreground="{StaticResource PrimaryTextColor}"
+                                     CaretBrush="{StaticResource PrimaryTextColor}"
                                      BorderThickness="0"
                                      FontSize="18"
                                      VerticalContentAlignment="Center"
@@ -159,11 +186,11 @@
                                 </TextBox.InputBindings>
                                 
                             </TextBox>
-                        </Border>
+                        </Border> -->
 
                         <TextBlock 
                                    FontSize="14" 
-                                   Foreground="#757276"
+                                   Foreground="{StaticResource SecondaryTextColor}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Text="{Binding MainTimerText}"
