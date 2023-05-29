@@ -58,6 +58,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <Label Content="Profile Name:" Style="{StaticResource DescriptionLabel}"/>
@@ -111,8 +112,12 @@
                                           SelectedItem="{Binding TimerType}" ItemsSource="{Binding TimerTypeValues}">
                                 </ComboBox>
 
-                                <Label Content="Ringtone:" HorizontalAlignment="Right" Style="{StaticResource DescriptionLabel}" Grid.Row="2"/>
 
+                                    
+                                <Label Content="Ringtone:"
+                                       HorizontalAlignment="Right"
+                                       Style="{StaticResource DescriptionLabel}"
+                                       Grid.Row="2" />
 
                                 <Grid Grid.Column="1"
                                       Grid.Row="2">
@@ -158,12 +163,11 @@
                                             Background="Transparent"
                                             Foreground="White"
                                             BorderBrush="Transparent"
-                                            BorderThickness="0" 
+                                            BorderThickness="0"
                                             Margin="0, 0, 10, 0"
-                                            Command="{Binding ElementName=ListView, Path=DataContext.SearchFileExplorerForAudioCommand}"/>
+                                            Command="{Binding ElementName=ListView, Path=DataContext.SearchFileExplorerForAudioCommand}" />
 
                                 </Grid>
-
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2" >
                                     <TextBox Style="{StaticResource InputFieldStyle}" 
@@ -178,24 +182,65 @@
                                              VerticalAlignment="Center" VerticalContentAlignment="Center"
                                              HorizontalContentAlignment="Center" Margin="5, 0, 5, 0"/>
 
-                                    <control:Switch Toggled="{Binding RingtoneEnabled, Mode=TwoWay}"/>
-
-                                    <!--
-                                    <ToggleButton Style="{StaticResource ToggleButtonStyle}"
-                                                  HorizontalAlignment="Right"
-                                                  Margin="5"
-                                                  IsChecked="{Binding RingtoneEnabled, Mode=TwoWay}">
-
-                                        
-                                        <ToggleButton.LayoutTransform>
-                                            <ScaleTransform ScaleX="0.9" ScaleY="0.90"/>
-                                        </ToggleButton.LayoutTransform>
-
-                                    </ToggleButton> -->
-                                    
-                                    
+                                    <control:Switch Toggled="{Binding RingtoneEnabled, Mode=TwoWay}" />
 
                                 </StackPanel>
+
+
+                                <Label Content="Notification:"
+                                       HorizontalAlignment="Right"
+                                       Style="{StaticResource DescriptionLabel}"
+                                       Grid.Row="3" />
+
+                                <Grid Grid.Column="1"
+                                      Grid.Row="3">
+
+                                    <TextBox Text="{Binding NotificationText}"
+                                             Style="{StaticResource InputFieldStyle}"
+                                             FontSize="16"
+                                             Background="{StaticResource TertiaryColor}"
+                                             Foreground="White"
+                                             TextAlignment="Left"
+                                             VerticalContentAlignment="Center"
+                                             Margin="0, 0, 5, 0"
+                                             Grid.Row="2"
+                                             Height="25"
+                                             VerticalAlignment="Center"
+                                             Name="NotifyBox"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+                                    <TextBlock IsHitTestVisible="False"
+                                               Text="Enter Path to Audio File (empty for default)"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Margin="10,0,0,0"
+                                               Foreground="DarkGray">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility"
+                                                        Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=NotifyBox}"
+                                                                 Value="">
+                                                        <Setter Property="Visibility"
+                                                                Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                </Grid>
+
+                                <StackPanel Orientation="Horizontal"
+                                            Grid.Row="3"
+                                            Grid.Column="2">
+
+
+                                    <control:Switch Toggled="{Binding NotificationEnabled, Mode=TwoWay}" />
+
+                                </StackPanel>
+
                             </Grid>
                         </StackPanel>
                     </DataTemplate>
