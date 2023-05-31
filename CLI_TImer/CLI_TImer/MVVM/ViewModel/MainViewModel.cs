@@ -42,9 +42,9 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
-        private int hours = 0;
-        private int minutes = 0;
-        private int seconds = 0;
+        //private int hours = 0;
+        //private int minutes = 0;
+        //private int seconds = 0;
 
         Profile? selectedProfile;
         Profile? mainRunningProfile;
@@ -164,6 +164,8 @@ namespace CLI_TImer.MVVM.ViewModel
         #region commands
         private void CheckCommand(string _command)
         {
+            int hours, minutes, seconds;
+            hours = seconds = minutes = 0;
             string[]? command = _command.Split(' ');           
 
             string? answer = "";
@@ -188,11 +190,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
             int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
 
-            if (RunProfile(command[0], resultTime) == true)
-            {
-                
-                return;
-            }
+            if (RunProfile(command[0], resultTime) == true) return;
+
 
             switch(command[0])
             {
