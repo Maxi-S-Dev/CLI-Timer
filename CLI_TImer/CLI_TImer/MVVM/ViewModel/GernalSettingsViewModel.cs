@@ -54,8 +54,6 @@ namespace CLI_TImer.MVVM.ViewModel
                         RestoreDefaultValues();
                         return;
                     }
-
-                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
 
@@ -73,8 +71,6 @@ namespace CLI_TImer.MVVM.ViewModel
                         RestoreDefaultValues();
                         return;
                     }
-
-                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
 
@@ -92,19 +88,19 @@ namespace CLI_TImer.MVVM.ViewModel
                         RestoreDefaultValues();
                         return;
                     }
-
-                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
 
+            Properties.Settings.Default.DefaultTime = Times.TimeToSeconds(hours, minutes, seconds);
+            Properties.Settings.Default.Save();
             RestoreDefaultValues();
         }
 
         private void RestoreDefaultValues()
         {
-            hours = Times.SecondsToHours(AppDataManager.instance.GetStandardTime());
-            minutes = Times.SecondsToMinutes(AppDataManager.instance.GetStandardTime());
-            seconds = AppDataManager.instance.GetStandardTime() % 60;
+            hours = Times.SecondsToHours(Properties.Settings.Default.DefaultTime);
+            minutes = Times.SecondsToMinutes(Properties.Settings.Default.DefaultTime);
+            seconds = Properties.Settings.Default.DefaultTime % 60;
 
             HoursText = hours + " h";
             MinutesText = minutes + " m";

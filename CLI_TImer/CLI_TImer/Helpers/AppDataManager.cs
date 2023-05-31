@@ -59,9 +59,8 @@ namespace CLI_TImer.Helpers
 
             if(appData is null) 
             {
-                LoadDefaultppData();
+                LoadDefaultAppData();
             }
-            { }
         }
 
         private void SaveAppData()
@@ -69,19 +68,14 @@ namespace CLI_TImer.Helpers
             File.WriteAllText(path, JSONSerializer.DataToJSON(appData));
         }
 
-        private void LoadDefaultppData()
+        private void LoadDefaultAppData()
         {
             appData = new();
 
             appData.profileList = new List<Profile>
-                {
+            {
                     new Profile { Name="work", Commands = new string[] { "work" }, Answer = "we are now working", Time = 2700, TimerType = TimerType.main, RingtoneDuration = 10, RingtoneEnabled = true, RingtonePath = "", NotificationText = "Your work time is over", NotificationEnabled = true },
                     new Profile { Name="pause", Commands = new string[] { "break", "pause" }, Answer = "taking a break", Time = 1200, TimerType = TimerType.second, RingtoneDuration = 10, RingtoneEnabled = true, RingtonePath = "", NotificationText = "Your break is over, let's get back!", NotificationEnabled = true}
-                };
-
-            appData.settings = new Settings()
-            {
-                standardTime=0
             };
 
             appData.gradientList = new List<Gradient>
@@ -120,18 +114,6 @@ namespace CLI_TImer.Helpers
         internal List<Profile> GetProfileList() => appData.profileList;
 
         #endregion
-
-        #region StandardTime
-        internal int GetStandardTime() => appData.settings.standardTime;
-
-        internal void SetStandardTime(int time)
-        {
-            appData.settings.standardTime = time;
-            SaveAppData();
-        }
-
-        #endregion
-
     }
 }
 

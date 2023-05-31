@@ -67,7 +67,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
             Dispatcher= Dispatcher.CurrentDispatcher;
 
-            int standardTime = AppDataManager.instance.GetStandardTime();
+            int standardTime = Properties.Settings.Default.DefaultTime;
 
             timer.setMainTimer(standardTime);
             
@@ -165,7 +165,7 @@ namespace CLI_TImer.MVVM.ViewModel
         private void CheckCommand(string _command)
         {
             int hours, minutes, seconds;
-            hours = seconds = minutes = 0;
+            hours = seconds = minutes = 0;  
             string[]? command = _command.Split(' ');           
 
             string? answer = "";

@@ -28,8 +28,6 @@ namespace CLI_TImer.Helpers
         {
             string jsonString = JsonSerializer.Serialize(data.profileList);
             jsonString += "&&";
-            jsonString += JsonSerializer.Serialize(data.settings);
-            jsonString += "&&";
             jsonString += JsonSerializer.Serialize(data.gradientList);
             return jsonString;
         }
@@ -40,8 +38,7 @@ namespace CLI_TImer.Helpers
             string dataString = jsonString;
 
             data.profileList = JsonSerializer.Deserialize<List<Profile>>(dataString.Split("&&")[0]);
-            data.settings = JsonSerializer.Deserialize<Settings>(dataString.Split("&&")[1]);
-            data.gradientList = JsonSerializer.Deserialize<List<Gradient>>(dataString.Split("&&")[2]);
+            data.gradientList = JsonSerializer.Deserialize<List<Gradient>>(dataString.Split("&&")[1]);
 
             return data;
         }

@@ -11,8 +11,6 @@ namespace CLI_TImer.MVVM.Model
     {
         internal List<Profile> profileList { get; set; } = new();
 
-        internal List<Gradient> gradientList { get; set; } = new();
-        internal Settings settings { get; set; } = new();
-         
+        internal List<Gradient> gradientList { get; set; } = new();         
     }
 }
