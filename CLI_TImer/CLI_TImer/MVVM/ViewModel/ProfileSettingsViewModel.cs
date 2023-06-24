@@ -48,11 +48,11 @@ namespace CLI_TImer.MVVM.ViewModel
                 p.Answer = profile.Answer;
                 p.TimerType = profile.TimerType;
 
-                p.Hours = $"{Times.SecondsToHours(profile.Time)} h";
-                p.Minutes = $"{Times.SecondsToMinutes(profile.Time)} m";
+                p.Hours = $"{TimeConverter.SecondsToHours(profile.Time)} h";
+                p.Minutes = $"{TimeConverter.SecondsToMinutes(profile.Time)} m";
                 p.Seconds = $"{profile.Time % 60} s";
 
-                p.RingtoneMinutes = $"{Times.SecondsToMinutes(profile.RingtoneDuration)} m";
+                p.RingtoneMinutes = $"{TimeConverter.SecondsToMinutes(profile.RingtoneDuration)} m";
                 p.RingtoneSeconds = $"{profile.RingtoneDuration % 60} s";
 
                 p.RingtonePath = profile.RingtonePath;
@@ -83,9 +83,9 @@ namespace CLI_TImer.MVVM.ViewModel
                 profile.Name = p.Name;
                 profile.Answer = p.Answer;
                 profile.TimerType = p.TimerType;
-                profile.Time = Times.TimeToSeconds(p.hours, p.minutes, p.seconds);
+                profile.Time = TimeConverter.TimeToSeconds(p.hours, p.minutes, p.seconds);
                 profile.RingtonePath = p.RingtonePath;
-                profile.RingtoneDuration = Times.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
+                profile.RingtoneDuration = TimeConverter.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
                 profile.RingtoneEnabled = p.RingtoneEnabled; 
                 profile.NotificationText = p.NotificationText;
                 profile.NotificationEnabled = p.NotificationEnabled;
@@ -177,8 +177,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 if (m > 60)
                 {
-                    int s = Times.MinutesToSeconds(m);
-                    m = Times.SecondsToMinutes(s);
+                    int s = TimeConverter.MinutesToSeconds(m);
+                    m = TimeConverter.SecondsToMinutes(s);
                 }
                 minutes = m;
             }
@@ -236,8 +236,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 if (m > 60)
                 {
-                    int s = Times.MinutesToSeconds(m);
-                    m = Times.SecondsToMinutes(s);
+                    int s = TimeConverter.MinutesToSeconds(m);
+                    m = TimeConverter.SecondsToMinutes(s);
                 }
                 ringtoneMinutes = m;
             }

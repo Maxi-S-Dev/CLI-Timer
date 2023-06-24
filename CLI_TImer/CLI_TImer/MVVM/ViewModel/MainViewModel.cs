@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Uwp.Notifications;
+using CLI_TImer.Utils;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -24,7 +25,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
         //Settings
         SettingsWindow settingsWindow;
-        SoundPlayer soundPlayer = new();
 
         [ObservableProperty]
         public string? mainTimerText;
@@ -103,11 +103,11 @@ namespace CLI_TImer.MVVM.ViewModel
             if(mainRunningProfile.RingtoneEnabled == false) return;
             if (string.IsNullOrEmpty(mainRunningProfile.RingtonePath))
             {
-                soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
             }
             else
             {
-                soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
             }
 
             if(mainRunningProfile.NotificationEnabled == true) 
@@ -129,11 +129,11 @@ namespace CLI_TImer.MVVM.ViewModel
             if(secondaryRunningProfile.RingtoneEnabled == false) return;
             if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
             {
-                soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
             }
             else
             {
-                soundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
             }
 
             if(secondaryRunningProfile.NotificationEnabled == true) 

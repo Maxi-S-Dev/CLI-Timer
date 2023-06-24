@@ -9,24 +9,18 @@ using System.Diagnostics;
 using System.Windows.Threading;
 using CLI_TImer.Helpers;
 
-namespace CLI_TImer.Classes
+namespace CLI_TImer.Utils
 {
-    public class SoundPlayer
+    public static class SoundPlayer
     {
-        bool playingAudio = false;
-        MediaPlayer media;
-        DispatcherTimer playTime;
+        static bool playingAudio = false;
+        public static MediaPlayer media = new MediaPlayer();
+        private static DispatcherTimer playTime = new DispatcherTimer();
 
-        public SoundPlayer()
+        public static void playSound(string path, int duration = 0)
         {
-            media = new MediaPlayer();
             media.MediaEnded += (sender, eventarges) => Media_Ended();
-            playTime = new DispatcherTimer();
             playTime.Tick += new EventHandler(StopMedia);
-        }
-
-        public void playSound(string path, int duration = 0)
-        {
             playTime.Interval = new TimeSpan(0, 0, duration);
             playingAudio = true;
             media.Open(new Uri(path));
@@ -34,17 +28,18 @@ namespace CLI_TImer.Classes
             playTime.Start();
         }
 
-        private void StopMedia(object? sender, EventArgs e)
+        private static void StopMedia(object? sender, EventArgs e)
         {
+            media.MediaEnded -= (sender, eventarges) => Media_Ended();
+            playTime.Tick -= new EventHandler(StopMedia);
             playTime.Stop();
             media.Stop();
             media.Close();
             playingAudio = false;
         }
 
-        private void Media_Ended()
+        private static void Media_Ended()
         {
-            Trace.WriteLine("Hi");
             media.Position = TimeSpan.Zero;
             media.Play();
         }

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\
 CLI_TImer
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\App.xaml
 10-1616739825
 
-30684520668
-204343540596
+30-437103892
+204387544478
 Controls\SwitchStyle.xaml;MVVM\View\GernalSettingsView.xaml;MVVM\View\MainWindow.xaml;MVVM\View\PalettSettingsView.xaml;MVVM\View\ProfileSettingsView.xaml;MVVM\View\SettingsWindow.xaml;MVVM\View\SoundSettingsView.xaml;Themes\Generic.xaml;Themes\SettingStyles.xaml;Themes\Temp.xaml;
 
 False

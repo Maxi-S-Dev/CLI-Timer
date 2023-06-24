@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CLI_TImer.MVVM.Model;
+﻿using CLI_TImer.MVVM.Model;
 using CLI_TImer.Helpers;
-using System.IO;
-using System.Diagnostics;
+using CLI_TImer.Classes;
 
-namespace CLI_TImer.Classes
+namespace CLI_TImer.Utils
 {
-    internal class ProfileManager
+    public static class ProfileManager
     {
         private static AppDataManager appDataManager = AppDataManager.instance;
 
         internal static Profile? getProfileFromCommand(string command)
-        {              
-
+        {
             foreach (Profile p in appDataManager.GetProfileList())
             {
-                if (p.Name == command) return p;                
+                if (p.Name == command) return p;
             }
-
             return null;
         }
 
@@ -34,13 +25,13 @@ namespace CLI_TImer.Classes
             appDataManager.AddNewProfile(new Profile { Name = Name, Answer = answer, Time = Time, TimerType = tp });
         }
 
-        internal static void DeleteProfile(string name) 
+        internal static void DeleteProfile(string name)
         {
             Profile? p = getProfileFromCommand(name);
-            if(p is null) return;
+            if (p is null) return;
 
             appDataManager.RemoveProfile(p);
-            
+
         }
 
         internal static void UpdateProfile(string Name, string Property, string Value)
@@ -54,7 +45,7 @@ namespace CLI_TImer.Classes
             switch (Property)
             {
                 case "name":
-                    p.Name = Value; 
+                    p.Name = Value;
                     break;
 
                 case "answer":

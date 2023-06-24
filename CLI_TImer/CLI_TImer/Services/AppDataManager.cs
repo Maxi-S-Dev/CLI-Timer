@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CLI_TImer.MVVM.Model;
 using System.IO;
 using CLI_TImer.Classes;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
 
 namespace CLI_TImer.Helpers
 {

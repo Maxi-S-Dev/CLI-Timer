@@ -91,15 +91,15 @@ namespace CLI_TImer.MVVM.ViewModel
                 }
             }
 
-            Properties.Settings.Default.DefaultTime = Times.TimeToSeconds(hours, minutes, seconds);
+            Properties.Settings.Default.DefaultTime = TimeConverter.TimeToSeconds(hours, minutes, seconds);
             Properties.Settings.Default.Save();
             RestoreDefaultValues();
         }
 
         private void RestoreDefaultValues()
         {
-            hours = Times.SecondsToHours(Properties.Settings.Default.DefaultTime);
-            minutes = Times.SecondsToMinutes(Properties.Settings.Default.DefaultTime);
+            hours = TimeConverter.SecondsToHours(Properties.Settings.Default.DefaultTime);
+            minutes = TimeConverter.SecondsToMinutes(Properties.Settings.Default.DefaultTime);
             seconds = Properties.Settings.Default.DefaultTime % 60;
 
             HoursText = hours + " h";

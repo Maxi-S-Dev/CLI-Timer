@@ -1,6 +1,6 @@
 ﻿namespace CLI_TImer.Classes
 {
-    public static class Times
+    public static class TimeConverter
     {
         public static int TimeToSeconds(int hours, int minutes) => HoursToSeconds(hours) + MinutesToSeconds(minutes);
         public static int TimeToSeconds(int hours, int minutes, int seconds) => HoursToSeconds(hours) + MinutesToSeconds(minutes) + seconds;

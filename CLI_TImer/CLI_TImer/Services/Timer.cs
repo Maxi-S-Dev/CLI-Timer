@@ -1,13 +1,7 @@
-﻿using CLI_TImer.MVVM.View;
-using CLI_TImer.MVVM.ViewModel;
+﻿using CLI_TImer.MVVM.ViewModel;
 using System;
-using System.Configuration;
 using System.Windows.Threading;
 using CLI_TImer.MVVM.Model;
-using System.Media;
-using System.Windows.Media;
-using CLI_TImer.Helpers;
-using System.IO;
 
 namespace CLI_TImer.Classes
 {
@@ -20,8 +14,6 @@ namespace CLI_TImer.Classes
         private DispatcherTimer timer;
 
         private MainViewModel Vm;
-
-        private MediaPlayer player = new();
 
         public Timer(MainViewModel Vm)
         {

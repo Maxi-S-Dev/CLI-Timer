@@ -1,0 +1,33 @@
+Starting and Working with timers
+
+	[ProfileName] (runs the profile with default values)
+	[ProfileName] /t [time] (runs the profile with the given time values)
+	
+    
+
+	start / run /n [ProfileName] /t 1h 30m (starts with the currently set time; defaults to work)
+	end / stop (stops the current timer)
+	
+	add (adds a default time to the current running timer)
+	add /t [time] (adds the given time to the current timer)
+	sub (subtracts default time from timer)
+	sub /t [time] (subtracts x time from timer)
+	set /t [time]
+
+    reset
+	clear
+	close
+	help / ?
+
+
+
+	change [Name] /n [new Name]
+	change [Name] /t  [new Time]
+	
+
+Settings
+	list (lists all available profiles)
+    
+        change [Profilename] /n [newName]
+        work [ProfileName] /t [time] (changes the work time on a profile) 
+        break [ProfileName] /t [time] (changes the break time on a profile)
