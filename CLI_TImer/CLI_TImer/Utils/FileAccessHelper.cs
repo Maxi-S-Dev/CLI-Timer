@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CLI_TImer.Helpers
+namespace CLI_TImer.Utils
 {
     internal static class FileAccessHelper
     {

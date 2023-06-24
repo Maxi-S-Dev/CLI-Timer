@@ -1,21 +1,18 @@
-﻿using CLI_TImer.MVVM.Model;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
-using CLI_TImer.Classes;
-using System.Windows.Input;
-using System.IO;
-using CLI_TImer.Helpers;
-using System.Windows.Annotations;
 using System.Linq;
-using CLI_TImer.MVVM.View;
-using System.Diagnostics;
 using System.Windows.Media;
-using System.Windows.Controls;
+
 using Microsoft.Toolkit.Uwp.Notifications;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
 using CLI_TImer.Utils;
+using CLI_TImer.Services;
+using CLI_TImer.MVVM.View;
+using CLI_TImer.MVVM.Model;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -76,13 +73,13 @@ namespace CLI_TImer.MVVM.ViewModel
         #region Set Timer Text
         internal void SetMainTimerText(int time)
         {
-            MainTimerText = $"{Times.SecondsToHours(time)}h {Times.SecondsToMinutes(time)}m {time % 60}s";
+            MainTimerText = $"{TimeConverter.SecondsToHours(time)}h {TimeConverter.SecondsToMinutes(time)}m {time % 60}s";
         }
 
         internal void UpdatePauseTimerText(int seconds)
         {
             if (CommandHistory.Count == 0) return;
-            string PauseTimerText = $"{Times.SecondsToHours(seconds)}h {Times.SecondsToMinutes(seconds)}m {seconds % 60}s";
+            string PauseTimerText = $"{TimeConverter.SecondsToHours(seconds)}h {TimeConverter.SecondsToMinutes(seconds)}m {seconds % 60}s";
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -126,7 +123,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public void SecondaryTimerFinished()
         {
-            if(secondaryRunningProfile.RingtoneEnabled == false) return;
+            if (secondaryRunningProfile.RingtoneEnabled == false) return;
             if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
             {
                 SoundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
@@ -136,7 +133,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 SoundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
             }
 
-            if(secondaryRunningProfile.NotificationEnabled == true) 
+            if (secondaryRunningProfile.NotificationEnabled == true)
             {
                 new ToastContentBuilder()
                 .AddText(secondaryRunningProfile.Name + " finished")
@@ -147,10 +144,7 @@ namespace CLI_TImer.MVVM.ViewModel
                     .SetContent("Add 5m"))
                 .Show();
             }
-
         }
-
-
         #endregion
 
         //Input Commands
@@ -188,7 +182,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 if (s[^1] == 's') _=int.TryParse(s.Remove(s.Length - 1), out seconds);
             }
 
-            int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
+            int resultTime = TimeConverter.TimeToSeconds(hours, minutes, seconds);
 
             if (RunProfile(command[0], resultTime) == true) return;
 
@@ -218,7 +212,7 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "add":
-                    timer.AddSecondsToCurrentTimer(Times.TimeToSeconds(hours, minutes, seconds));
+                    timer.AddSecondsToCurrentTimer(TimeConverter.TimeToSeconds(hours, minutes, seconds));
                     answer = "added ";
                     answer +=  hours != 0 ? $"{hours}h " : "" ;
                     answer +=  minutes != 0 ? $"{minutes}m " : "";
@@ -316,7 +310,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
-            timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));
+            timer.AddSecondsToCurrentTimer(-TimeConverter.TimeToSeconds(hours, minutes, seconds));
         }
 
         private void ResetCurrentTimer() => timer.ResetCurrentTimer();

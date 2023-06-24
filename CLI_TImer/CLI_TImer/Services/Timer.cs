@@ -3,7 +3,7 @@ using System;
 using System.Windows.Threading;
 using CLI_TImer.MVVM.Model;
 
-namespace CLI_TImer.Classes
+namespace CLI_TImer.Services
 {
     public sealed class Timer
     {
@@ -115,11 +115,10 @@ namespace CLI_TImer.Classes
             setCurrentTimer(p.Time);
         }
     }
-
-    public enum TimerType
-    {
-        stop,
-        main,
-        second,
-    }
+}
+public enum TimerType
+{
+    stop,
+    main,
+    second,
 }

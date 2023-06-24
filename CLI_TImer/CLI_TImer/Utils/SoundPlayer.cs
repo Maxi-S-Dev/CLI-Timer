@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Media;
 using System.Windows.Media;
-using System.Diagnostics;
 using System.Windows.Threading;
-using CLI_TImer.Helpers;
 
 namespace CLI_TImer.Utils
 {

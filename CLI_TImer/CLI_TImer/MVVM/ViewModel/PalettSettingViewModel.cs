@@ -1,17 +1,11 @@
-﻿using CLI_TImer.Helpers;
+﻿using CLI_TImer.Services;
 using CLI_TImer.MVVM.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
+
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace CLI_TImer.MVVM.ViewModel
 {

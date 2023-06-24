@@ -1,6 +1,5 @@
 ﻿using CLI_TImer.MVVM.Model;
-using CLI_TImer.Helpers;
-using CLI_TImer.Classes;
+using CLI_TImer.Services;
 
 namespace CLI_TImer.Utils
 {

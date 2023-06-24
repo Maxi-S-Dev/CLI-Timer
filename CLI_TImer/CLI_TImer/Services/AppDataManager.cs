@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using CLI_TImer.MVVM.Model;
 using System.IO;
-using CLI_TImer.Classes;
+using CLI_TImer.Utils;
 
-namespace CLI_TImer.Helpers
+namespace CLI_TImer.Services
 {
-    public sealed class AppDataManager
+    public class AppDataManager
     {
         private static AppDataManager? appDataManager = null;
         private static readonly object padLock = new object();

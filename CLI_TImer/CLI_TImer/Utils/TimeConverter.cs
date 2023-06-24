@@ -1,4 +1,4 @@
-﻿namespace CLI_TImer.Classes
+﻿namespace CLI_TImer.Utils
 {
     public static class TimeConverter
     {
