@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CLI_TImer.MVVM.Model
+﻿namespace CLI_TImer.MVVM.Model
 {
-    internal class Profile : IProfile
+    public class Profile : IProfile
     {
         public string Name { get; set; }
         public string[] Commands { get; set; }

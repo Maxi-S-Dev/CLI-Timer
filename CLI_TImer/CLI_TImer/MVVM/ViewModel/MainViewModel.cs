@@ -59,12 +59,12 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public MainViewModel()
         {
-            timer = new(this);
+            timer = new();
             SetMainTimerText(0);
 
             Dispatcher= Dispatcher.CurrentDispatcher;
 
-            int standardTime = Properties.Settings.Default.DefaultTime;
+            int standardTime = CLI_TImer.Properties.Settings.Default.DefaultTime;
 
             timer.setMainTimer(standardTime);
             
@@ -118,7 +118,6 @@ namespace CLI_TImer.MVVM.ViewModel
                         .SetContent("Add 5m"))
                     .Show();
             }
-
         }
 
         public void SecondaryTimerFinished()
@@ -151,7 +150,8 @@ namespace CLI_TImer.MVVM.ViewModel
         [RelayCommand]
         public void Send()
         {
-            CheckCommand(EnteredCommand);
+            CommandExecutor.Execute(EnteredCommand);
+            //CheckCommand(EnteredCommand);
             EnteredCommand = "";
         }
 

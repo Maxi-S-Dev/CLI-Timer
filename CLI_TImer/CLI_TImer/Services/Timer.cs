@@ -5,26 +5,22 @@ using CLI_TImer.MVVM.Model;
 
 namespace CLI_TImer.Services
 {
-    public sealed class Timer
+    public static class Timer
     {
-        private int MainTimerSeconds = 0;
-        private int SecondTimerSeconds = 0;
+        private static int MainTimerSeconds = 0;
+        private static int SecondTimerSeconds = 0;
 
-        private TimerType? cT = TimerType.stop; 
-        private DispatcherTimer timer;
+        private static TimerType? cT = TimerType.stop;
+        private static DispatcherTimer timer = new DispatcherTimer();
 
-        private MainViewModel Vm;
+        private static MainViewModel Vm = App.MainViewModel;
 
-        public Timer(MainViewModel Vm)
+        public static Timer()
         {
-            this.Vm = Vm;
-            timer = new DispatcherTimer();
-            timer.Interval = new System.TimeSpan(0, 0, 1);
-            timer.Tick += new EventHandler(TimerCountdown);
-            timer.Start();
+            //timer.Start();
         }
 
-        private void TimerCountdown(object? sender, EventArgs? e)
+        private static void TimerCountdown(object? sender, EventArgs? e)
         {                
             if (cT == TimerType.main)
             {
@@ -53,9 +49,9 @@ namespace CLI_TImer.Services
         }
 
         //Set the Time of the Timer
-        public void setMainTimer(int seconds) => MainTimerSeconds = seconds;
-        public void setSecondTimer(int seconds) => SecondTimerSeconds= seconds;
-        public void setCurrentTimer(int seconds)
+        public static void setMainTimer(int seconds) => MainTimerSeconds = seconds;
+        public static void setSecondTimer(int seconds) => SecondTimerSeconds= seconds;
+        public static void setCurrentTimer(int seconds)
         {
             if (cT == TimerType.main) MainTimerSeconds = seconds;
             if (cT == TimerType.second) SecondTimerSeconds= seconds;
@@ -65,7 +61,7 @@ namespace CLI_TImer.Services
         }
 
         //Add Time to Timers
-        public void AddSecondsToCurrentTimer(int seconds)
+        public static void AddSecondsToCurrentTimer(int seconds)
         {
             if (cT == TimerType.main || cT == TimerType.stop)
             {
@@ -83,33 +79,49 @@ namespace CLI_TImer.Services
         }
 
         //Reset The Timers
-        public void ResetAllTimers()
+        public static void ResetAllTimers()
         {
             MainTimerSeconds = SecondTimerSeconds = 0;
             Vm.SetMainTimerText(MainTimerSeconds);
             Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
 
-        public void ResetCurrentTimer() 
+        public static void ResetCurrentTimer() 
         {
             if (cT == TimerType.main) ResetMainTimer();
             if (cT == TimerType.second) ResetSecondTimer();
         }
-        public void ResetMainTimer() => MainTimerSeconds = 0;
-        public void ResetSecondTimer() => SecondTimerSeconds = 0;
+        public static void ResetMainTimer() => MainTimerSeconds = 0;
+        public static void ResetSecondTimer() => SecondTimerSeconds = 0;
 
         //Returns the remaining Timer Seconds
-        public int getMainTimerSeconds => MainTimerSeconds;
-        public int getSecondTimerSeconds => SecondTimerSeconds;
+        public static int getMainTimerSeconds => MainTimerSeconds;
+        public static int getSecondTimerSeconds => SecondTimerSeconds;
 
         //Starts a timer
-        public void startMain() => cT = TimerType.main;
-        public void startSecond() => cT = TimerType.second;
+        public static void StartMain()
+        {
+            timer.Interval = new TimeSpan(0, 0, 1);
+            cT = TimerType.main;
+            timer.Start();
+        }
+        public static void StartSecond()
+        {
+            StartTimer();
+            cT = TimerType.second;
+            timer.Start();
+        }
+
+        private static void StartTimer()
+        {
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Tick += new EventHandler(TimerCountdown);
+        }
 
         //Returns which timer is running
-        public TimerType? getCurrentTimer() => cT;
+        public static TimerType? getCurrentTimer() => cT;
 
-        internal void SetAndStartTimerFromProfile(Profile? p)
+        public static void SetAndStartTimerFromProfile(Profile? p)
         {
             cT = p.TimerType;
             setCurrentTimer(p.Time);
