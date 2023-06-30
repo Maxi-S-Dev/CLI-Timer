@@ -54,6 +54,8 @@ namespace CLI_TImer.Services
             {
                 LoadDefaultAppData();
             }
+
+            NewProfileManager.ProfileList = appData.profileList;
         }
 
         private void SaveAppData()

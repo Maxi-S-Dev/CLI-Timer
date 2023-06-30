@@ -7,21 +7,29 @@ namespace CLI_TImer.Services
 {
     public static class Timer
     {
+        private static int[] TimerSeconds = new int[] { 0, 0 };
+        private static int currentTimerIndex = 0;
+
         private static int MainTimerSeconds = 0;
         private static int SecondTimerSeconds = 0;
 
         private static TimerType? cT = TimerType.stop;
-        private static DispatcherTimer timer = new DispatcherTimer();
+        private static readonly DispatcherTimer dispatcher = new DispatcherTimer();
 
         private static MainViewModel Vm = App.MainViewModel;
 
-        public static Timer()
+        private static void TimerTick(object? sender, EventArgs? e)
         {
-            //timer.Start();
-        }
+            TimerSeconds[currentTimerIndex]--;
 
-        private static void TimerCountdown(object? sender, EventArgs? e)
-        {                
+            if (currentTimerIndex == 0)
+                App.MainViewModel.SetMainTimerText(TimerSeconds[currentTimerIndex]);
+
+            if (currentTimerIndex == 1)
+                App.MainViewModel.UpdatePauseTimerText(TimerSeconds[currentTimerIndex]);
+
+
+            /*
             if (cT == TimerType.main)
             {
                 MainTimerSeconds = MainTimerSeconds <= 0 ? 0: MainTimerSeconds -= 1;
@@ -45,8 +53,25 @@ namespace CLI_TImer.Services
                 Vm.UpdatePauseTimerText(SecondTimerSeconds);
                 return;
             }
-            Vm.SetMainTimerText(MainTimerSeconds);
+            Vm.SetMainTimerText(MainTimerSeconds); */
         }
+
+        public static void StartTimer(int index)
+        {
+            dispatcher.Stop();
+            dispatcher.Tick -= TimerTick;
+
+            currentTimerIndex = index;
+            dispatcher.Tick += TimerTick;
+            dispatcher.Interval = TimeSpan.FromSeconds(1);
+            dispatcher.Start();
+        }
+
+        public static void SetTimer(int value) => SetTimer(currentTimerIndex, value);
+
+        public static void SetTimer(int index, int value) => TimerSeconds[index] = value;
+        
+   
 
         //Set the Time of the Timer
         public static void setMainTimer(int seconds) => MainTimerSeconds = seconds;
@@ -59,6 +84,7 @@ namespace CLI_TImer.Services
             Vm.SetMainTimerText(MainTimerSeconds);
             Vm.UpdatePauseTimerText(SecondTimerSeconds);
         }
+
 
         //Add Time to Timers
         public static void AddSecondsToCurrentTimer(int seconds)
@@ -101,21 +127,21 @@ namespace CLI_TImer.Services
         //Starts a timer
         public static void StartMain()
         {
-            timer.Interval = new TimeSpan(0, 0, 1);
+            StartTimer();
             cT = TimerType.main;
-            timer.Start();
+            dispatcher.Start();
         }
         public static void StartSecond()
         {
             StartTimer();
             cT = TimerType.second;
-            timer.Start();
+            dispatcher.Start();
         }
 
         private static void StartTimer()
         {
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Tick += new EventHandler(TimerCountdown);
+            dispatcher.Interval = new TimeSpan(0, 0, 1);
+            dispatcher.Tick += new EventHandler(TimerTick);
         }
 
         //Returns which timer is running

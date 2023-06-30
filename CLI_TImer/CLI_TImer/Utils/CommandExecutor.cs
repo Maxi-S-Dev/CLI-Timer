@@ -1,5 +1,6 @@
 ﻿using CLI_TImer.Enums;
 using CLI_TImer.MVVM.Model;
+using CLI_TImer.Services;
 using System.Diagnostics;
 using Windows.ApplicationModel.Background;
 using Windows.UI.StartScreen;
@@ -10,33 +11,45 @@ namespace CLI_TImer.Utils
     {
         static Profile profile;
         static CommandAction? action;
-        public static string Execute(string command)
+
+        /// <summary>
+        /// Executes a given command
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static string? Execute(string command)
         {
             command = command.ToLower();
+            command = command.Replace('/', '-');
 
-            string action = command.Split(' ') [0];
+            string action = command.Split(' ')[0];
             if (string.IsNullOrWhiteSpace(action)) return Error();
 
             string? parameter = command.Replace(action, string.Empty);
 
-            switch (action) 
+            switch (action)
             {
-                case "start": return Start(parameter);
+                case "start":
+                    return Start(parameter);
 
 
-                default: return "Error";
+                case "clear":
+                    App.MainViewModel.ClearCommandHistoy();
+                    return null;
+
+                default: return Error();
             }
         }
 
         private static string Start(string parameter)
         {
             profile = new();
-            string argument = ""; 
+            Profile p;
+            string argument = "";
 
             if (string.IsNullOrWhiteSpace(parameter))
             {
-                Trace.WriteLine("Default Profile");
-                return null;
+                p = NewProfileManager.DefaultProfile;
             }
 
             for (int i = 0; i < parameter.Length; i++)
@@ -56,14 +69,36 @@ namespace CLI_TImer.Utils
 
                 argument += parameter[i];
             }
+            
+
             InterpretArgument(argument);
 
+            p = NewProfileManager.GetProfile(profile.Name);
 
-            Trace.WriteLine($"Profile Name: {profile.Name}");
-            Trace.WriteLine($"NewTime: {profile.Time}");
-            return null;
+            if (profile.Time != 0) p.Time = profile.Time;
+
+            RunProfile(p);
+
+            return p.Answer;
         }
 
+        private static void RunProfile(Profile profile)
+        {
+            if(profile.TimerType == TimerType.main)
+            {
+                Timer.SetTimer(0, profile.Time);
+                Timer.StartTimer(0);
+            }
+
+            if(profile.TimerType == TimerType.second) 
+            {
+                Timer.SetTimer(1, profile.Time);
+                Timer.StartTimer(1);
+            }
+        }
+
+
+        //Sets the action type which will be perfomed next
         private static void FindAction(char parameter)
         {
             switch(parameter) 
@@ -80,6 +115,7 @@ namespace CLI_TImer.Utils
             }
         }
 
+        //takes in an argument and does something with it depending on the current action and argument
         private static void InterpretArgument(string argument)
         {
             if (action == null) return;
@@ -97,6 +133,7 @@ namespace CLI_TImer.Utils
             }
         }
 
+        //converts a time string (2h) to an integer and adds it to the profile
         private static void TextToTime(string timeText)
         {
             if(string.IsNullOrEmpty(timeText)) return;
@@ -116,9 +153,10 @@ namespace CLI_TImer.Utils
             profile.Time += time;
         }
 
+        //Returns an error message
         private static string Error()
         {
-            return "Error";
+            return "Erro Description";
         }
     }
 }

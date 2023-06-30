@@ -47,8 +47,6 @@ namespace CLI_TImer.MVVM.ViewModel
         Profile? mainRunningProfile;
         Profile? secondaryRunningProfile;
 
-        Timer timer;
-
         Random random = new();
 
         public virtual Dispatcher Dispatcher { get; protected set; }
@@ -59,14 +57,13 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public MainViewModel()
         {
-            timer = new();
             SetMainTimerText(0);
 
             Dispatcher= Dispatcher.CurrentDispatcher;
 
             int standardTime = CLI_TImer.Properties.Settings.Default.DefaultTime;
 
-            timer.setMainTimer(standardTime);
+            Timer.setMainTimer(standardTime);
             
         }
 
@@ -150,7 +147,8 @@ namespace CLI_TImer.MVVM.ViewModel
         [RelayCommand]
         public void Send()
         {
-            CommandExecutor.Execute(EnteredCommand);
+            string? answer = CommandExecutor.Execute(EnteredCommand);
+            if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer, "");
             //CheckCommand(EnteredCommand);
             EnteredCommand = "";
         }
@@ -212,17 +210,12 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "add":
-                    timer.AddSecondsToCurrentTimer(TimeConverter.TimeToSeconds(hours, minutes, seconds));
+                    Timer.AddSecondsToCurrentTimer(TimeConverter.TimeToSeconds(hours, minutes, seconds));
                     answer = "added ";
                     answer +=  hours != 0 ? $"{hours}h " : "" ;
                     answer +=  minutes != 0 ? $"{minutes}m " : "";
                     answer +=  seconds != 0 ? $"{seconds}s " : "";
                     AddToHistory("add", answer, "");
-                    break;
-
-                case "start":
-                    timer.startMain();
-                    AddToHistory("start", "started main timer", "");
                     break;
 
                 case "subtract":
@@ -240,16 +233,12 @@ namespace CLI_TImer.MVVM.ViewModel
                     break;
 
                 case "reset":
-                    timer.ResetAllTimers();
+                    Timer.ResetAllTimers();
                     AddToHistory("reset", "reseted all timers", "");
                     break;
 
                 case "clear":
                     ClearCommandHistoy();
-                    break;
-
-                case "close":
-                    Close();
                     break;
 
                 case "settings":
@@ -264,7 +253,7 @@ namespace CLI_TImer.MVVM.ViewModel
         }
 
         //Adds a Command to the History
-        private void AddToHistory(string title, string answer, string output)
+        private void AddToHistory(string title, string? answer, string output)
         {
             int GradientNumber = random.Next(dataManager.GetGradientList().Count());
 
@@ -301,19 +290,19 @@ namespace CLI_TImer.MVVM.ViewModel
 
         private void ExecuteProfile(Profile profile)
         {
-            timer.SetAndStartTimerFromProfile(profile);
+            Timer.SetAndStartTimerFromProfile(profile);
 
             if (profile.TimerType == TimerType.second) pausePosition = CommandHistory.Count;
             AddToHistory(profile.Name, profile.Answer, "");
         }
-        private void ClearCommandHistoy() => CommandHistory.Clear();    
+        public void ClearCommandHistoy() => CommandHistory.Clear();    
 
         private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
         {
-            timer.AddSecondsToCurrentTimer(-TimeConverter.TimeToSeconds(hours, minutes, seconds));
+            Timer.AddSecondsToCurrentTimer(-TimeConverter.TimeToSeconds(hours, minutes, seconds));
         }
 
-        private void ResetCurrentTimer() => timer.ResetCurrentTimer();
+        private void ResetCurrentTimer() => Timer.ResetCurrentTimer();
 
         #endregion
 
