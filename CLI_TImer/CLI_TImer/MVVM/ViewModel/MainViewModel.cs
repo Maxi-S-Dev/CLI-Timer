@@ -30,6 +30,10 @@ namespace CLI_Timer.MVVM.ViewModel
         [ObservableProperty]
         public string secondaryTimerText = "";
 
+        [ObservableProperty]
+        public string thirdTimerText = "";
+
+
         public string PauseTimerText = "";
 
         //Inputs
@@ -64,6 +68,7 @@ namespace CLI_Timer.MVVM.ViewModel
         {
             PrimaryTimerText = $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[0])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[0])}m {Timer.TimerSeconds[0] % 60}s";
             SecondaryTimerText = Timer.TimerSeconds[1] == 0 ? "" : $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[1])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[1])}m {Timer.TimerSeconds[1] % 60}s";
+            ThirdTimerText = Timer.TimerSeconds[2] == 0 ? "" : $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[2])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[2])}m {Timer.TimerSeconds[2] % 60}s";
         }
 
         public void MainTimerFinished()

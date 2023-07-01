@@ -6,7 +6,7 @@ namespace CLI_Timer.Services
     public static class Timer
     {
 
-        private static int[] timerSeconds = new int[] { 0, 0};
+        private static int[] timerSeconds = new int[] { 0, 0, 0};
         public static int[] TimerSeconds
         {
             get => timerSeconds;
@@ -79,5 +79,5 @@ public enum TimerType
 {
     primary, 
     secondary,
-    third,
+    third
 }
