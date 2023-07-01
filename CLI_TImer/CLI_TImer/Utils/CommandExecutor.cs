@@ -1,7 +1,10 @@
 ﻿using CLI_TImer.Enums;
 using CLI_TImer.MVVM.Model;
 using CLI_TImer.Services;
+using System.Configuration;
 using System.Diagnostics;
+using System.Reflection.Metadata;
+using Windows.ApplicationModel.Appointments.AppointmentsProvider;
 using Windows.ApplicationModel.Background;
 using Windows.UI.StartScreen;
 
@@ -19,6 +22,8 @@ namespace CLI_TImer.Utils
         /// <returns></returns>
         public static string? Execute(string command)
         {
+            profile = new();
+
             command = command.ToLower();
             command = command.Replace('/', '-');
 
@@ -32,6 +37,15 @@ namespace CLI_TImer.Utils
                 case "start":
                     return Start(parameter);
 
+                case "add":
+                    return Add(parameter);
+
+                case "sub":
+                    return Sub(parameter);
+
+                case "reset":
+                    return ResetTimer(parameter);
+
 
                 case "clear":
                     App.MainViewModel.ClearCommandHistoy();
@@ -43,15 +57,59 @@ namespace CLI_TImer.Utils
 
         private static string Start(string parameter)
         {
-            profile = new();
             Profile p;
-            string argument = "";
 
             if (string.IsNullOrWhiteSpace(parameter))
             {
                 p = NewProfileManager.DefaultProfile;
             }
 
+            AnalyseParameters(parameter);
+            
+
+            p = NewProfileManager.GetProfile(profile.Name);
+
+            if (profile.Time != 0) p.Time = profile.Time;
+
+            RunProfile(p);
+
+            return p.Answer;
+        }
+
+        private static string Add(string parameter)
+        {
+            AnalyseParameters(parameter);
+
+            int timeToAdd = profile.Time == 0 ? 300 : profile.Time;
+
+            Timer.AddTime(0, timeToAdd);
+
+            return $"Added {timeToAdd} seconds";
+        }
+
+        private static string Sub(string parameter)
+        {
+            AnalyseParameters(parameter);
+
+            int timeToTake = profile.Time == 0 ? 300 : profile.Time;
+
+            if(!Timer.AddTime(0, -timeToTake))
+            {
+                return $"Failed to remove {timeToTake} seconds";
+            }
+
+            return $"Removed {timeToTake} seconds";
+        }
+
+        private static string ResetTimer(string parameter)
+        {
+            Timer.Reset();
+            return "Reset all Timers";
+        }
+
+        private static void AnalyseParameters(string parameter)
+        {
+            string argument = "";
             for (int i = 0; i < parameter.Length; i++)
             {
                 if (char.IsWhiteSpace(parameter[i]))
@@ -69,17 +127,8 @@ namespace CLI_TImer.Utils
 
                 argument += parameter[i];
             }
-            
 
             InterpretArgument(argument);
-
-            p = NewProfileManager.GetProfile(profile.Name);
-
-            if (profile.Time != 0) p.Time = profile.Time;
-
-            RunProfile(p);
-
-            return p.Answer;
         }
 
         private static void RunProfile(Profile profile)

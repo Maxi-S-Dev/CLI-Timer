@@ -63,8 +63,12 @@ namespace CLI_TImer.MVVM.ViewModel
 
             int standardTime = CLI_TImer.Properties.Settings.Default.DefaultTime;
 
-            Timer.setMainTimer(standardTime);
-            
+            Timer.SetTimer(standardTime);
+        }
+
+        public void UpdateTimers()
+        {
+            MainTimerText = $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[0])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[0])}m {Timer.TimerSeconds[0] % 60}s";
         }
 
         #region Set Timer Text
@@ -182,9 +186,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
             int resultTime = TimeConverter.TimeToSeconds(hours, minutes, seconds);
 
-            if (RunProfile(command[0], resultTime) == true) return;
-
-
             switch(command[0])
             {
                 case "new":
@@ -209,23 +210,6 @@ namespace CLI_TImer.MVVM.ViewModel
                     AddToHistory("delete Profile", $"deleted {command[1]}", "");
                     break;
 
-                case "add":
-                    Timer.AddSecondsToCurrentTimer(TimeConverter.TimeToSeconds(hours, minutes, seconds));
-                    answer = "added ";
-                    answer +=  hours != 0 ? $"{hours}h " : "" ;
-                    answer +=  minutes != 0 ? $"{minutes}m " : "";
-                    answer +=  seconds != 0 ? $"{seconds}s " : "";
-                    AddToHistory("add", answer, "");
-                    break;
-
-                case "subtract":
-                    SubtractTimeFromCurrentTimer(hours, minutes, seconds);
-                    answer = "subtracted ";
-                    answer +=  hours != 0 ? $"{hours}h " : "";
-                    answer +=  minutes != 0 ? $"{minutes}m " : "";
-                    answer +=  seconds != 0 ? $"{seconds}s " : "";
-                    AddToHistory("subtract", answer, "");
-                    break;
 
                 case "end":
                     ResetCurrentTimer();
@@ -235,10 +219,6 @@ namespace CLI_TImer.MVVM.ViewModel
                 case "reset":
                     Timer.ResetAllTimers();
                     AddToHistory("reset", "reseted all timers", "");
-                    break;
-
-                case "clear":
-                    ClearCommandHistoy();
                     break;
 
                 case "settings":
@@ -271,36 +251,7 @@ namespace CLI_TImer.MVVM.ViewModel
 
 
         //Profile
-        private bool RunProfile(string command, int time)
-        {
-            if (selectedProfile == ProfileManager.getProfileFromCommand(command)) return false;
-
-            selectedProfile = ProfileManager.getProfileFromCommand(command);
-
-            if(selectedProfile == null) return false;
-
-            if (time != 0) selectedProfile.Time = time;
-
-            if(selectedProfile.TimerType == TimerType.main) mainRunningProfile = selectedProfile;
-            if(selectedProfile.TimerType == TimerType.second) secondaryRunningProfile = selectedProfile;
-
-            ExecuteProfile(selectedProfile);
-            return true;
-        }
-
-        private void ExecuteProfile(Profile profile)
-        {
-            Timer.SetAndStartTimerFromProfile(profile);
-
-            if (profile.TimerType == TimerType.second) pausePosition = CommandHistory.Count;
-            AddToHistory(profile.Name, profile.Answer, "");
-        }
-        public void ClearCommandHistoy() => CommandHistory.Clear();    
-
-        private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
-        {
-            Timer.AddSecondsToCurrentTimer(-TimeConverter.TimeToSeconds(hours, minutes, seconds));
-        }
+        public void ClearCommandHistoy() => CommandHistory.Clear();     
 
         private void ResetCurrentTimer() => Timer.ResetCurrentTimer();
 

@@ -7,26 +7,36 @@ namespace CLI_TImer.Services
 {
     public static class Timer
     {
-        private static int[] TimerSeconds = new int[] { 0, 0 };
+
+        private static int[] timerSeconds = new int[] { 0, 0 };
+        public static int[] TimerSeconds
+        {
+            get => timerSeconds;
+            private set 
+            { 
+                timerSeconds = value;
+                
+            }
+        }
         private static int currentTimerIndex = 0;
 
         private static int MainTimerSeconds = 0;
         private static int SecondTimerSeconds = 0;
 
         private static TimerType? cT = TimerType.stop;
-        private static readonly DispatcherTimer dispatcher = new DispatcherTimer();
+        public static readonly DispatcherTimer dispatcher = new DispatcherTimer();
 
         private static MainViewModel Vm = App.MainViewModel;
 
         private static void TimerTick(object? sender, EventArgs? e)
         {
-            TimerSeconds[currentTimerIndex]--;
+            timerSeconds[currentTimerIndex]--;
 
             if (currentTimerIndex == 0)
-                App.MainViewModel.SetMainTimerText(TimerSeconds[currentTimerIndex]);
+                App.MainViewModel.SetMainTimerText(timerSeconds[currentTimerIndex]);
 
             if (currentTimerIndex == 1)
-                App.MainViewModel.UpdatePauseTimerText(TimerSeconds[currentTimerIndex]);
+                App.MainViewModel.UpdatePauseTimerText(timerSeconds[currentTimerIndex]);
 
 
             /*
@@ -67,15 +77,42 @@ namespace CLI_TImer.Services
             dispatcher.Start();
         }
 
+        #region SetTimer
         public static void SetTimer(int value) => SetTimer(currentTimerIndex, value);
 
-        public static void SetTimer(int index, int value) => TimerSeconds[index] = value;
-        
-   
+        public static void SetTimer(int index, int value) => timerSeconds[index] = value;
+        #endregion
 
-        //Set the Time of the Timer
-        public static void setMainTimer(int seconds) => MainTimerSeconds = seconds;
-        public static void setSecondTimer(int seconds) => SecondTimerSeconds= seconds;
+        #region addOrSubtractTime
+
+        public static bool AddTime(int index, int value)
+        {
+            if(-value > timerSeconds[index]) return false;
+            timerSeconds[index] += value;
+            App.MainViewModel.UpdateTimers();
+            return true;
+        }
+
+        public static void Reset()
+        {
+            timerSeconds[0] = 0;
+            timerSeconds[1] = 0;
+            App.MainViewModel.UpdateTimers();
+        }
+
+        public static void Reset(int index)
+        {
+            timerSeconds[index] = 0;
+            App.MainViewModel.UpdateTimers();
+        }
+
+        
+
+        #endregion
+
+        //OLD SHIT
+        //---------------------------------------------------------------------------------------------------------
+
         public static void setCurrentTimer(int seconds)
         {
             if (cT == TimerType.main) MainTimerSeconds = seconds;
