@@ -69,8 +69,8 @@ namespace CLI_TImer.Services
 
             appData.profileList = new List<Profile>
             {
-                    new Profile { Name="work", Commands = new string[] { "work" }, Answer = "we are now working", Time = 2700, TimerType = TimerType.main, RingtoneDuration = 10, RingtoneEnabled = true, RingtonePath = "", NotificationText = "Your work time is over", NotificationEnabled = true },
-                    new Profile { Name="pause", Commands = new string[] { "break", "pause" }, Answer = "taking a break", Time = 1200, TimerType = TimerType.second, RingtoneDuration = 10, RingtoneEnabled = true, RingtonePath = "", NotificationText = "Your break is over, let's get back!", NotificationEnabled = true}
+                    new Profile { Name="work", Commands = new string[] { "work" }, Answer = "we are now working", Time = 2700, TimerType = TimerType.primary, RingtoneDuration = 10, RingtoneEnabled = true, RingtonePath = "", NotificationText = "Your work time is over", NotificationEnabled = true },
+                    new Profile { Name="pause", Commands = new string[] { "break", "pause" }, Answer = "taking a break", Time = 1200, TimerType = TimerType.secondary, RingtoneDuration = 10, RingtoneEnabled = true, RingtonePath = "", NotificationText = "Your break is over, let's get back!", NotificationEnabled = true}
             };
 
             appData.gradientList = new List<Gradient>

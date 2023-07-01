@@ -16,21 +16,12 @@ namespace CLI_TImer.Utils
             return null;
         }
 
-        internal static void AddNewProfile(string Name, string answer, int Time, string Type)
-        {
-            TimerType tp = TimerType.main;
-            if (Type == "second") tp = TimerType.second;
-
-            appDataManager.AddNewProfile(new Profile { Name = Name, Answer = answer, Time = Time, TimerType = tp });
-        }
-
         internal static void DeleteProfile(string name)
         {
             Profile? p = getProfileFromCommand(name);
             if (p is null) return;
 
             appDataManager.RemoveProfile(p);
-
         }
 
         internal static void UpdateProfile(string Name, string Property, string Value)

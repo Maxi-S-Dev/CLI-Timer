@@ -13,6 +13,7 @@ using CLI_TImer.Utils;
 using CLI_TImer.Services;
 using CLI_TImer.MVVM.View;
 using CLI_TImer.MVVM.Model;
+using System.Diagnostics;
 
 namespace CLI_TImer.MVVM.ViewModel
 {
@@ -24,7 +25,10 @@ namespace CLI_TImer.MVVM.ViewModel
         SettingsWindow settingsWindow;
 
         [ObservableProperty]
-        public string? mainTimerText;
+        public string primaryTimerText = "0h 0m 0s";
+
+        [ObservableProperty]
+        public string secondaryTimerText = "";
 
         public string PauseTimerText = "";
 
@@ -39,11 +43,7 @@ namespace CLI_TImer.MVVM.ViewModel
         //Code
         private int pausePosition;
 
-        //private int hours = 0;
-        //private int minutes = 0;
-        //private int seconds = 0;
 
-        Profile? selectedProfile;
         Profile? mainRunningProfile;
         Profile? secondaryRunningProfile;
 
@@ -57,43 +57,13 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public MainViewModel()
         {
-            SetMainTimerText(0);
-
-            Dispatcher= Dispatcher.CurrentDispatcher;
-
-            int standardTime = CLI_TImer.Properties.Settings.Default.DefaultTime;
-
-            Timer.SetTimer(standardTime);
+            Timer.SetTimer(Properties.Settings.Default.DefaultTime);
         }
 
         public void UpdateTimers()
         {
-            MainTimerText = $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[0])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[0])}m {Timer.TimerSeconds[0] % 60}s";
-        }
-
-        #region Set Timer Text
-        internal void SetMainTimerText(int time)
-        {
-            MainTimerText = $"{TimeConverter.SecondsToHours(time)}h {TimeConverter.SecondsToMinutes(time)}m {time % 60}s";
-        }
-
-        internal void UpdatePauseTimerText(int seconds)
-        {
-            if (CommandHistory.Count == 0) return;
-            string PauseTimerText = $"{TimeConverter.SecondsToHours(seconds)}h {TimeConverter.SecondsToMinutes(seconds)}m {seconds % 60}s";
-
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                Command latestPause = CommandHistory[pausePosition];
-
-                CommandHistory.Remove(latestPause);
-
-                latestPause.output = PauseTimerText;
-
-                CommandHistory.Add(latestPause);
-
-                CommandHistory.Move(CommandHistory.Count -1, pausePosition);
-            }));
+            PrimaryTimerText = $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[0])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[0])}m {Timer.TimerSeconds[0] % 60}s";
+            SecondaryTimerText = Timer.TimerSeconds[1] == 0 ? "" : $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[1])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[1])}m {Timer.TimerSeconds[1] % 60}s";
         }
 
         public void MainTimerFinished()
@@ -145,7 +115,7 @@ namespace CLI_TImer.MVVM.ViewModel
                 .Show();
             }
         }
-        #endregion
+
 
         //Input Commands
         [RelayCommand]
@@ -153,7 +123,6 @@ namespace CLI_TImer.MVVM.ViewModel
         {
             string? answer = CommandExecutor.Execute(EnteredCommand);
             if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer, "");
-            //CheckCommand(EnteredCommand);
             EnteredCommand = "";
         }
 
@@ -189,7 +158,7 @@ namespace CLI_TImer.MVVM.ViewModel
             switch(command[0])
             {
                 case "new":
-                    ProfileManager.AddNewProfile(command[1], answer, resultTime, command[command.Length - 1]);
+                    //ProfileManager.AddNewProfile(command[1], answer, resultTime, command[command.Length - 1]);
                     AddToHistory("new Command", $"added '{command[1]}' to command List", "");
                     break;
 
@@ -208,17 +177,6 @@ namespace CLI_TImer.MVVM.ViewModel
                 case "delete":
                     ProfileManager.DeleteProfile(command[1]);
                     AddToHistory("delete Profile", $"deleted {command[1]}", "");
-                    break;
-
-
-                case "end":
-                    ResetCurrentTimer();
-                    AddToHistory("end", "stopped current timer", "");
-                    break;
-
-                case "reset":
-                    Timer.ResetAllTimers();
-                    AddToHistory("reset", "reseted all timers", "");
                     break;
 
                 case "settings":
@@ -252,9 +210,6 @@ namespace CLI_TImer.MVVM.ViewModel
 
         //Profile
         public void ClearCommandHistoy() => CommandHistory.Clear();     
-
-        private void ResetCurrentTimer() => Timer.ResetCurrentTimer();
-
         #endregion
 
         #region AppBehaviour

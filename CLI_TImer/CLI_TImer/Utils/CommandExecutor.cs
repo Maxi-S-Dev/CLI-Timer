@@ -70,6 +70,7 @@ namespace CLI_TImer.Utils
             p = NewProfileManager.GetProfile(profile.Name);
 
             if (profile.Time != 0) p.Time = profile.Time;
+            if (profile.TimerType != null) p.TimerType = profile.TimerType; 
 
             RunProfile(p);
 
@@ -81,21 +82,57 @@ namespace CLI_TImer.Utils
             AnalyseParameters(parameter);
 
             int timeToAdd = profile.Time == 0 ? 300 : profile.Time;
+            
+            if(profile.TimerType == TimerType.primary)
+            {
+                Timer.AddTime(0, timeToAdd);
 
-            Timer.AddTime(0, timeToAdd);
+                return $"Added {timeToAdd} seconds";
+            }
 
-            return $"Added {timeToAdd} seconds";
+            if (profile.TimerType == TimerType.secondary)
+            {
+                Timer.AddTime(1, timeToAdd);
+
+                return $"Added {timeToAdd} seconds";
+            }
+
+            if (profile.TimerType == TimerType.third)
+            {
+                Timer.AddTime(2, timeToAdd);
+
+                return $"Added {timeToAdd} seconds";
+            }
+
+            return "error";
         }
 
         private static string Sub(string parameter)
         {
             AnalyseParameters(parameter);
 
-            int timeToTake = profile.Time == 0 ? 300 : profile.Time;
+            int timeToTake = profile.Time == 0 ? -300 : -profile.Time;
 
-            if(!Timer.AddTime(0, -timeToTake))
+            if (profile.TimerType == TimerType.primary)
             {
-                return $"Failed to remove {timeToTake} seconds";
+                if (!Timer.AddTime(0, timeToTake)) return $"Failed to remove {timeToTake} seconds";
+
+                return $"Removed {timeToTake} seconds";
+            }
+
+            if (profile.TimerType == TimerType.secondary)
+            {
+                if (!Timer.AddTime(1, timeToTake)) return $"Failed to remove {timeToTake} seconds";
+
+                return $"Removed {timeToTake} seconds";
+            }
+
+            if (profile.TimerType == TimerType.third)
+            {
+                if (!Timer.AddTime(2, timeToTake)) return $"Failed to remove {timeToTake} seconds";
+                
+
+                return $"Removed {timeToTake} seconds";
             }
 
             return $"Removed {timeToTake} seconds";
@@ -133,21 +170,30 @@ namespace CLI_TImer.Utils
 
         private static void RunProfile(Profile profile)
         {
-            if(profile.TimerType == TimerType.main)
+            if(profile.TimerType == TimerType.primary)
             {
                 Timer.SetTimer(0, profile.Time);
                 Timer.StartTimer(0);
+                return;
             }
 
-            if(profile.TimerType == TimerType.second) 
+            if(profile.TimerType == TimerType.secondary) 
             {
                 Timer.SetTimer(1, profile.Time);
                 Timer.StartTimer(1);
+                return;
+            }
+
+            if (profile.TimerType == TimerType.third)
+            {
+                Timer.SetTimer(2, profile.Time);
+                Timer.StartTimer(2);
+                return;
             }
         }
 
 
-        //Sets the action type which will be perfomed next
+        //Sets the action type which will be performed next
         private static void FindAction(char parameter)
         {
             switch(parameter) 
@@ -161,6 +207,19 @@ namespace CLI_TImer.Utils
                     action = CommandAction.Name;
                     Trace.WriteLine("setting name");
                     break;
+
+                case 'p':
+                    profile.TimerType = TimerType.primary;
+                    break;
+
+                case 's':
+                    profile.TimerType = TimerType.secondary;
+                    break;
+
+                case 'h':
+                    profile.TimerType = TimerType.third;
+                    break;
+                   
             }
         }
 
