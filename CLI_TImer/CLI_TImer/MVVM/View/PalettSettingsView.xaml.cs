@@ -1,4 +1,4 @@
-﻿using CLI_TImer.MVVM.ViewModel;
+﻿using CLI_Timer.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CLI_TImer.MVVM.View
+namespace CLI_Timer.MVVM.View
 {
     /// <summary>
     /// Interaktionslogik für PalettSettingsView.xaml

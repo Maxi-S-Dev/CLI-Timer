@@ -1,7 +1,7 @@
-﻿using CLI_TImer.MVVM.Model;
+﻿using CLI_Timer.MVVM.Model;
 using System.Collections.Generic;
 
-namespace CLI_TImer.Utils
+namespace CLI_Timer.Utils
 {
     //ToDo
     //Save after changes

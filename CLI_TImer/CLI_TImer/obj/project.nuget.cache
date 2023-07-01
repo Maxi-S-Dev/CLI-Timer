@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RQADfC9C7NyryneJS/5yw5ryoJDa6NbCFM21R3FPXTrB02WEwhV2uoXPATFToQSFV0RKOIX0yv1r3fmHgG5YIw==",
+  "dgSpecHash": "Eszj3tEKNXW3eLPcH38ZUEr0d9RueLPlPOdswTc8BGUMvMO9pEMX/WFtQO0qVDijK+4g/34/SfAX7PhC6hjZSg==",
   "success": true,
-  "projectFilePath": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
+  "projectFilePath": "C:\\Github\\CLI-Timer\\CLI_Timer\\CLI_TImer\\CLI_Timer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\max03\\.nuget\\packages\\communitytoolkit.mvvm\\8.2.0\\communitytoolkit.mvvm.8.2.0.nupkg.sha512",
     "C:\\Users\\max03\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",

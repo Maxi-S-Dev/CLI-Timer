@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace CLI_TImer.Converters
+namespace CLI_Timer.Converters
 {
     public class HexToBrushConverter : IValueConverter
     {

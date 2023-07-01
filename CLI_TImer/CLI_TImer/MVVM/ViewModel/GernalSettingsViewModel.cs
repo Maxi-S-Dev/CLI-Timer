@@ -5,9 +5,9 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using IWshRuntimeLibrary;
 
-using CLI_TImer.Utils;
+using CLI_Timer.Utils;
 
-namespace CLI_TImer.MVVM.ViewModel
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class GernalSettingsViewModel: ObservableObject
     {

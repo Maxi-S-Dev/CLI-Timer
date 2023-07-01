@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace CLI_TImer.MVVM.Model
+namespace CLI_Timer.MVVM.Model
 {
     public class Gradient : INotifyPropertyChanged
     {

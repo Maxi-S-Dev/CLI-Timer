@@ -1,7 +1,7 @@
-﻿using CLI_TImer.MVVM.Model;
-using CLI_TImer.Services;
+﻿using CLI_Timer.MVVM.Model;
+using CLI_Timer.Services;
 
-namespace CLI_TImer.Utils
+namespace CLI_Timer.Utils
 {
     public static class ProfileManager
     {

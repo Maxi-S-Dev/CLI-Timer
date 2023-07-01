@@ -1,6 +1,6 @@
-﻿using CLI_TImer.Enums;
-using CLI_TImer.MVVM.Model;
-using CLI_TImer.Services;
+﻿using CLI_Timer.Enums;
+using CLI_Timer.MVVM.Model;
+using CLI_Timer.Services;
 using System.Configuration;
 using System.Diagnostics;
 using System.Reflection.Metadata;
@@ -8,7 +8,7 @@ using Windows.ApplicationModel.Appointments.AppointmentsProvider;
 using Windows.ApplicationModel.Background;
 using Windows.UI.StartScreen;
 
-namespace CLI_TImer.Utils
+namespace CLI_Timer.Utils
 {
     public static class CommandExecutor
     {

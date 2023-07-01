@@ -1,4 +1,4 @@
-﻿namespace CLI_TImer.MVVM.Model
+﻿namespace CLI_Timer.MVVM.Model
 {
     public class Timers
     {

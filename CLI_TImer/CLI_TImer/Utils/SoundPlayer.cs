@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace CLI_TImer.Utils
+namespace CLI_Timer.Utils
 {
     public static class SoundPlayer
     {

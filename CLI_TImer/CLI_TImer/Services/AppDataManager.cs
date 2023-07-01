@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using CLI_TImer.MVVM.Model;
+using CLI_Timer.MVVM.Model;
 using System.IO;
-using CLI_TImer.Utils;
+using CLI_Timer.Utils;
 
-namespace CLI_TImer.Services
+namespace CLI_Timer.Services
 {
     public class AppDataManager
     {

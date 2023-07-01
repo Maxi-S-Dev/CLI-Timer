@@ -1,14 +1,12 @@
-﻿using CLI_TImer.MVVM.ViewModel;
-using System;
+﻿using System;
 using System.Windows.Threading;
-using CLI_TImer.MVVM.Model;
 
-namespace CLI_TImer.Services
+namespace CLI_Timer.Services
 {
     public static class Timer
     {
 
-        private static int[] timerSeconds = new int[] { 0, 0 };
+        private static int[] timerSeconds = new int[] { 0, 0};
         public static int[] TimerSeconds
         {
             get => timerSeconds;
@@ -20,8 +18,6 @@ namespace CLI_TImer.Services
         private static int currentTimerIndex = 0;
 
         public static readonly DispatcherTimer dispatcher = new DispatcherTimer();
-
-        private static MainViewModel Vm = App.MainViewModel;
 
         private static void TimerTick(object? sender, EventArgs? e)
         {

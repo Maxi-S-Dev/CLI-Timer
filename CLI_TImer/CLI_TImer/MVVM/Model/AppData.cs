@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLI_TImer.MVVM.Model
+namespace CLI_Timer.MVVM.Model
 {
     internal class AppData
     {

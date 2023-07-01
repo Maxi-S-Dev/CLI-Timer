@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
 
-namespace CLI_TImer.Controls
+namespace CLI_Timer.Controls
 {
     [TemplatePart(Name = "TriggerElement", Type = typeof(Button))]
     [TemplateVisualState(Name = "Toggled", GroupName = "ValueStates")]

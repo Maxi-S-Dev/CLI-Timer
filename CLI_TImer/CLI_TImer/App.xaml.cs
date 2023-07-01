@@ -1,8 +1,8 @@
-﻿using CLI_TImer.MVVM.ViewModel;
+﻿using CLI_Timer.MVVM.ViewModel;
 using System.Windows;
 
 
-namespace CLI_TImer
+namespace CLI_Timer
 {
     public partial class App : Application
     {

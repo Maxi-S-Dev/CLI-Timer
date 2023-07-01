@@ -1,4 +1,4 @@
-﻿namespace CLI_TImer.Enums
+﻿namespace CLI_Timer.Enums
 {
     public enum CommandAction
     {

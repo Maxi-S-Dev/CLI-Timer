@@ -9,12 +9,12 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
-using CLI_TImer.MVVM.Model;
-using CLI_TImer.Services;
-using CLI_TImer.Utils;
+using CLI_Timer.MVVM.Model;
+using CLI_Timer.Services;
+using CLI_Timer.Utils;
 
 
-namespace CLI_TImer.MVVM.ViewModel
+namespace CLI_Timer.MVVM.ViewModel
 {
     internal partial class ProfileSettingsViewModel : ObservableObject
     {

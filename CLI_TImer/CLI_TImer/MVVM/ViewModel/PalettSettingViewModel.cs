@@ -1,5 +1,5 @@
-﻿using CLI_TImer.Services;
-using CLI_TImer.MVVM.Model;
+﻿using CLI_Timer.Services;
+using CLI_Timer.MVVM.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace CLI_TImer.MVVM.ViewModel
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class PalettSettingViewModel : ObservableObject
     {

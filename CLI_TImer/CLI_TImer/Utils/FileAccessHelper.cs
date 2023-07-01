@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace CLI_TImer.Utils
+namespace CLI_Timer.Utils
 {
     internal static class FileAccessHelper
     {

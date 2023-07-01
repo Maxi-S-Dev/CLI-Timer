@@ -6,14 +6,14 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v7.0": {
-      "CLI_TImer/0.2.1": {
+      "CLI_Timer/0.2.1": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.2.0",
           "Microsoft.Toolkit.Uwp.Notifications": "7.1.3",
           "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.17763.28"
         },
         "runtime": {
-          "CLI_TImer.dll": {}
+          "CLI_Timer.dll": {}
         }
       },
       "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.17763.28": {
@@ -80,7 +80,7 @@
     }
   },
   "libraries": {
-    "CLI_TImer/0.2.1": {
+    "CLI_Timer/0.2.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

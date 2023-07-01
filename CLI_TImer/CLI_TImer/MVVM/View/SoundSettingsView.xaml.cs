@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CLI_TImer.MVVM.View
+namespace CLI_Timer.MVVM.View
 {
     /// <summary>
     /// Interaktionslogik für SoundSettingsView.xaml

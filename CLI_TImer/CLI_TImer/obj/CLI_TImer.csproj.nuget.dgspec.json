@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj": {}
+    "C:\\Github\\CLI-Timer\\CLI_Timer\\CLI_TImer\\CLI_Timer.csproj": {}
   },
   "projects": {
-    "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj": {
+    "C:\\Github\\CLI-Timer\\CLI_Timer\\CLI_TImer\\CLI_Timer.csproj": {
       "version": "0.2.1",
       "restore": {
-        "projectUniqueName": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
-        "projectName": "CLI_TImer",
-        "projectPath": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
+        "projectUniqueName": "C:\\Github\\CLI-Timer\\CLI_Timer\\CLI_TImer\\CLI_Timer.csproj",
+        "projectName": "CLI_Timer",
+        "projectPath": "C:\\Github\\CLI-Timer\\CLI_Timer\\CLI_TImer\\CLI_Timer.csproj",
         "packagesPath": "C:\\Users\\max03\\.nuget\\packages\\",
-        "outputPath": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\obj\\",
+        "outputPath": "C:\\Github\\CLI-Timer\\CLI_Timer\\CLI_TImer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

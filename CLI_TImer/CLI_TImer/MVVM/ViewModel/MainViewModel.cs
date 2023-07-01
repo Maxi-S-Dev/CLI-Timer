@@ -9,13 +9,13 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using CLI_TImer.Utils;
-using CLI_TImer.Services;
-using CLI_TImer.MVVM.View;
-using CLI_TImer.MVVM.Model;
-using System.Diagnostics;
+using CLI_Timer.Utils;
+using CLI_Timer.Services;
+using CLI_Timer.MVVM.View;
+using CLI_Timer.MVVM.Model;
 
-namespace CLI_TImer.MVVM.ViewModel
+
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
