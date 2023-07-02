@@ -39,6 +39,22 @@ namespace CLI_Timer.Utils
             //Save
         }
 
+        public static string UpdateProfile(Profile profile)
+        {
+            Profile? p = ProfileList.Find(x => x.Name == profile.Name);
+
+            if (p is null) return "Profile not found";
+
+            p.Name = profile.Name;
+            p.Time = profile.Time > 0 ? profile.Time : p.Time;
+            p.TimerType = profile.TimerType is not null ? profile.TimerType : p.TimerType;
+
+            ProfileList.Remove(p);
+            ProfileList.Add(p);
+
+            return "Updated Profile";
+        }
+
         public static Profile? GetProfile(string name) 
         {
             foreach(Profile p in ProfileList)

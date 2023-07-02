@@ -61,6 +61,13 @@ namespace CLI_Timer.Utils
                 case "delete":
                     return Delete(parameter);
 
+                case "use":
+                    return Use(parameter);
+
+                case "close":
+                    MainViewModel.Close();
+                    return null;
+
                 default: return Error();
             }
         }
@@ -197,6 +204,15 @@ namespace CLI_Timer.Utils
             return NewProfileManager.RemoveProfile(profile);
         }
 
+        private static string Use(string parameter)
+        {
+            AnalyseParameters(parameter);
+
+            if (string.IsNullOrEmpty(profile.Name)) return "Please enter a Name";
+
+            return NewProfileManager.UpdateProfile(profile);
+        }
+
         private static void AnalyseParameters(string parameter)
         {
             string argument = "";
@@ -325,7 +341,7 @@ namespace CLI_Timer.Utils
         //Returns an error message
         private static string Error()
         {
-            return "Erro Description";
+            return "Error Description";
         }
     }
 }

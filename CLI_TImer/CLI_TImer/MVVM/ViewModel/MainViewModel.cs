@@ -127,57 +127,14 @@ namespace CLI_Timer.MVVM.ViewModel
         public void Send()
         {
             string? answer = CommandExecutor.Execute(EnteredCommand);
-            if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer, "");
+            if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer);
             EnteredCommand = "";
         }
 
         #region commands
-        private void CheckCommand(string _command)
-        {
-            int hours, minutes, seconds;
-            hours = seconds = minutes = 0;  
-            string[]? command = _command.Split(' ');           
-
-            string? answer = "";
-
-
-            if (_command.Split("'").Length == 3)
-            {
-                answer = _command.Split("'")[1];
-            }
-            else if (_command.Split('"').Length == 3)
-            {
-                answer = _command.Split('"')[1];
-            }
-
-            foreach (string s in command)
-            {
-                if (string.IsNullOrEmpty(s)) break;
-                if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
-                if (s[^1] == 'm') _=int.TryParse(s.Remove(s.Length-1), out minutes);
-                if (s[^1] == 's') _=int.TryParse(s.Remove(s.Length - 1), out seconds);
-            }
-
-            int resultTime = TimeConverter.TimeToSeconds(hours, minutes, seconds);
-
-            switch(command[0])
-            {
-                case "change":
-                    
-                    if (command[2] == "time")
-                    {
-                        ProfileManager.UpdateProfile(command[1], resultTime);
-                        AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
-                        break;
-                    }
-                    ProfileManager.UpdateProfile(command[1], command[2], command[3]);
-                    AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
-                    break;
-            }
-        }
 
         //Adds a Command to the History
-        private void AddToHistory(string title, string? answer, string output)
+        private void AddToHistory(string title, string? answer)
         {
             int GradientNumber = random.Next(dataManager.GetGradientList().Count());
 
@@ -190,7 +147,7 @@ namespace CLI_Timer.MVVM.ViewModel
                 new GradientStop(Color.FromRgb((byte)((EndRgb >> 16) & 0xFF), (byte)((EndRgb >> 8) & 0xFF), (byte)(EndRgb& 0xFF)), 1)
             };
 
-            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = gradientStopCollection});
+            CommandHistory.Add(new Command { title = title, answer = answer, gradientStops = gradientStopCollection});
         }
 
 

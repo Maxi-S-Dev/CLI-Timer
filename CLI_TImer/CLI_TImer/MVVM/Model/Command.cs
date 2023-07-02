@@ -6,8 +6,6 @@ namespace CLI_Timer.MVVM.Model
     {
         public string? title { get; set; }
         public string? answer{ get; set; }
-        public string? output { get; set; }
-
 
         public GradientStopCollection? gradientStops { get; set; }
     }
