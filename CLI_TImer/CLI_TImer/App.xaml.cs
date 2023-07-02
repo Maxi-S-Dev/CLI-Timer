@@ -10,6 +10,7 @@ namespace CLI_Timer
 
         public App() 
         {
+            InitializeComponent();
         }
     }
 }

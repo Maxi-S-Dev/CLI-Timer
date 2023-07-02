@@ -603,11 +603,11 @@
   "project": {
     "version": "0.2.1",
     "restore": {
-      "projectUniqueName": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
-      "projectName": "CLI_TImer",
-      "projectPath": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
+      "projectUniqueName": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_Timer.csproj",
+      "projectName": "CLI_Timer",
+      "projectPath": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_Timer.csproj",
       "packagesPath": "C:\\Users\\max03\\.nuget\\packages\\",
-      "outputPath": "C:\\Github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\obj\\",
+      "outputPath": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
