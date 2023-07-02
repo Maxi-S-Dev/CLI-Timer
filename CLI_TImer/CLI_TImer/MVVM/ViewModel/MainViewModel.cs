@@ -162,11 +162,6 @@ namespace CLI_Timer.MVVM.ViewModel
 
             switch(command[0])
             {
-                case "new":
-                    //ProfileManager.AddNewProfile(command[1], answer, resultTime, command[command.Length - 1]);
-                    AddToHistory("new Command", $"added '{command[1]}' to command List", "");
-                    break;
-
                 case "change":
                     
                     if (command[2] == "time")
@@ -177,20 +172,6 @@ namespace CLI_Timer.MVVM.ViewModel
                     }
                     ProfileManager.UpdateProfile(command[1], command[2], command[3]);
                     AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
-                    break;
-
-                case "delete":
-                    ProfileManager.DeleteProfile(command[1]);
-                    AddToHistory("delete Profile", $"deleted {command[1]}", "");
-                    break;
-
-                case "settings":
-                    settingsWindow = new SettingsWindow();
-                    settingsWindow.Show();
-                    break;
-
-                default:
-                    AddToHistory("Error", "unknown Command", "");
                     break;
             }
         }
@@ -214,7 +195,14 @@ namespace CLI_Timer.MVVM.ViewModel
 
 
         //Profile
-        public void ClearCommandHistoy() => CommandHistory.Clear();     
+        public void ClearCommandHistoy() => CommandHistory.Clear();    
+        
+        public void OpenSettingsWindow()
+        {
+            if (settingsWindow == null) settingsWindow = new();
+
+            settingsWindow.Show();
+        }
         #endregion
 
         #region AppBehaviour

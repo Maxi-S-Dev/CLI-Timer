@@ -127,8 +127,8 @@ namespace CLI_Timer.MVVM.ViewModel
         public string Name { get; set; } = "";
         public string Answer { get; set; } = "";
 
-        TimerType _type;
-        public TimerType TimerType
+        TimerType? _type;
+        public TimerType? TimerType
         {
             get { return _type; }
             set

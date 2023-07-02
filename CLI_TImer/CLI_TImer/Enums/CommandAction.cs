@@ -2,6 +2,8 @@
 {
     public enum CommandAction
     {
-        Name, Time
+        Name, 
+        Time,
+        Answer
     }
 }

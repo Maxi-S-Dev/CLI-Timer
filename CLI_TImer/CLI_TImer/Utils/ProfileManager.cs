@@ -8,10 +8,10 @@ namespace CLI_Timer.Utils
     //Default Profile
     public static class NewProfileManager
     {
-        public static List<Profile>? ProfileList { get; set; }
+        public static List<Profile> ProfileList { get; set; } = new();
         public static Profile DefaultProfile { get; set; } = new Profile();
 
-        private static string AddProfile(Profile profile)
+        public static string AddProfile(Profile profile)
         {
             foreach(Profile p in ProfileList)
             {
@@ -27,11 +27,13 @@ namespace CLI_Timer.Utils
             return "Profile successfully added";
         }
 
-        private static string RemoveProfile(Profile profile) 
+        public static string RemoveProfile(Profile profile) 
         {
-            if (!ProfileList.Contains(profile)) return "Profile does not exist";
+            Profile? p = ProfileList.Find(x => x.Name == profile.Name);
 
-            ProfileList.Remove(profile);
+            if (p is null) return "Profile does not exist";
+
+            ProfileList.Remove(p);
             return "Profile Successfully deleted";
 
             //Save
@@ -43,7 +45,6 @@ namespace CLI_Timer.Utils
             {
                 if(p.Name == name) return p;
             }
-
             return new();
         }
     }

@@ -4,6 +4,7 @@ using CLI_Timer.Services;
 using System.Configuration;
 using System.Diagnostics;
 using System.Reflection.Metadata;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Appointments.AppointmentsProvider;
 using Windows.ApplicationModel.Background;
 using Windows.UI.StartScreen;
@@ -46,10 +47,19 @@ namespace CLI_Timer.Utils
                 case "reset":
                     return ResetTimer(parameter);
 
-
                 case "clear":
                     App.MainViewModel.ClearCommandHistoy();
                     return null;
+
+                case "settings":
+                    App.MainViewModel.OpenSettingsWindow();
+                    return null;
+
+                case "new":
+                    return New(parameter);
+
+                case "delete":
+                    return Delete(parameter);
 
                 default: return Error();
             }
@@ -168,6 +178,25 @@ namespace CLI_Timer.Utils
             return "Error";
         }
 
+        private static string New(string parameter)
+        {
+            AnalyseParameters(parameter);
+
+            if (string.IsNullOrEmpty(profile.Name)) return "Please Enter a Name";
+            if (profile.Time == 0) return "Please Enter a Time";
+
+            return NewProfileManager.AddProfile(profile);
+        }
+
+        private static string Delete(string parameter)
+        {
+            AnalyseParameters(parameter);
+
+            if (string.IsNullOrEmpty(profile.Name)) return "Please enter a name";
+
+            return NewProfileManager.RemoveProfile(profile);
+        }
+
         private static void AnalyseParameters(string parameter)
         {
             string argument = "";
@@ -192,25 +221,25 @@ namespace CLI_Timer.Utils
             InterpretArgument(argument);
         }
 
-        private static void RunProfile(Profile profile)
+        private static void RunProfile(Profile p)
         {
-            if(profile.TimerType == TimerType.primary)
+            if(p.TimerType == TimerType.primary)
             {
-                if(profile.Time > 0 ) Timer.SetTimer(0, profile.Time);
+                if(p.Time > 0 ) Timer.SetTimer(0, p.Time);
                 Timer.StartTimer(0);
                 return;
             }
 
-            if(profile.TimerType == TimerType.secondary) 
+            if(p.TimerType == TimerType.secondary) 
             {
-                if (profile.Time > 0) Timer.SetTimer(1, profile.Time);
+                if (p.Time > 0) Timer.SetTimer(1, p.Time);
                 Timer.StartTimer(1);
                 return;
             }
 
-            if (profile.TimerType == TimerType.third)
+            if (p.TimerType == TimerType.third)
             {
-                if (profile.Time > 0) Timer.SetTimer(2, profile.Time);
+                if (p.Time > 0) Timer.SetTimer(2, p.Time);
                 Timer.StartTimer(2);
                 return;
             }
@@ -243,6 +272,10 @@ namespace CLI_Timer.Utils
                 case 'h':
                     profile.TimerType = TimerType.third;
                     break;
+
+                case 'a':
+                    action = CommandAction.Answer;
+                    break;
                    
             }
         }
@@ -262,10 +295,14 @@ namespace CLI_Timer.Utils
                 case CommandAction.Time:
                     TextToTime(argument);
                     break;
+
+                case CommandAction.Answer:
+                    profile.Answer = argument;
+                    break;
             }
         }
 
-        //converts a time string (2h) to an integer and adds it to the profile
+        //converts a time string (2h) to an integer and adds it to the p
         private static void TextToTime(string timeText)
         {
             if(string.IsNullOrEmpty(timeText)) return;
