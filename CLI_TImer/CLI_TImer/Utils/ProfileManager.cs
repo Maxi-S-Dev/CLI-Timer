@@ -1,15 +1,17 @@
 ﻿using CLI_Timer.MVVM.Model;
+using CLI_Timer.Services;
 using System.Collections.Generic;
 
 namespace CLI_Timer.Utils
 {
     //ToDo
-    //Save after changes
     //Default Profile
-    public static class NewProfileManager
+    public static class ProfileManager
     {
         public static List<Profile> ProfileList { get; set; } = new();
         public static Profile DefaultProfile { get; set; } = new Profile();
+
+        private static AppDataManager appDataManager = AppDataManager.instance;
 
         public static string AddProfile(Profile profile)
         {
@@ -23,7 +25,8 @@ namespace CLI_Timer.Utils
 
             ProfileList.Add(profile);
 
-            //Save
+            appDataManager.SetProfileList(ProfileList);
+
             return "Profile successfully added";
         }
 
@@ -34,9 +37,10 @@ namespace CLI_Timer.Utils
             if (p is null) return "Profile does not exist";
 
             ProfileList.Remove(p);
-            return "Profile Successfully deleted";
 
-            //Save
+            appDataManager.SetProfileList(ProfileList);
+
+            return "Profile Successfully deleted";
         }
 
         public static string UpdateProfile(Profile profile)
@@ -51,6 +55,8 @@ namespace CLI_Timer.Utils
 
             ProfileList.Remove(p);
             ProfileList.Add(p);
+
+            appDataManager.SetProfileList(ProfileList);
 
             return "Updated Profile";
         }

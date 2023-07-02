@@ -79,13 +79,13 @@ namespace CLI_Timer.Utils
 
             if (string.IsNullOrWhiteSpace(parameter))
             {
-                p = NewProfileManager.DefaultProfile;
+                p = ProfileManager.DefaultProfile;
             }
 
             AnalyseParameters(parameter);
             
 
-            p = NewProfileManager.GetProfile(profile.Name);
+            p = ProfileManager.GetProfile(profile.Name);
 
             if (profile.Time != 0) p.Time = profile.Time;
             if (profile.TimerType != null) p.TimerType = profile.TimerType; 
@@ -193,7 +193,7 @@ namespace CLI_Timer.Utils
             if (string.IsNullOrEmpty(profile.Name)) return "Please Enter a Name";
             if (profile.Time == 0) return "Please Enter a Time";
 
-            return NewProfileManager.AddProfile(profile);
+            return ProfileManager.AddProfile(profile);
         }
 
         private static string Delete(string parameter)
@@ -202,7 +202,7 @@ namespace CLI_Timer.Utils
 
             if (string.IsNullOrEmpty(profile.Name)) return "Please enter a name";
 
-            return NewProfileManager.RemoveProfile(profile);
+            return ProfileManager.RemoveProfile(profile);
         }
 
         private static string Use(string parameter)
@@ -211,7 +211,7 @@ namespace CLI_Timer.Utils
 
             if (string.IsNullOrEmpty(profile.Name)) return "Please enter a Name";
 
-            return NewProfileManager.UpdateProfile(profile);
+            return ProfileManager.UpdateProfile(profile);
         }
 
         private static void AnalyseParameters(string parameter)

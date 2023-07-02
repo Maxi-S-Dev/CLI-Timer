@@ -55,7 +55,7 @@ namespace CLI_Timer.Services
                 LoadDefaultAppData();
             }
 
-            NewProfileManager.ProfileList = appData.profileList;
+            ProfileManager.ProfileList = appData.profileList;
         }
 
         private void SaveAppData()
@@ -88,18 +88,6 @@ namespace CLI_Timer.Services
         #endregion
 
         #region Profile List
-        internal void RemoveProfile(Profile profile)
-        {
-            appData.profileList.Remove(profile);
-            SaveAppData();
-        }
-
-        internal void AddNewProfile(Profile profile)
-        {
-            appData.profileList.Add(profile);
-            SaveAppData();
-        }
-
         internal void SetProfileList(List<Profile> profileList) 
         { 
             appData.profileList = profileList;
