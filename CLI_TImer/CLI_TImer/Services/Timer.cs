@@ -21,9 +21,20 @@ namespace CLI_Timer.Services
 
         private static void TimerTick(object? sender, EventArgs? e)
         {
-            timerSeconds[currentTimerIndex]--;
+            if (timerSeconds[currentTimerIndex] > 0)
+            {
+                timerSeconds[currentTimerIndex]--;
+                App.MainViewModel.UpdateTimers();
+                return;
+            }
 
-            App.MainViewModel.UpdateTimers();
+            dispatcher.Stop();
+
+            if (currentTimerIndex > 0)
+            {
+                currentTimerIndex--;
+                StartTimer(currentTimerIndex);
+            }
         }
 
         public static void StartTimer(int index)

@@ -140,8 +140,32 @@ namespace CLI_Timer.Utils
 
         private static string ResetTimer(string parameter)
         {
-            Timer.Reset();
-            return "Reset all Timers";
+            if (string.IsNullOrEmpty(parameter))
+            {
+                Timer.Reset();
+                return "Reset all Timers";
+            }
+            
+            AnalyseParameters(parameter);
+
+            if(profile.TimerType == TimerType.primary)
+            {
+                Timer.Reset(0);
+                return "Reset primary";
+            }
+
+            if (profile.TimerType == TimerType.secondary)
+            {
+                Timer.Reset(1);
+                return "Reset secondary";
+            }
+
+            if (profile.TimerType == TimerType.third)
+            {
+                Timer.Reset(2);
+                return "Reset hidden";
+            }
+            return "Error";
         }
 
         private static void AnalyseParameters(string parameter)
@@ -172,21 +196,21 @@ namespace CLI_Timer.Utils
         {
             if(profile.TimerType == TimerType.primary)
             {
-                Timer.SetTimer(0, profile.Time);
+                if(profile.Time > 0 ) Timer.SetTimer(0, profile.Time);
                 Timer.StartTimer(0);
                 return;
             }
 
             if(profile.TimerType == TimerType.secondary) 
             {
-                Timer.SetTimer(1, profile.Time);
+                if (profile.Time > 0) Timer.SetTimer(1, profile.Time);
                 Timer.StartTimer(1);
                 return;
             }
 
             if (profile.TimerType == TimerType.third)
             {
-                Timer.SetTimer(2, profile.Time);
+                if (profile.Time > 0) Timer.SetTimer(2, profile.Time);
                 Timer.StartTimer(2);
                 return;
             }

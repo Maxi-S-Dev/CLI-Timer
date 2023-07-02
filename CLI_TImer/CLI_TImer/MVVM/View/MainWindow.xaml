@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CLI_Timer.MVVM.View"
         mc:Ignorable="d"
         Height="250"
         Width="450"
@@ -24,25 +23,30 @@
                     CornerRadius="10, 10, 0, 0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown">
 
-                <Button Style="{DynamicResource CloseButtonStyle}" HorizontalAlignment="Right"
+                <Button Style="{DynamicResource CloseButtonStyle}"
+                        HorizontalAlignment="Right"
                         Width="40"
                         Background="Transparent"
                         BorderBrush="Transparent"
                         Command="{Binding CloseCommand}">
 
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-                        <Canvas Name="svg12" Width="48" Height="48">
-                            <Canvas.Resources/>
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path10" Fill="White">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             Stretch="Uniform">
+                        <Canvas Name="svg12"
+                                Width="48"
+                                Height="48">
+                            <Canvas.Resources />
+                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                  Name="path10"
+                                  Fill="White">
                                 <Path.Data>
-                                    <PathGeometry Figures="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z" FillRule="NonZero"/>
+                                    <PathGeometry Figures="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
+                                                  FillRule="NonZero" />
                                 </Path.Data>
                             </Path>
                         </Canvas>
                     </Viewbox>
-
                 </Button>
-                
             </Border>
 
             <!--List and Bottom Part-->
@@ -54,11 +58,9 @@
                       Margin="0, 20, 0, 5">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
-
 
                     <ListView ItemsSource="{Binding CommandHistory}"
                               Background="Transparent"
@@ -80,7 +82,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text=">"
-                                                   Style="{StaticResource Pointer}"/>
+                                                   Style="{StaticResource Pointer}" />
 
 
                                         <TextBlock Text="{Binding title}"
@@ -88,7 +90,7 @@
                                                    Foreground="{StaticResource PrimaryTextColor}"
                                                    VerticalAlignment="Center"
                                                    FontSize="16"
-                                                   Margin="7, 0, 0, 0"/>
+                                                   Margin="7, 0, 0, 0" />
 
                                     </StackPanel>
 
@@ -99,18 +101,18 @@
                                                    Text="{Binding answer}">
 
                                             <TextBlock.Foreground>
-                                                <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
+                                                <LinearGradientBrush GradientStops="{Binding gradientStops}" />
                                             </TextBlock.Foreground>
 
                                         </TextBlock>
 
-                                        <TextBlock FontSize="14" 
+                                        <TextBlock FontSize="14"
                                                    Foreground="{StaticResource SecondaryTextColor}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{Binding output}"
                                                    Margin="15, 0, 0, 0"
-                                                   Style="{StaticResource Output}"/>
+                                                   Style="{StaticResource Output}" />
 
                                     </StackPanel>
 
@@ -124,7 +126,7 @@
 
                             <ItemsPanelTemplate>
 
-                                <StackPanel VerticalAlignment="Bottom"/>
+                                <StackPanel VerticalAlignment="Bottom" />
 
                             </ItemsPanelTemplate>
 
@@ -144,23 +146,24 @@
                         <TextBlock FontSize="14"
                                    Foreground="White"
                                    Text="{Binding ThirdTimerText}"
-                                   Style="{StaticResource Output}" />
+                                   Style="{StaticResource Output}"
+                                   Margin="0, 0, 0, 5" />
+                        <!-- -->
 
                         <TextBlock FontSize="14"
                                    Foreground="White"
                                    Text="{Binding SecondaryTimerText}"
                                    Style="{StaticResource Output}"
-                                   Margin="0, 0, 0, 10"
-                                   Grid.Row="1"/>
-
+                                   Margin="0, 0, 0, 0"
+                                   Grid.Row="1" />
                     </Grid>
 
                     <!--Bottom Part-->
 
-                    <StackPanel Margin="0, 0, 0, 10" 
-                                VerticalAlignment="Bottom" 
+                    <StackPanel Margin="0, 0, 0, 10"
+                                VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left"
-                                Orientation="Horizontal" 
+                                Orientation="Horizontal"
                                 Grid.Row="1">
 
 
@@ -176,13 +179,12 @@
                             <TextBox.InputBindings>
 
                                 <KeyBinding Key="Enter"
-                                            Command="{Binding SendCommand}"/>
-
+                                            Command="{Binding SendCommand}" />
+                                
                             </TextBox.InputBindings>
-
                         </TextBox>
 
-<!--
+                        <!--
 
                         <Border Background="{StaticResource SecondaryColor}"
                                 Width="300"
@@ -208,17 +210,16 @@
                             </TextBox>
                         </Border> -->
 
-                        <TextBlock FontSize="14" 
+                        <TextBlock FontSize="14"
                                    Foreground="{StaticResource SecondaryTextColor}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Text="{Binding PrimaryTimerText}"
                                    Margin="15, 0, 0, 0"
-                                   Style="{StaticResource Output}"/>
+                                   Style="{StaticResource Output}" />
 
                     </StackPanel>
                 </Grid>
-
             </Border>
         </StackPanel>
     </Border>
