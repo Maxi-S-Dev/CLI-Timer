@@ -1,5 +1,6 @@
 ﻿using CLI_Timer.Enums;
 using CLI_Timer.MVVM.Model;
+using CLI_Timer.MVVM.ViewModel;
 using CLI_Timer.Services;
 using System.Configuration;
 using System.Diagnostics;
@@ -48,7 +49,7 @@ namespace CLI_Timer.Utils
                     return ResetTimer(parameter);
 
                 case "clear":
-                    App.MainViewModel.ClearCommandHistoy();
+                    App.MainViewModel.ClearCommandHistory();
                     return null;
 
                 case "settings":
@@ -243,6 +244,7 @@ namespace CLI_Timer.Utils
             {
                 if(p.Time > 0 ) Timer.SetTimer(0, p.Time);
                 Timer.StartTimer(0);
+                App.MainViewModel.PrimaryRunningProfile = p;
                 return;
             }
 
@@ -250,6 +252,7 @@ namespace CLI_Timer.Utils
             {
                 if (p.Time > 0) Timer.SetTimer(1, p.Time);
                 Timer.StartTimer(1);
+                App.MainViewModel.SecondaryRunningProfile = p;
                 return;
             }
 
@@ -257,6 +260,7 @@ namespace CLI_Timer.Utils
             {
                 if (p.Time > 0) Timer.SetTimer(2, p.Time);
                 Timer.StartTimer(2);
+                App.MainViewModel.ThirdRunningProfile = p;
                 return;
             }
         }

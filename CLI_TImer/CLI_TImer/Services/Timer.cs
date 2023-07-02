@@ -18,6 +18,8 @@ namespace CLI_Timer.Services
 
         public static readonly DispatcherTimer dispatcher = new DispatcherTimer();
 
+        private static bool timerRunning = false;
+
         private static void TimerTick(object? sender, EventArgs? e)
         {
             if (timerSeconds[currentTimerIndex] > 0)
@@ -27,6 +29,9 @@ namespace CLI_Timer.Services
                 return;
             }
 
+            if(timerRunning) App.MainViewModel.TimerFinished(currentTimerIndex);
+
+            timerRunning = false;
             dispatcher.Stop();
 
             if (currentTimerIndex > 0)
@@ -46,6 +51,7 @@ namespace CLI_Timer.Services
             dispatcher.Tick += TimerTick;
             dispatcher.Interval = TimeSpan.FromSeconds(1);
             dispatcher.Start();
+            timerRunning = true;
         }
 
         #region Set Timer

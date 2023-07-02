@@ -13,7 +13,7 @@ using CLI_Timer.Utils;
 using CLI_Timer.Services;
 using CLI_Timer.MVVM.View;
 using CLI_Timer.MVVM.Model;
-
+using System.Net.Http.Headers;
 
 namespace CLI_Timer.MVVM.ViewModel
 {
@@ -34,8 +34,6 @@ namespace CLI_Timer.MVVM.ViewModel
         public string thirdTimerText = "";
 
 
-        public string PauseTimerText = "";
-
         //Inputs
         [ObservableProperty]
         public string enteredCommand = string.Empty;
@@ -45,15 +43,11 @@ namespace CLI_Timer.MVVM.ViewModel
 
 
         //Code
-        private int pausePosition;
-
-
-        Profile? mainRunningProfile;
-        Profile? secondaryRunningProfile;
+        public Profile? PrimaryRunningProfile;
+        public Profile? SecondaryRunningProfile;
+        public Profile? ThirdRunningProfile;
 
         Random random = new();
-
-        public virtual Dispatcher Dispatcher { get; protected set; }
 
         AppDataManager dataManager = AppDataManager.instance;
 
@@ -71,23 +65,62 @@ namespace CLI_Timer.MVVM.ViewModel
             ThirdTimerText = Timer.TimerSeconds[2] == 0 ? "" : $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[2])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[2])}m {Timer.TimerSeconds[2] % 60}s";
         }
 
+        public void TimerFinished(int index)
+        {
+            Profile? finProfile = null;
+            switch(index)
+            {
+                case 0:
+                    finProfile = PrimaryRunningProfile; 
+                    break;
+
+                case 1:
+                    finProfile = SecondaryRunningProfile;
+                    break;
+
+                case 2:
+                    finProfile = ThirdRunningProfile;
+                    break;
+            }
+
+            if (finProfile is null) return;
+
+            if (finProfile.TimerType == TimerType.primary) finProfile.RingtonePath = @"C://Windows/Media/Alarm08.wav";
+            if (finProfile.TimerType == TimerType.secondary) finProfile.RingtonePath = @"C://Windows/Media/Alarm04.wav";
+            if (finProfile.TimerType == TimerType.third) finProfile.RingtonePath = @"C://Windows/Media/Alarm01.wav";
+
+            if (finProfile.RingtoneEnabled == true) SoundPlayer.playSound(finProfile.RingtonePath, finProfile.RingtoneDuration);
+            
+            if (finProfile.NotificationEnabled == true)
+            {
+                new ToastContentBuilder()
+                .AddText(finProfile.Name + " finished")
+                .AddText(finProfile.NotificationText)
+                .AddButton(new ToastButton()
+                    .SetContent("Stop"))
+                .AddButton(new ToastButton()
+                    .SetContent("Add 5m"))
+                .Show();
+            }
+        }
+
         public void MainTimerFinished()
         {
-            if(mainRunningProfile.RingtoneEnabled == false) return;
-            if (string.IsNullOrEmpty(mainRunningProfile.RingtonePath))
+            if(PrimaryRunningProfile.RingtoneEnabled == false) return;
+            if (string.IsNullOrEmpty(PrimaryRunningProfile.RingtonePath))
             {
-                SoundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", PrimaryRunningProfile.RingtoneDuration);
             }
             else
             {
-                SoundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(PrimaryRunningProfile.RingtonePath, PrimaryRunningProfile.RingtoneDuration);
             }
 
-            if(mainRunningProfile.NotificationEnabled == true) 
+            if(PrimaryRunningProfile.NotificationEnabled == true) 
             {
                 new ToastContentBuilder()
-                    .AddText(mainRunningProfile.Name + " finished")
-                    .AddText(mainRunningProfile.NotificationText)
+                    .AddText(PrimaryRunningProfile.Name + " finished")
+                    .AddText(PrimaryRunningProfile.NotificationText)
                     .AddButton(new ToastButton()
                         .SetContent("Stop"))
                     .AddButton(new ToastButton()
@@ -98,21 +131,21 @@ namespace CLI_Timer.MVVM.ViewModel
 
         public void SecondaryTimerFinished()
         {
-            if (secondaryRunningProfile.RingtoneEnabled == false) return;
-            if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
+            if (SecondaryRunningProfile.RingtoneEnabled == false) return;
+            if (string.IsNullOrEmpty(SecondaryRunningProfile.RingtonePath))
             {
-                SoundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", SecondaryRunningProfile.RingtoneDuration);
             }
             else
             {
-                SoundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
+                SoundPlayer.playSound(SecondaryRunningProfile.RingtonePath, SecondaryRunningProfile.RingtoneDuration);
             }
 
-            if (secondaryRunningProfile.NotificationEnabled == true)
+            if (SecondaryRunningProfile.NotificationEnabled == true)
             {
                 new ToastContentBuilder()
-                .AddText(secondaryRunningProfile.Name + " finished")
-                .AddText(secondaryRunningProfile.NotificationText)
+                .AddText(SecondaryRunningProfile.Name + " finished")
+                .AddText(SecondaryRunningProfile.NotificationText)
                 .AddButton(new ToastButton()
                     .SetContent("Stop"))
                 .AddButton(new ToastButton()
@@ -150,9 +183,8 @@ namespace CLI_Timer.MVVM.ViewModel
             CommandHistory.Add(new Command { title = title, answer = answer, gradientStops = gradientStopCollection});
         }
 
-
         //Profile
-        public void ClearCommandHistoy() => CommandHistory.Clear();    
+        public void ClearCommandHistory() => CommandHistory.Clear();    
         
         public void OpenSettingsWindow()
         {
