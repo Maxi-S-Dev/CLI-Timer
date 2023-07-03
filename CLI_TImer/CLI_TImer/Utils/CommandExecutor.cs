@@ -17,6 +17,8 @@ namespace CLI_Timer.Utils
         static Profile profile;
         static CommandAction? action;
 
+        private static AppDataManager dataManager = AppDataManager.instance;
+
         /// <summary>
         /// Executes a given command
         /// </summary>
@@ -46,7 +48,7 @@ namespace CLI_Timer.Utils
                     return Sub(parameter);
 
                 case "reset":
-                    return ResetTimer(parameter);
+                    return Reset(parameter);
 
                 case "clear":
                     App.MainViewModel.ClearCommandHistory();
@@ -101,25 +103,25 @@ namespace CLI_Timer.Utils
 
             int timeToAdd = profile.Time == 0 ? 300 : profile.Time;
             
-            if(profile.TimerType == TimerType.primary)
+            if(profile.TimerType == TimerType.primary || profile.TimerType == TimerType.normal)
             {
                 Timer.AddTime(0, timeToAdd);
 
-                return $"Added {timeToAdd} seconds";
+                return $"Added {TimeConverter.SecondsToTimeText(timeToAdd)}";
             }
 
             if (profile.TimerType == TimerType.secondary)
             {
                 Timer.AddTime(1, timeToAdd);
 
-                return $"Added {timeToAdd} seconds";
+                return $"Added {TimeConverter.SecondsToTimeText(timeToAdd)}";
             }
 
             if (profile.TimerType == TimerType.third)
             {
                 Timer.AddTime(2, timeToAdd);
 
-                return $"Added {timeToAdd} seconds";
+                return $"Added {TimeConverter.SecondsToTimeText(timeToAdd)}";
             }
 
             return "error";
@@ -129,35 +131,41 @@ namespace CLI_Timer.Utils
         {
             AnalyseParameters(parameter);
 
-            int timeToTake = profile.Time == 0 ? -300 : -profile.Time;
+            int timeToTake = profile.Time == 0 ? -300 : profile.Time;
 
-            if (profile.TimerType == TimerType.primary)
+            if (profile.TimerType == TimerType.primary || profile.TimerType == TimerType.normal)
             {
-                if (!Timer.AddTime(0, timeToTake)) return $"Failed to remove {timeToTake} seconds";
+                if (!Timer.AddTime(0, -timeToTake)) return $"Failed to remove {TimeConverter.SecondsToTimeText(timeToTake)}";
 
-                return $"Removed {timeToTake} seconds";
+                return $"Removed {TimeConverter.SecondsToTimeText(timeToTake)}";
             }
 
             if (profile.TimerType == TimerType.secondary)
             {
-                if (!Timer.AddTime(1, timeToTake)) return $"Failed to remove {timeToTake} seconds";
+                if (!Timer.AddTime(1, -timeToTake)) return $"Failed to remove {TimeConverter.SecondsToTimeText(timeToTake)}";
 
-                return $"Removed {timeToTake} seconds";
+                return $"Removed {TimeConverter.SecondsToTimeText(timeToTake)}";
             }
 
             if (profile.TimerType == TimerType.third)
             {
-                if (!Timer.AddTime(2, timeToTake)) return $"Failed to remove {timeToTake} seconds";
-                
+                if (!Timer.AddTime(2, -timeToTake)) return $"Failed to remove {TimeConverter.SecondsToTimeText(timeToTake)}";
 
-                return $"Removed {timeToTake} seconds";
+
+                return $"Removed {TimeConverter.SecondsToTimeText(timeToTake)}";
             }
 
-            return $"Removed {timeToTake} seconds";
+            return $"Something went wrong";
         }
 
-        private static string ResetTimer(string parameter)
+        private static string Reset(string parameter)
         {
+            if(parameter.Trim() == "config")
+            {
+                dataManager.DeleteAppData();
+                return "Restored default config";
+            }
+
             if (string.IsNullOrEmpty(parameter))
             {
                 Timer.Reset();

@@ -2,6 +2,7 @@
 using CLI_Timer.MVVM.Model;
 using System.IO;
 using CLI_Timer.Utils;
+using System.Diagnostics;
 
 namespace CLI_Timer.Services
 {
@@ -45,6 +46,13 @@ namespace CLI_Timer.Services
         #endregion
 
         #region AppData
+        public void DeleteAppData()
+        {
+            File.Delete(path);
+
+            LoadAppData();
+        }
+
         private void LoadAppData()
         {
             if (File.Exists(path))

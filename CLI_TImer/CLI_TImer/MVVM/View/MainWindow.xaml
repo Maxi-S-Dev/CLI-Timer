@@ -91,7 +91,6 @@
                                                    VerticalAlignment="Center"
                                                    FontSize="16"
                                                    Margin="7, 0, 0, 0" />
-
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
@@ -101,9 +100,8 @@
                                                    Text="{Binding answer}">
 
                                             <TextBlock.Foreground>
-                                                <LinearGradientBrush GradientStops="{Binding gradientStops}" />
+                                                <LinearGradientBrush GradientStops="{Binding GradientStops}" StartPoint="0,0" EndPoint="1,0"/>
                                             </TextBlock.Foreground>
-
                                         </TextBlock>
 
                                         <TextBlock FontSize="14"

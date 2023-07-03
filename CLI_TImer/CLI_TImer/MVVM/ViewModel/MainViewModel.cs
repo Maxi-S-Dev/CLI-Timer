@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Threading;
 using System.Linq;
 using System.Windows.Media;
 
@@ -13,7 +12,6 @@ using CLI_Timer.Utils;
 using CLI_Timer.Services;
 using CLI_Timer.MVVM.View;
 using CLI_Timer.MVVM.Model;
-using System.Net.Http.Headers;
 
 namespace CLI_Timer.MVVM.ViewModel
 {
@@ -22,7 +20,7 @@ namespace CLI_Timer.MVVM.ViewModel
         #region variables
 
         //Settings
-        SettingsWindow settingsWindow;
+        SettingsWindow? settingsWindow;
 
         [ObservableProperty]
         public string primaryTimerText = "0h 0m 0s";
@@ -60,9 +58,9 @@ namespace CLI_Timer.MVVM.ViewModel
 
         public void UpdateTimers()
         {
-            PrimaryTimerText = $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[0])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[0])}m {Timer.TimerSeconds[0] % 60}s";
-            SecondaryTimerText = Timer.TimerSeconds[1] == 0 ? "" : $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[1])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[1])}m {Timer.TimerSeconds[1] % 60}s";
-            ThirdTimerText = Timer.TimerSeconds[2] == 0 ? "" : $"{TimeConverter.SecondsToHours(Timer.TimerSeconds[2])}h {TimeConverter.SecondsToMinutes(Timer.TimerSeconds[2])}m {Timer.TimerSeconds[2] % 60}s";
+            PrimaryTimerText = TimeConverter.SecondsToTimeText(Timer.TimerSeconds[0]);
+            SecondaryTimerText = Timer.TimerSeconds[1] == 0 ? "" : TimeConverter.SecondsToTimeText(Timer.TimerSeconds[1]);
+            ThirdTimerText = Timer.TimerSeconds[2] == 0 ? "" : TimeConverter.SecondsToTimeText(Timer.TimerSeconds[2]);
         }
 
         public void TimerFinished(int index)
@@ -122,7 +120,7 @@ namespace CLI_Timer.MVVM.ViewModel
             int GradientNumber = random.Next(dataManager.GetGradientList().Count());
 
             var StartRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
-            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].EndHex.Remove(0, 1), 16);
 
             GradientStopCollection gradientStopCollection = new()
             {
@@ -130,7 +128,7 @@ namespace CLI_Timer.MVVM.ViewModel
                 new GradientStop(Color.FromRgb((byte)((EndRgb >> 16) & 0xFF), (byte)((EndRgb >> 8) & 0xFF), (byte)(EndRgb& 0xFF)), 1)
             };
 
-            CommandHistory.Add(new Command { title = title, answer = answer, gradientStops = gradientStopCollection});
+            CommandHistory.Add(new Command { title = title, answer = answer, GradientStops = gradientStopCollection});
         }
 
         public void ClearCommandHistory() => CommandHistory.Clear();    
@@ -138,6 +136,8 @@ namespace CLI_Timer.MVVM.ViewModel
         public void OpenSettingsWindow()
         {
             if (settingsWindow == null) settingsWindow = new();
+
+            settingsWindow.Closed += (s, e) => { settingsWindow = null; };
 
             settingsWindow.Show();
         }

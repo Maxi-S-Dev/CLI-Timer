@@ -6,7 +6,7 @@
         public string[] Commands { get; set; }
         public string Answer { get; set; }
         public int Time { get; set; }
-        public TimerType? TimerType { get; set; }
+        public TimerType TimerType { get; set; } = TimerType.normal;
 
         public string RingtonePath { get; set; }
         public int RingtoneDuration { get; set; }

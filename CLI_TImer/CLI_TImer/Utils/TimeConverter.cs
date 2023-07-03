@@ -10,5 +10,7 @@
 
         public static int HoursToSeconds(int hours) => hours * 3600;
         public static int MinutesToSeconds(int minutes) => minutes * 60;
+
+        public static string SecondsToTimeText(int seconds) => $"{SecondsToHours(seconds)}h {SecondsToMinutes(seconds)}m {seconds%60}s";
     }
 }
