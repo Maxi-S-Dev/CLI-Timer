@@ -62,7 +62,7 @@ namespace CLI_Timer.MVVM.View {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/CLI_Timer;V0.2.1.0;component/mvvm/view/palettsettingsview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/CLI_Timer;component/mvvm/view/palettsettingsview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\MVVM\View\PalettSettingsView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

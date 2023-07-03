@@ -64,7 +64,7 @@ namespace CLI_Timer.Controls
             UpdateVisualState();
         }
 
-        Switch()
+        public Switch()
         {
             //DefaultStyleKeyProperty.OverrideMetadata(typeof(Switch), new FrameworkPropertyMetadata(typeof(Switch)));
             DefaultStyleKey = typeof(Switch);

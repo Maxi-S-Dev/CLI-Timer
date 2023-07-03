@@ -87,3 +87,4 @@ C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\CLI
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\CLI_TImer.genruntimeconfig.cache
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\ref\CLI_TImer.dll
 C:\GitHub\CLI-Timer\CLI_TImer\CLI_TImer\bin\Debug\net7.0-windows10.0.17763.0\CLI_TImer.dll.config
+D:\github\CLI-Timer\CLI_TImer\CLI_TImer\bin\Debug\net7.0-windows10.0.17763.0\CLI_Timer.dll.config

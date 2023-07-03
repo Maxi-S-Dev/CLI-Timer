@@ -1,0 +1,10 @@
+C:\Users\max03\Downloads\CLI_Timer\CLI_Timer.exe
+C:\Users\max03\Downloads\CLI_Timer\CLI_Timer.dll
+C:\Users\max03\Downloads\CLI_Timer\CLI_Timer.deps.json
+C:\Users\max03\Downloads\CLI_Timer\CLI_Timer.runtimeconfig.json
+C:\Users\max03\Downloads\CLI_Timer\CLI_Timer.dll.config
+C:\Users\max03\Downloads\CLI_Timer\CLI_Timer.pdb
+C:\Users\max03\Downloads\CLI_Timer\Microsoft.Windows.SDK.NET.dll
+C:\Users\max03\Downloads\CLI_Timer\WinRT.Runtime.dll
+C:\Users\max03\Downloads\CLI_Timer\CommunityToolkit.Mvvm.dll
+C:\Users\max03\Downloads\CLI_Timer\Microsoft.Toolkit.Uwp.Notifications.dll
