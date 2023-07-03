@@ -104,61 +104,11 @@ namespace CLI_Timer.MVVM.ViewModel
             }
         }
 
-        public void MainTimerFinished()
-        {
-            if(PrimaryRunningProfile.RingtoneEnabled == false) return;
-            if (string.IsNullOrEmpty(PrimaryRunningProfile.RingtonePath))
-            {
-                SoundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", PrimaryRunningProfile.RingtoneDuration);
-            }
-            else
-            {
-                SoundPlayer.playSound(PrimaryRunningProfile.RingtonePath, PrimaryRunningProfile.RingtoneDuration);
-            }
-
-            if(PrimaryRunningProfile.NotificationEnabled == true) 
-            {
-                new ToastContentBuilder()
-                    .AddText(PrimaryRunningProfile.Name + " finished")
-                    .AddText(PrimaryRunningProfile.NotificationText)
-                    .AddButton(new ToastButton()
-                        .SetContent("Stop"))
-                    .AddButton(new ToastButton()
-                        .SetContent("Add 5m"))
-                    .Show();
-            }
-        }
-
-        public void SecondaryTimerFinished()
-        {
-            if (SecondaryRunningProfile.RingtoneEnabled == false) return;
-            if (string.IsNullOrEmpty(SecondaryRunningProfile.RingtonePath))
-            {
-                SoundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", SecondaryRunningProfile.RingtoneDuration);
-            }
-            else
-            {
-                SoundPlayer.playSound(SecondaryRunningProfile.RingtonePath, SecondaryRunningProfile.RingtoneDuration);
-            }
-
-            if (SecondaryRunningProfile.NotificationEnabled == true)
-            {
-                new ToastContentBuilder()
-                .AddText(SecondaryRunningProfile.Name + " finished")
-                .AddText(SecondaryRunningProfile.NotificationText)
-                .AddButton(new ToastButton()
-                    .SetContent("Stop"))
-                .AddButton(new ToastButton()
-                    .SetContent("Add 5m"))
-                .Show();
-            }
-        }
-
-
         //Input Commands
         [RelayCommand]
         public void Send()
         {
+            if(string.IsNullOrWhiteSpace(EnteredCommand)) return;
             string? answer = CommandExecutor.Execute(EnteredCommand);
             if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer);
             EnteredCommand = "";
@@ -183,7 +133,6 @@ namespace CLI_Timer.MVVM.ViewModel
             CommandHistory.Add(new Command { title = title, answer = answer, gradientStops = gradientStopCollection});
         }
 
-        //Profile
         public void ClearCommandHistory() => CommandHistory.Clear();    
         
         public void OpenSettingsWindow()

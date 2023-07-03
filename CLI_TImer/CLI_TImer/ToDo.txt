@@ -1,0 +1,14 @@
+toDo
+
+error description on wrong command
+disable empty command send
+linewrapping
+number formatting when using add or sub
+no more scrolling after scrolling once
+no error message when using start without /n
+sub does nothing without /p
+remove - from status messages when using sub
+stretch gradient to last character -> gradient rn just gets cut off
+start work /p adds 348597h
+reset config command -> resets json config
+stop default position in top right
