@@ -1,35 +1,36 @@
-﻿using CLI_TImer.MVVM.Model;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Threading;
-using CLI_TImer.Classes;
-using System.Windows.Input;
-using System.IO;
-using CLI_TImer.Helpers;
-using System.Windows.Annotations;
 using System.Linq;
-using CLI_TImer.MVVM.View;
-using System.Diagnostics;
 using System.Windows.Media;
-using System.Windows.Controls;
+
 using Microsoft.Toolkit.Uwp.Notifications;
 
-namespace CLI_TImer.MVVM.ViewModel
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+using CLI_Timer.Utils;
+using CLI_Timer.Services;
+using CLI_Timer.MVVM.View;
+using CLI_Timer.MVVM.Model;
+
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
         #region variables
 
         //Settings
-        SettingsWindow settingsWindow;
-        SoundPlayer soundPlayer = new();
+        SettingsWindow? settingsWindow;
 
         [ObservableProperty]
-        public string? mainTimerText;
+        public string primaryTimerText = "0h 0m 0s";
 
-        public string PauseTimerText = "";
+        [ObservableProperty]
+        public string secondaryTimerText = "";
+
+        [ObservableProperty]
+        public string thirdTimerText = "";
+
 
         //Inputs
         [ObservableProperty]
@@ -40,21 +41,11 @@ namespace CLI_TImer.MVVM.ViewModel
 
 
         //Code
-        private int pausePosition;
-
-        private int hours = 0;
-        private int minutes = 0;
-        private int seconds = 0;
-
-        Profile? selectedProfile;
-        Profile? mainRunningProfile;
-        Profile? secondaryRunningProfile;
-
-        Timer timer;
+        public Profile? PrimaryRunningProfile;
+        public Profile? SecondaryRunningProfile;
+        public Profile? ThirdRunningProfile;
 
         Random random = new();
-
-        public virtual Dispatcher Dispatcher { get; protected set; }
 
         AppDataManager dataManager = AppDataManager.instance;
 
@@ -62,221 +53,74 @@ namespace CLI_TImer.MVVM.ViewModel
 
         public MainViewModel()
         {
-            timer = new(this);
-            SetMainTimerText(0);
+            Timer.SetTimer(Properties.Settings.Default.DefaultTime);
+        }
 
-            Dispatcher= Dispatcher.CurrentDispatcher;
+        public void UpdateTimers()
+        {
+            PrimaryTimerText = TimeConverter.SecondsToTimeText(Timer.TimerSeconds[0]);
+            SecondaryTimerText = Timer.TimerSeconds[1] == 0 ? "" : TimeConverter.SecondsToTimeText(Timer.TimerSeconds[1]);
+            ThirdTimerText = Timer.TimerSeconds[2] == 0 ? "" : TimeConverter.SecondsToTimeText(Timer.TimerSeconds[2]);
+        }
 
-            int standardTime = AppDataManager.instance.GetStandardTime();
+        public void TimerFinished(int index)
+        {
+            Profile? finProfile = null;
+            switch(index)
+            {
+                case 0:
+                    finProfile = PrimaryRunningProfile; 
+                    break;
 
-            timer.setMainTimer(standardTime);
+                case 1:
+                    finProfile = SecondaryRunningProfile;
+                    break;
+
+                case 2:
+                    finProfile = ThirdRunningProfile;
+                    break;
+            }
+
+            if (finProfile is null) return;
+
+            if (finProfile.TimerType == TimerType.primary) finProfile.RingtonePath = @"C://Windows/Media/Alarm08.wav";
+            if (finProfile.TimerType == TimerType.secondary) finProfile.RingtonePath = @"C://Windows/Media/Alarm04.wav";
+            if (finProfile.TimerType == TimerType.third) finProfile.RingtonePath = @"C://Windows/Media/Alarm01.wav";
+
+            if (finProfile.RingtoneEnabled == true) SoundPlayer.playSound(finProfile.RingtonePath, finProfile.RingtoneDuration);
             
-        }
-
-        #region Set Timer Text
-        internal void SetMainTimerText(int time)
-        {
-            MainTimerText = $"{Times.SecondsToHours(time)}h {Times.SecondsToMinutes(time)}m {time % 60}s";
-        }
-
-        internal void UpdatePauseTimerText(int seconds)
-        {
-            if (CommandHistory.Count == 0) return;
-            string PauseTimerText = $"{Times.SecondsToHours(seconds)}h {Times.SecondsToMinutes(seconds)}m {seconds % 60}s";
-
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                Command latestPause = CommandHistory[pausePosition];
-
-                CommandHistory.Remove(latestPause);
-
-                latestPause.output = PauseTimerText;
-
-                CommandHistory.Add(latestPause);
-
-                CommandHistory.Move(CommandHistory.Count -1, pausePosition);
-            }));
-        }
-
-        public void MainTimerFinished()
-        {
-            if(mainRunningProfile.RingtoneEnabled == false) return;
-            if (string.IsNullOrEmpty(mainRunningProfile.RingtonePath))
-            {
-                soundPlayer.playSound(@"C://Windows/Media/Alarm04.wav", mainRunningProfile.RingtoneDuration);
-            }
-            else
-            {
-                soundPlayer.playSound(mainRunningProfile.RingtonePath, mainRunningProfile.RingtoneDuration);
-            }
-
-            if(mainRunningProfile.NotificationEnabled == true) 
+            if (finProfile.NotificationEnabled == true)
             {
                 new ToastContentBuilder()
-                    .AddText(mainRunningProfile.Name + " finished")
-                    .AddText(mainRunningProfile.NotificationText)
-                    .AddButton(new ToastButton()
-                        .SetContent("Stop"))
-                    .AddButton(new ToastButton()
-                        .SetContent("Add 5m"))
-                    .Show();
-            }
-
-        }
-
-        public void SecondaryTimerFinished()
-        {
-            if(secondaryRunningProfile.RingtoneEnabled == false) return;
-            if (string.IsNullOrEmpty(secondaryRunningProfile.RingtonePath))
-            {
-                soundPlayer.playSound(@"C://Windows/Media/Alarm08.wav", secondaryRunningProfile.RingtoneDuration);
-            }
-            else
-            {
-                soundPlayer.playSound(secondaryRunningProfile.RingtonePath, secondaryRunningProfile.RingtoneDuration);
-            }
-
-            if(secondaryRunningProfile.NotificationEnabled == true) 
-            {
-                new ToastContentBuilder()
-                .AddText(secondaryRunningProfile.Name + " finished")
-                .AddText(secondaryRunningProfile.NotificationText)
+                .AddText(finProfile.Name + " finished")
+                .AddText(finProfile.NotificationText)
                 .AddButton(new ToastButton()
                     .SetContent("Stop"))
                 .AddButton(new ToastButton()
                     .SetContent("Add 5m"))
                 .Show();
             }
-
         }
-
-
-        #endregion
 
         //Input Commands
         [RelayCommand]
         public void Send()
         {
-            CheckCommand(EnteredCommand);
+            if(string.IsNullOrWhiteSpace(EnteredCommand)) return;
+            string? answer = CommandExecutor.Execute(EnteredCommand);
+            if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer);
             EnteredCommand = "";
         }
 
         #region commands
-        private void CheckCommand(string _command)
-        {
-            string[]? command = _command.Split(' ');           
-
-            string? answer = "";
-
-
-            if (_command.Split("'").Length == 3)
-            {
-                answer = _command.Split("'")[1];
-            }
-            else if (_command.Split('"').Length == 3)
-            {
-                answer = _command.Split('"')[1];
-            }
-
-            foreach (string s in command)
-            {
-                if (string.IsNullOrEmpty(s)) break;
-                if (s[^1] == 'h') _=int.TryParse(s.Remove(s.Length-1), out hours);
-                if (s[^1] == 'm') _=int.TryParse(s.Remove(s.Length-1), out minutes);
-                if (s[^1] == 's') _=int.TryParse(s.Remove(s.Length - 1), out seconds);
-            }
-
-            int resultTime = Times.TimeToSeconds(hours, minutes, seconds);
-
-            if (RunProfile(command[0], resultTime) == true)
-            {
-                
-                return;
-            }
-
-            switch(command[0])
-            {
-                case "new":
-                    ProfileManager.AddNewProfile(command[1], answer, resultTime, command[command.Length - 1]);
-                    AddToHistory("new Command", $"added '{command[1]}' to command List", "");
-                    break;
-
-                case "change":
-                    
-                    if (command[2] == "time")
-                    {
-                        ProfileManager.UpdateProfile(command[1], resultTime);
-                        AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
-                        break;
-                    }
-                    ProfileManager.UpdateProfile(command[1], command[2], command[3]);
-                    AddToHistory("change Profile", $"changed the '{command[2]}' property of '{command[1]}'", "");
-                    break;
-
-                case "delete":
-                    ProfileManager.DeleteProfile(command[1]);
-                    AddToHistory("delete Profile", $"deleted {command[1]}", "");
-                    break;
-
-                case "add":
-                    timer.AddSecondsToCurrentTimer(Times.TimeToSeconds(hours, minutes, seconds));
-                    answer = "added ";
-                    answer +=  hours != 0 ? $"{hours}h " : "" ;
-                    answer +=  minutes != 0 ? $"{minutes}m " : "";
-                    answer +=  seconds != 0 ? $"{seconds}s " : "";
-                    AddToHistory("add", answer, "");
-                    break;
-
-                case "start":
-                    timer.startMain();
-                    AddToHistory("start", "started main timer", "");
-                    break;
-
-                case "subtract":
-                    SubtractTimeFromCurrentTimer(hours, minutes, seconds);
-                    answer = "subtracted ";
-                    answer +=  hours != 0 ? $"{hours}h " : "";
-                    answer +=  minutes != 0 ? $"{minutes}m " : "";
-                    answer +=  seconds != 0 ? $"{seconds}s " : "";
-                    AddToHistory("subtract", answer, "");
-                    break;
-
-                case "end":
-                    ResetCurrentTimer();
-                    AddToHistory("end", "stopped current timer", "");
-                    break;
-
-                case "reset":
-                    timer.ResetAllTimers();
-                    AddToHistory("reset", "reseted all timers", "");
-                    break;
-
-                case "clear":
-                    ClearCommandHistoy();
-                    break;
-
-                case "close":
-                    Close();
-                    break;
-
-                case "settings":
-                    settingsWindow = new SettingsWindow();
-                    settingsWindow.Show();
-                    break;
-
-                default:
-                    AddToHistory("Error", "unknown Command", "");
-                    break;
-            }
-        }
 
         //Adds a Command to the History
-        private void AddToHistory(string title, string answer, string output)
+        private void AddToHistory(string title, string? answer)
         {
             int GradientNumber = random.Next(dataManager.GetGradientList().Count());
 
             var StartRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
-            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].StartHex.Remove(0, 1), 16);
+            var EndRgb = Convert.ToInt32(dataManager.GetGradientList()[GradientNumber].EndHex.Remove(0, 1), 16);
 
             GradientStopCollection gradientStopCollection = new()
             {
@@ -284,44 +128,19 @@ namespace CLI_TImer.MVVM.ViewModel
                 new GradientStop(Color.FromRgb((byte)((EndRgb >> 16) & 0xFF), (byte)((EndRgb >> 8) & 0xFF), (byte)(EndRgb& 0xFF)), 1)
             };
 
-            CommandHistory.Add(new Command { title = title, answer = answer, output = output, gradientStops = gradientStopCollection});
+            CommandHistory.Add(new Command { title = title, answer = answer, GradientStops = gradientStopCollection});
         }
 
-
-        //Profile
-        private bool RunProfile(string command, int time)
+        public void ClearCommandHistory() => CommandHistory.Clear();    
+        
+        public void OpenSettingsWindow()
         {
-            if (selectedProfile == ProfileManager.getProfileFromCommand(command)) return false;
+            if (settingsWindow == null) settingsWindow = new();
 
-            selectedProfile = ProfileManager.getProfileFromCommand(command);
+            settingsWindow.Closed += (s, e) => { settingsWindow = null; };
 
-            if(selectedProfile == null) return false;
-
-            if (time != 0) selectedProfile.Time = time;
-
-            if(selectedProfile.TimerType == TimerType.main) mainRunningProfile = selectedProfile;
-            if(selectedProfile.TimerType == TimerType.second) secondaryRunningProfile = selectedProfile;
-
-            ExecuteProfile(selectedProfile);
-            return true;
+            settingsWindow.Show();
         }
-
-        private void ExecuteProfile(Profile profile)
-        {
-            timer.SetAndStartTimerFromProfile(profile);
-
-            if (profile.TimerType == TimerType.second) pausePosition = CommandHistory.Count;
-            AddToHistory(profile.Name, profile.Answer, "");
-        }
-        private void ClearCommandHistoy() => CommandHistory.Clear();    
-
-        private void SubtractTimeFromCurrentTimer(int hours, int minutes, int seconds)
-        {
-            timer.AddSecondsToCurrentTimer(-Times.TimeToSeconds(hours, minutes, seconds));
-        }
-
-        private void ResetCurrentTimer() => timer.ResetCurrentTimer();
-
         #endregion
 
         #region AppBehaviour

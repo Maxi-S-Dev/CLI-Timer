@@ -1,19 +1,13 @@
-﻿using CLI_TImer.Helpers;
-using CLI_TImer.MVVM.Model;
+﻿using CLI_Timer.Services;
+using CLI_Timer.MVVM.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CLI_TImer.MVVM.ViewModel
+using System.Linq;
+
+
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class PalettSettingViewModel : ObservableObject
     {

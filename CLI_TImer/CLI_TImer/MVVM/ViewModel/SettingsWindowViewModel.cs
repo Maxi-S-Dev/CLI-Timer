@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace CLI_TImer.MVVM.ViewModel
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class SettingsWindowViewModel : ObservableObject
     {

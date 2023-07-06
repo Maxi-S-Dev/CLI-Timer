@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CLI_TImer.MVVM.ViewModel;
-namespace CLI_TImer.MVVM.View
+using CLI_Timer.MVVM.ViewModel;
+namespace CLI_Timer.MVVM.View
 {
     /// <summary>
     /// Interaktionslogik für ProfileSettingsView.xaml

@@ -1,20 +1,20 @@
-﻿using CLI_TImer.Classes;
-using CLI_TImer.Helpers;
-using CLI_TImer.MVVM.Model;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+
 using Microsoft.Win32;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 
-namespace CLI_TImer.MVVM.ViewModel
+using CLI_Timer.MVVM.Model;
+using CLI_Timer.Services;
+using CLI_Timer.Utils;
+
+
+namespace CLI_Timer.MVVM.ViewModel
 {
     internal partial class ProfileSettingsViewModel : ObservableObject
     {
@@ -48,11 +48,11 @@ namespace CLI_TImer.MVVM.ViewModel
                 p.Answer = profile.Answer;
                 p.TimerType = profile.TimerType;
 
-                p.Hours = $"{Times.SecondsToHours(profile.Time)} h";
-                p.Minutes = $"{Times.SecondsToMinutes(profile.Time)} m";
+                p.Hours = $"{TimeConverter.SecondsToHours(profile.Time)} h";
+                p.Minutes = $"{TimeConverter.SecondsToMinutes(profile.Time)} m";
                 p.Seconds = $"{profile.Time % 60} s";
 
-                p.RingtoneMinutes = $"{Times.SecondsToMinutes(profile.RingtoneDuration)} m";
+                p.RingtoneMinutes = $"{TimeConverter.SecondsToMinutes(profile.RingtoneDuration)} m";
                 p.RingtoneSeconds = $"{profile.RingtoneDuration % 60} s";
 
                 p.RingtonePath = profile.RingtonePath;
@@ -83,9 +83,9 @@ namespace CLI_TImer.MVVM.ViewModel
                 profile.Name = p.Name;
                 profile.Answer = p.Answer;
                 profile.TimerType = p.TimerType;
-                profile.Time = Times.TimeToSeconds(p.hours, p.minutes, p.seconds);
+                profile.Time = TimeConverter.TimeToSeconds(p.hours, p.minutes, p.seconds);
                 profile.RingtonePath = p.RingtonePath;
-                profile.RingtoneDuration = Times.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
+                profile.RingtoneDuration = TimeConverter.TimeToSeconds(0, p.ringtoneMinutes, p.ringtoneSeconds);
                 profile.RingtoneEnabled = p.RingtoneEnabled; 
                 profile.NotificationText = p.NotificationText;
                 profile.NotificationEnabled = p.NotificationEnabled;
@@ -127,8 +127,8 @@ namespace CLI_TImer.MVVM.ViewModel
         public string Name { get; set; } = "";
         public string Answer { get; set; } = "";
 
-        TimerType _type;
-        public TimerType TimerType
+        TimerType? _type;
+        public TimerType? TimerType
         {
             get { return _type; }
             set
@@ -177,8 +177,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 if (m > 60)
                 {
-                    int s = Times.MinutesToSeconds(m);
-                    m = Times.SecondsToMinutes(s);
+                    int s = TimeConverter.MinutesToSeconds(m);
+                    m = TimeConverter.SecondsToMinutes(s);
                 }
                 minutes = m;
             }
@@ -236,8 +236,8 @@ namespace CLI_TImer.MVVM.ViewModel
 
                 if (m > 60)
                 {
-                    int s = Times.MinutesToSeconds(m);
-                    m = Times.SecondsToMinutes(s);
+                    int s = TimeConverter.MinutesToSeconds(m);
+                    m = TimeConverter.SecondsToMinutes(s);
                 }
                 ringtoneMinutes = m;
             }

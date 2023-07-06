@@ -12,10 +12,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using CLI_TImer.MVVM.ViewModel;
+using CLI_Timer.MVVM.ViewModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CLI_TImer.MVVM.View
+namespace CLI_Timer.MVVM.View
 {
     /// <summary>
     /// Interaktionslogik für SettingsWindow.xaml

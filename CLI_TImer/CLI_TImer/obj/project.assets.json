@@ -603,9 +603,9 @@
   "project": {
     "version": "0.2.1",
     "restore": {
-      "projectUniqueName": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
-      "projectName": "CLI_TImer",
-      "projectPath": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_TImer.csproj",
+      "projectUniqueName": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_Timer.csproj",
+      "projectName": "CLI_Timer",
+      "projectPath": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\CLI_Timer.csproj",
       "packagesPath": "C:\\Users\\max03\\.nuget\\packages\\",
       "outputPath": "D:\\github\\CLI-Timer\\CLI_TImer\\CLI_TImer\\obj\\",
       "projectStyle": "PackageReference",
@@ -678,7 +678,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
       }
     }
   }
