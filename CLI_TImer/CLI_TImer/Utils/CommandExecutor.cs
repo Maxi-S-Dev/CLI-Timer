@@ -74,11 +74,14 @@ namespace CLI_Timer.Utils
             Profile p;
 
             AnalyseParameters(parameter);
-            
+
+
 
             p = ProfileManager.GetProfile(profile.Name);
 
-            if(profile.Name == null)
+            Trace.WriteLine(profile);
+
+            //if (profile.Name == null)
             if (profile.Time != 0) p.Time = profile.Time;
             if (profile.TimerType != null) p.TimerType = profile.TimerType; 
 
