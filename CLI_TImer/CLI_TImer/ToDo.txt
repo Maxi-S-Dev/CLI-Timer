@@ -1,3 +1,8 @@
 toDo
 
-stop default position in top right
+switch command
+pause command
+
+reset ringtone bug
+fix sub add
+
