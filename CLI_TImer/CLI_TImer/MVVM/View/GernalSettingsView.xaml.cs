@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using CLI_TImer.MVVM.ViewModel;
+using CLI_Timer.MVVM.ViewModel;
 using System.Runtime.InteropServices.ComTypes;
 using System.IO;
 using Microsoft.Win32;
@@ -21,7 +21,7 @@ using System.Security.Cryptography;
 using IWshRuntimeLibrary;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CLI_TImer.MVVM.View
+namespace CLI_Timer.MVVM.View
 {
     /// <summary>
     /// Interaktionslogik für MainSettingsView.xaml
@@ -34,7 +34,7 @@ namespace CLI_TImer.MVVM.View
 
             TextBlock tb = new();
 
-            
+
         }
     }
 }

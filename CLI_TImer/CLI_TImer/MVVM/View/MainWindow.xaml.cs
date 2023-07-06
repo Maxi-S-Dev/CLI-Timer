@@ -3,10 +3,10 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
-using CLI_TImer.MVVM.ViewModel;
+using CLI_Timer.MVVM.ViewModel;
 using System.Windows.Media;
 
-namespace CLI_TImer.MVVM.View
+namespace CLI_Timer.MVVM.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,7 +19,7 @@ namespace CLI_TImer.MVVM.View
 
             DataContext = App.MainViewModel;
 
-            Left = SystemParameters.PrimaryScreenWidth - Width - 20;
+            //Left = SystemParameters.PrimaryScreenWidth - Width - 20;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

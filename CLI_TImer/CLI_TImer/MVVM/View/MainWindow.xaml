@@ -1,54 +1,56 @@
-﻿<Window x:Class="CLI_TImer.MVVM.View.MainWindow"
+﻿<Window x:Class="CLI_Timer.MVVM.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CLI_TImer.MVVM.View"
         mc:Ignorable="d"
-        Height="250" Width="450"
+        Height="250"
+        Width="450"
         WindowStyle="None"
-        WindowStartupLocation="Manual"
+        WindowStartupLocation="CenterScreen"
         Top="20"
         AllowsTransparency="True"
-        Background="Transparent">
-
-    <Window.Resources>
-
-        
-
-    </Window.Resources>
+        Background="Transparent"
+        ResizeMode="NoResize">
 
     <Border CornerRadius="10, 10, 10, 10"
             Background="{StaticResource PrimaryColor}">
        
 
         <StackPanel Height="250">
+            <!--Tob bar-->
             <Border Background="{StaticResource TopBarColor}"
                     Height="20" 
                     CornerRadius="10, 10, 0, 0"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown">
 
-                <Button Style="{DynamicResource CloseButtonStyle}" HorizontalAlignment="Right"
+                <Button Style="{DynamicResource CloseButtonStyle}"
+                        HorizontalAlignment="Right"
                         Width="40"
                         Background="Transparent"
                         BorderBrush="Transparent"
                         Command="{Binding CloseCommand}">
 
-                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-                        <Canvas Name="svg12" Width="48" Height="48">
-                            <Canvas.Resources/>
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path10" Fill="White">
+                    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             Stretch="Uniform">
+                        <Canvas Name="svg12"
+                                Width="48"
+                                Height="48">
+                            <Canvas.Resources />
+                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                  Name="path10"
+                                  Fill="White">
                                 <Path.Data>
-                                    <PathGeometry Figures="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z" FillRule="NonZero"/>
+                                    <PathGeometry Figures="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
+                                                  FillRule="NonZero" />
                                 </Path.Data>
                             </Path>
                         </Canvas>
                     </Viewbox>
-
                 </Button>
-                
             </Border>
 
+            <!--List and Bottom Part-->
             <Border Padding="20, 0, 20, 0"
                     Height="230">
 
@@ -57,11 +59,9 @@
                       Margin="0, 20, 0, 5">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
-
 
                     <ListView ItemsSource="{Binding CommandHistory}"
                               Background="Transparent"
@@ -75,59 +75,60 @@
                               SizeChanged="list_SizeChanged"
                               ItemContainerStyle="{DynamicResource CommandHistoryItemStyle}">
 
+
                         <ListView.ItemTemplate>
-
                             <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <StackPanel>
+                                    <DockPanel Grid.Row="0"
+                                               Width="735">
 
-                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Text=">"
-                                                   Style="{StaticResource Pointer}"/>
+                                                   Style="{StaticResource Pointer}"
+                                                   DockPanel.Dock="Left" />
 
 
                                         <TextBlock Text="{Binding title}"
-                                                   Style="{StaticResource Output}"
                                                    Foreground="{StaticResource PrimaryTextColor}"
                                                    VerticalAlignment="Center"
                                                    FontSize="16"
-                                                   Margin="7, 0, 0, 0"/>
+                                                   Margin="10, 0"
+                                                   TextWrapping="Wrap"
+                                                   HorizontalAlignment="Left"
+                                                   DockPanel.Dock="Left"
+                                                   Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                    </DockPanel>
 
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Grid.Row="1"
+                                                Orientation="Horizontal">
                                         <TextBlock x:Name="thirdLatesInputInfo"
                                                    FontSize="16"
                                                    Style="{StaticResource Output}"
                                                    Text="{Binding answer}">
 
                                             <TextBlock.Foreground>
-                                                <LinearGradientBrush GradientStops="{Binding gradientStops}"/>
+                                                <LinearGradientBrush GradientStops="{Binding GradientStops}"
+                                                                     StartPoint="0,0"
+                                                                     EndPoint="1,0" />
                                             </TextBlock.Foreground>
-
                                         </TextBlock>
-
-                                        <TextBlock FontSize="14" 
-                                                   Foreground="{StaticResource SecondaryTextColor}"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{Binding output}"
-                                                   Margin="15, 0, 0, 0"
-                                                   Style="{StaticResource Output}"/>
 
                                     </StackPanel>
 
-                                </StackPanel>
-
+                                </Grid>
                             </DataTemplate>
-
                         </ListView.ItemTemplate>
-
+                        
+                       
                         <ListBox.ItemsPanel>
 
                             <ItemsPanelTemplate>
 
-                                <StackPanel VerticalAlignment="Bottom"/>
+                                <StackPanel VerticalAlignment="Bottom" />
 
                             </ItemsPanelTemplate>
 
@@ -135,12 +136,35 @@
 
                     </ListView>
 
+                    <Grid Margin="10, 8"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Bottom">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock FontSize="14"
+                                   Foreground="White"
+                                   Text="{Binding ThirdTimerText}"
+                                   Style="{StaticResource Output}"
+                                   Margin="0, 0, 0, 5" />
+
+                        <TextBlock FontSize="14"
+                                   Foreground="White"
+                                   Text="{Binding SecondaryTimerText}"
+                                   Style="{StaticResource Output}"
+                                   Margin="0, 0, 0, 0"
+                                   Grid.Row="1" />
+                    </Grid>
+
                     <!--Bottom Part-->
 
-                    <StackPanel Margin="0, 0, 0, 10" 
-                                VerticalAlignment="Bottom" 
+                    <StackPanel Margin="0, 0, 0, 10"
+                                VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left"
-                                Orientation="Horizontal" 
+                                Orientation="Horizontal"
                                 Grid.Row="1">
 
 
@@ -156,13 +180,12 @@
                             <TextBox.InputBindings>
 
                                 <KeyBinding Key="Enter"
-                                            Command="{Binding SendCommand}"/>
-
+                                            Command="{Binding SendCommand}" />
+                                
                             </TextBox.InputBindings>
-
                         </TextBox>
 
-<!--
+                        <!--
 
                         <Border Background="{StaticResource SecondaryColor}"
                                 Width="300"
@@ -188,18 +211,16 @@
                             </TextBox>
                         </Border> -->
 
-                        <TextBlock 
-                                   FontSize="14" 
+                        <TextBlock FontSize="14"
                                    Foreground="{StaticResource SecondaryTextColor}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Text="{Binding MainTimerText}"
+                                   Text="{Binding PrimaryTimerText}"
                                    Margin="15, 0, 0, 0"
-                                   Style="{StaticResource Output}"/>
+                                   Style="{StaticResource Output}" />
 
                     </StackPanel>
                 </Grid>
-
             </Border>
         </StackPanel>
     </Border>

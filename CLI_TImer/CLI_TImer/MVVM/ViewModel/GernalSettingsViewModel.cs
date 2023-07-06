@@ -1,20 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.IO;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using IWshRuntimeLibrary;
-using System.Text.RegularExpressions;
-using CLI_TImer.Classes;
-using CLI_TImer.MVVM.Model;
-using CLI_TImer.Helpers;
 
-namespace CLI_TImer.MVVM.ViewModel
+using CLI_Timer.Utils;
+
+namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class GernalSettingsViewModel: ObservableObject
     {
@@ -54,8 +47,6 @@ namespace CLI_TImer.MVVM.ViewModel
                         RestoreDefaultValues();
                         return;
                     }
-
-                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
 
@@ -73,8 +64,6 @@ namespace CLI_TImer.MVVM.ViewModel
                         RestoreDefaultValues();
                         return;
                     }
-
-                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
 
@@ -92,19 +81,19 @@ namespace CLI_TImer.MVVM.ViewModel
                         RestoreDefaultValues();
                         return;
                     }
-
-                    AppDataManager.instance.SetStandardTime(Times.TimeToSeconds(hours, minutes, seconds));
                 }
             }
 
+            Properties.Settings.Default.DefaultTime = TimeConverter.TimeToSeconds(hours, minutes, seconds);
+            Properties.Settings.Default.Save();
             RestoreDefaultValues();
         }
 
         private void RestoreDefaultValues()
         {
-            hours = Times.SecondsToHours(AppDataManager.instance.GetStandardTime());
-            minutes = Times.SecondsToMinutes(AppDataManager.instance.GetStandardTime());
-            seconds = AppDataManager.instance.GetStandardTime() % 60;
+            hours = TimeConverter.SecondsToHours(Properties.Settings.Default.DefaultTime);
+            minutes = TimeConverter.SecondsToMinutes(Properties.Settings.Default.DefaultTime);
+            seconds = Properties.Settings.Default.DefaultTime % 60;
 
             HoursText = hours + " h";
             MinutesText = minutes + " m";
