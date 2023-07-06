@@ -79,7 +79,7 @@
                     <TextBlock Text="Default Time"
                                Style="{DynamicResource SettingHeaderStyle}"/>
 
-                    <TextBlock Text="If this setting is enabled, CLI-Timer will start when you boot you computer"
+                    <TextBlock Text="Default Time in the primary timer when the app launches"
                                Style="{DynamicResource SettingDescriptionStyle}"/>
 
                     <StackPanel Orientation="Horizontal"

@@ -1,12 +1,3 @@
 toDo
 
-error description on wrong command
-no error message when using start without /n
-linewrapping
-no more scrolling after scrolling once
-
 stop default position in top right
-
-
-
-start work /p adds 348597h

@@ -34,7 +34,7 @@ namespace CLI_Timer.MVVM.View
 
             TextBlock tb = new();
 
-            
+
         }
     }
 }

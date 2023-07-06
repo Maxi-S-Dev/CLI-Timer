@@ -7,10 +7,11 @@
         Height="250"
         Width="450"
         WindowStyle="None"
-        WindowStartupLocation="Manual"
+        WindowStartupLocation="CenterScreen"
         Top="20"
         AllowsTransparency="True"
-        Background="Transparent">
+        Background="Transparent"
+        ResizeMode="NoResize">
 
     <Border CornerRadius="10, 10, 10, 10"
             Background="{StaticResource PrimaryColor}">
@@ -74,52 +75,55 @@
                               SizeChanged="list_SizeChanged"
                               ItemContainerStyle="{DynamicResource CommandHistoryItemStyle}">
 
+
                         <ListView.ItemTemplate>
-
                             <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <StackPanel>
+                                    <DockPanel Grid.Row="0"
+                                               Width="735">
 
-                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Text=">"
-                                                   Style="{StaticResource Pointer}" />
+                                                   Style="{StaticResource Pointer}"
+                                                   DockPanel.Dock="Left" />
 
 
                                         <TextBlock Text="{Binding title}"
-                                                   Style="{StaticResource Output}"
                                                    Foreground="{StaticResource PrimaryTextColor}"
                                                    VerticalAlignment="Center"
                                                    FontSize="16"
-                                                   Margin="7, 0, 0, 0" />
-                                    </StackPanel>
+                                                   Margin="10, 0"
+                                                   TextWrapping="Wrap"
+                                                   HorizontalAlignment="Left"
+                                                   DockPanel.Dock="Left"
+                                                   Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                    </DockPanel>
 
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Grid.Row="1"
+                                                Orientation="Horizontal">
                                         <TextBlock x:Name="thirdLatesInputInfo"
                                                    FontSize="16"
                                                    Style="{StaticResource Output}"
                                                    Text="{Binding answer}">
 
                                             <TextBlock.Foreground>
-                                                <LinearGradientBrush GradientStops="{Binding GradientStops}" StartPoint="0,0" EndPoint="1,0"/>
+                                                <LinearGradientBrush GradientStops="{Binding GradientStops}"
+                                                                     StartPoint="0,0"
+                                                                     EndPoint="1,0" />
                                             </TextBlock.Foreground>
                                         </TextBlock>
 
-                                        <TextBlock FontSize="14"
-                                                   Foreground="{StaticResource SecondaryTextColor}"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{Binding output}"
-                                                   Margin="15, 0, 0, 0"
-                                                   Style="{StaticResource Output}" />
-
                                     </StackPanel>
 
-                                </StackPanel>
-
+                                </Grid>
                             </DataTemplate>
-
                         </ListView.ItemTemplate>
-
+                        
+                       
                         <ListBox.ItemsPanel>
 
                             <ItemsPanelTemplate>
@@ -146,7 +150,6 @@
                                    Text="{Binding ThirdTimerText}"
                                    Style="{StaticResource Output}"
                                    Margin="0, 0, 0, 5" />
-                        <!-- -->
 
                         <TextBlock FontSize="14"
                                    Foreground="White"

@@ -19,7 +19,7 @@ namespace CLI_Timer.MVVM.View
 
             DataContext = App.MainViewModel;
 
-            Left = SystemParameters.PrimaryScreenWidth - Width - 20;
+            //Left = SystemParameters.PrimaryScreenWidth - Width - 20;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

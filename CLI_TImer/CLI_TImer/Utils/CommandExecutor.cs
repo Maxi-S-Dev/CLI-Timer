@@ -2,13 +2,7 @@
 using CLI_Timer.MVVM.Model;
 using CLI_Timer.MVVM.ViewModel;
 using CLI_Timer.Services;
-using System.Configuration;
 using System.Diagnostics;
-using System.Reflection.Metadata;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Appointments.AppointmentsProvider;
-using Windows.ApplicationModel.Background;
-using Windows.UI.StartScreen;
 
 namespace CLI_Timer.Utils
 {
@@ -30,9 +24,9 @@ namespace CLI_Timer.Utils
 
             command = command.ToLower();
             command = command.Replace('/', '-');
+            command = command.Trim();
 
             string action = command.Split(' ')[0];
-            if (string.IsNullOrWhiteSpace(action)) return Error();
 
             string? parameter = command.Replace(action, string.Empty);
 
@@ -71,7 +65,7 @@ namespace CLI_Timer.Utils
                     MainViewModel.Close();
                     return null;
 
-                default: return Error();
+                default: return Error(action);
             }
         }
 
@@ -79,16 +73,12 @@ namespace CLI_Timer.Utils
         {
             Profile p;
 
-            if (string.IsNullOrWhiteSpace(parameter))
-            {
-                p = ProfileManager.DefaultProfile;
-            }
-
             AnalyseParameters(parameter);
             
 
             p = ProfileManager.GetProfile(profile.Name);
 
+            if(profile.Name == null)
             if (profile.Time != 0) p.Time = profile.Time;
             if (profile.TimerType != null) p.TimerType = profile.TimerType; 
 
@@ -103,7 +93,7 @@ namespace CLI_Timer.Utils
 
             int timeToAdd = profile.Time == 0 ? 300 : profile.Time;
             
-            if(profile.TimerType == TimerType.primary || profile.TimerType == TimerType.normal)
+            if(profile.TimerType == TimerType.primary || profile.TimerType is null)
             {
                 Timer.AddTime(0, timeToAdd);
 
@@ -133,7 +123,7 @@ namespace CLI_Timer.Utils
 
             int timeToTake = profile.Time == 0 ? -300 : profile.Time;
 
-            if (profile.TimerType == TimerType.primary || profile.TimerType == TimerType.normal)
+            if (profile.TimerType == TimerType.primary || profile.TimerType is null)
             {
                 if (!Timer.AddTime(0, -timeToTake)) return $"Failed to remove {TimeConverter.SecondsToTimeText(timeToTake)}";
 
@@ -351,9 +341,9 @@ namespace CLI_Timer.Utils
         }
 
         //Returns an error message
-        private static string Error()
+        private static string Error(string action)
         {
-            return "Error Description";
+            return $"Unknown command {action}";
         }
     }
 }

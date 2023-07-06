@@ -96,5 +96,4 @@ public enum TimerType
     primary, 
     secondary,
     third,
-    normal
 }
