@@ -54,7 +54,7 @@
                 </Grid>
             </Border>
 -->
-            <control:CustomTopBar Title="Hallo"/>
+            <control:CustomTopBar Title="CLI-Timer"/>
 
             <Grid Height="200"
                   Margin="10, 10, 10, 10">
