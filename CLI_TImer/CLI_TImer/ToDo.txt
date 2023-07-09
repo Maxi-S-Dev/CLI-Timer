@@ -4,9 +4,7 @@ switch command
 pause command
 
 reset ringtone bug
-fix sub add
 
-clear alias cls
 start defaults to primary
 
 (help (if really bored))

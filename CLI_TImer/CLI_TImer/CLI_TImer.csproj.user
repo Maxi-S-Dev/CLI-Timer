@@ -29,6 +29,9 @@
     <Page Update="Controls\SwitchStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\CustomTopBarStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MVVM\View\PalettSettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -45,6 +48,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Colors.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Generic.xaml">

@@ -108,7 +108,7 @@ namespace CLI_Timer.MVVM.ViewModel
         {
             if(string.IsNullOrWhiteSpace(EnteredCommand)) return;
             string? answer = CommandExecutor.Execute(EnteredCommand);
-            if (EnteredCommand.Split(' ')[0] != "clear") AddToHistory(EnteredCommand, answer);
+            if (EnteredCommand.Split(' ')[0] != "clear" && EnteredCommand.Split(' ')[0] != "cls") AddToHistory(EnteredCommand, answer);
             EnteredCommand = "";
         }
 

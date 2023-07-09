@@ -1,0 +1,148 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CLI_Timer.Controls"
+                    xmlns:theme="clr-namespace:CLI_Timer.Themes">
+
+    <Style TargetType="local:CustomTopBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:CustomTopBar">
+
+                    <ControlTemplate.Resources>
+                        <Style x:Key="Window_Name"
+                               TargetType="Label">
+
+                            <Setter Property="DockPanel.Dock"
+                                    Value="Left" />
+                            <Setter Property="Foreground"
+                                    Value="White" />
+                            <Setter Property="FontFamily"
+                                    Value="/Fonts/Inter" />
+                            <Setter Property="FontWeight"
+                                    Value="SemiBold" />
+                            <Setter Property="FontSize"
+                                    Value="16" />
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                        </Style>
+
+                        <Style x:Key="CloseButton"
+                               TargetType="Button">
+
+                            <Setter Property="Background"
+                                    Value="Transparent" />
+                            <Setter Property="BorderBrush"
+                                    Value="Transparent" />
+                            <Setter Property="BorderThickness"
+                                    Value="0" />
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="Padding"
+                                    Value="1" />
+                            <Setter Property="Width"
+                                    Value="40" />
+                            <Setter Property="Height"
+                                    Value="30" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Right" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="border"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                SnapsToDevicePixels="true"
+                                                CornerRadius="0, 10, 0, 0">
+                                            <ContentPresenter x:Name="contentPresenter"
+                                                              Focusable="False"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              Margin="{TemplateBinding Padding}"
+                                                              RecognizesAccessKey="True"
+                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsDefaulted"
+                                                     Value="true">
+                                                <Setter Property="BorderBrush"
+                                                        TargetName="border"
+                                                        Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="true">
+                                                <Setter Property="Background"
+                                                        TargetName="border"
+                                                        Value="white" />
+                                                <Setter Property="BorderBrush"
+                                                        TargetName="border"
+                                                        Value="white" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed"
+                                                     Value="true">
+                                                <Setter Property="Background"
+                                                        TargetName="border"
+                                                        Value="white" />
+                                                <Setter Property="BorderBrush"
+                                                        TargetName="border"
+                                                        Value="white" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled"
+                                                     Value="false">
+                                                <Setter Property="Background"
+                                                        TargetName="border"
+                                                        Value="Red" />
+                                                <Setter Property="BorderBrush"
+                                                        TargetName="border"
+                                                        Value="Red" />
+                                                <Setter Property="TextElement.Foreground"
+                                                        TargetName="contentPresenter"
+                                                        Value="Red" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ControlTemplate.Resources>
+                    
+                    <Border CornerRadius="10, 10, 0, 0"
+                            VerticalAlignment="Top"
+                            Height="30"
+                            Background="{x:Static theme:Colors.Background}">
+                        <Grid>
+                            <Label Style="{StaticResource Window_Name}"
+                                   x:Name="Title_Label"
+                                   Margin="5, 0, 0, 0" />
+
+                            <Button Style="{StaticResource CloseButton}"
+                                    x:Name="Closebtn">
+
+                                <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                         Stretch="Uniform">
+                                    <Canvas Name="svg12"
+                                            Width="48"
+                                            Height="48">
+                                        <Canvas.Resources />
+                                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                              Name="path10"
+                                              Fill="White">
+                                            <Path.Data>
+                                                <PathGeometry Figures="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
+                                                              FillRule="NonZero" />
+                                            </Path.Data>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

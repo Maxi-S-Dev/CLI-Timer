@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:control="clr-namespace:CLI_Timer.Controls"
         mc:Ignorable="d"
         Height="250"
         Width="450"
@@ -14,16 +15,12 @@
         ResizeMode="NoResize"
         x:Name="Window">
 
-    <Window.Resources>
-        <SolidColorBrush x:Key="Background">#242424</SolidColorBrush>
-        <SolidColorBrush x:Key="Secondary">#2B2B2B</SolidColorBrush>
-    </Window.Resources>
-
     <Border CornerRadius="10"
             Background="{StaticResource Background}">
 
         <StackPanel>
             <!--Tob bar-->
+            <!--
             <Border Background="{StaticResource Secondary}"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown"
                     CornerRadius="10, 10, 0, 0"
@@ -56,6 +53,8 @@
                     </Button>
                 </Grid>
             </Border>
+-->
+            <control:CustomTopBar Title="Hallo"/>
 
             <Grid Height="200"
                   Margin="10, 10, 10, 10">

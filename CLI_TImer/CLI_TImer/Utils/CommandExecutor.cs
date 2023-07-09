@@ -3,6 +3,7 @@ using CLI_Timer.MVVM.Model;
 using CLI_Timer.MVVM.ViewModel;
 using CLI_Timer.Services;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace CLI_Timer.Utils
 {
@@ -29,6 +30,8 @@ namespace CLI_Timer.Utils
             string action = command.Split(' ')[0];
 
             string? parameter = command.Replace(action, string.Empty);
+
+            if (action == "cls") action = "clear";
 
             switch (action)
             {
@@ -75,13 +78,8 @@ namespace CLI_Timer.Utils
 
             AnalyseParameters(parameter);
 
-
-
             p = ProfileManager.GetProfile(profile.Name);
 
-            Trace.WriteLine(profile);
-
-            //if (profile.Name == null)
             if (profile.Time != 0) p.Time = profile.Time;
             if (profile.TimerType != null) p.TimerType = profile.TimerType; 
 

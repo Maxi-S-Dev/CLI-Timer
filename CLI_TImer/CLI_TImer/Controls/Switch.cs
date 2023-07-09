@@ -1,33 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Input;
-using System.Diagnostics;
 
 namespace CLI_Timer.Controls
 {
     [TemplatePart(Name = "TriggerElement", Type = typeof(Button))]
     [TemplateVisualState(Name = "Toggled", GroupName = "ValueStates")]
-    [TemplateVisualState(Name = "Negative", GroupName = "ValueStates")]
+    //[TemplateVisualState(Name = "Negative", GroupName = "ValueStates")]
 
     public class Switch : Control
     {
         public static DependencyProperty ToggledProperty = DependencyProperty.Register("Toggled", typeof(bool), typeof(Switch), new PropertyMetadata(false));
-
-        private bool toggled = false;
 
         public bool Toggled
         {
             get => (bool)GetValue(ToggledProperty);
             set
             {
-                toggled = value;
                 SetValue(ToggledProperty, value);
-                Trace.WriteLine("Toggled:" + toggled);
                 UpdateVisualState();
             }
         }
