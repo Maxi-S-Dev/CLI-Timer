@@ -111,14 +111,15 @@
                     <Border CornerRadius="10, 10, 0, 0"
                             VerticalAlignment="Top"
                             Height="30"
-                            Background="{x:Static theme:Colors.Background}">
+                            Background="{x:Static theme:Colors.Background}"
+                            x:Name="TopBar">
                         <Grid>
                             <Label Style="{StaticResource Window_Name}"
                                    x:Name="Title_Label"
                                    Margin="5, 0, 0, 0" />
 
                             <Button Style="{StaticResource CloseButton}"
-                                    x:Name="Closebtn">
+                                    x:Name="CloseButton">
 
                                 <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                          Stretch="Uniform">

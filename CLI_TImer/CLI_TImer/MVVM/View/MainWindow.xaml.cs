@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using CLI_Timer.MVVM.ViewModel;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace CLI_Timer.MVVM.View
 {
@@ -35,5 +36,11 @@ namespace CLI_Timer.MVVM.View
             ScrollViewer scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
             scrollViewer.ScrollToBottom();
         }
+
+        private void CloseClicked(object sender, RoutedEventArgs e)
+        {
+            App.MainViewModel.CloseCommand.Execute(null);
+        }
+
     }
 }

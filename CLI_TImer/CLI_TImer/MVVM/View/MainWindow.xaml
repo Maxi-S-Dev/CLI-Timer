@@ -54,7 +54,9 @@
                 </Grid>
             </Border>
 -->
-            <control:CustomTopBar Title="CLI-Timer"/>
+            <control:CustomTopBar Title="CLI-Timer"
+                                  CloseClicked="CloseClicked"
+                                  LeftMouseDown="Border_MouseLeftButtonDown"/>
 
             <Grid Height="200"
                   Margin="10, 10, 10, 10">
