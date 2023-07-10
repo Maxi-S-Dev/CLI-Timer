@@ -28,5 +28,15 @@ namespace CLI_Timer.MVVM.View
 
             DataContext = new SettingsWindowViewModel();
         }
+
+        private void Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void DragWindow(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

@@ -152,7 +152,7 @@
 
                 <TextBox Style="{StaticResource InputFieldStyle}"
                          Text="{Binding EnteredCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Background="{StaticResource Secondary}"
+                         Background="{x:Static themes:Colors.Secondary}"
                          Foreground="{StaticResource PrimaryTextColor}"
                          FontSize="16"
                          CaretBrush="{StaticResource PrimaryTextColor}"
