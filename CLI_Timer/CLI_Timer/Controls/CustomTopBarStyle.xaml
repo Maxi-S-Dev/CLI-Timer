@@ -111,7 +111,7 @@
                     <Border CornerRadius="10, 10, 0, 0"
                             VerticalAlignment="Top"
                             Height="30"
-                            Background="{x:Static theme:Colors.Background}"
+                            Background="{x:Static theme:Colors.Secondary}"
                             x:Name="TopBar">
                         <Grid>
                             <Label Style="{StaticResource Window_Name}"

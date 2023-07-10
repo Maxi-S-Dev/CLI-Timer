@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:control="clr-namespace:CLI_Timer.Controls"
+        xmlns:themes="clr-namespace:CLI_Timer.Themes"
         mc:Ignorable="d"
         Height="250"
         Width="450"
@@ -16,7 +17,7 @@
         x:Name="Window">
 
     <Border CornerRadius="10"
-            Background="{StaticResource Background}">
+            Background="{x:Static themes:Colors.Background}">
 
         <StackPanel>
             <!--Tob bar-->
