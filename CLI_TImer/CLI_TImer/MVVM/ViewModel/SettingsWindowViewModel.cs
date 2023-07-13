@@ -1,13 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+
 
 namespace CLI_Timer.MVVM.ViewModel
 {
@@ -16,20 +9,20 @@ namespace CLI_Timer.MVVM.ViewModel
         [ObservableProperty]
         internal object? currentView;
 
-        GernalSettingsViewModel? startupSettingsViewModel= new();
+        GeneralSettingsViewModel? generalSettingViewModel= new();
         PalettSettingViewModel? palettSettingViewModel= new();
         SoundSettingsViewModel? soundSettingsViewModel= new();
         ProfileSettingsViewModel? profileSettingsViewModel= new();
 
         public SettingsWindowViewModel() 
         {
-            CurrentView = startupSettingsViewModel;
+            CurrentView = generalSettingViewModel;
         }
 
         [RelayCommand]
         public void ShowStartupSettings()
         {
-            CurrentView = startupSettingsViewModel;
+            CurrentView = generalSettingViewModel;
         }
 
         [RelayCommand]

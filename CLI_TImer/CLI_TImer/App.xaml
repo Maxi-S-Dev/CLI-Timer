@@ -15,12 +15,15 @@
         <SolidColorBrush x:Key="PrimaryTextColor" Color="White"/>
         <SolidColorBrush x:Key="SecondaryTextColor" Color="#757276"/>
 
+        <FontFamily x:Key="InterBold">/Fonts/#Inter Bold</FontFamily>
+        <FontFamily x:Key="InterSemiBold">/Fonts/#Inter SemiBold</FontFamily>
+        <FontFamily x:Key="InterMedium">/Fonts/#Inter Medium</FontFamily>
+
 
         <SolidColorBrush x:Key="Background"
                          Color="#242424" />
         <SolidColorBrush x:Key="Secondary"
                          Color="#2B2B2B" />
-
 
         <!--#region MainPage-->
 
@@ -28,7 +31,16 @@
         
 
         <Style TargetType="{x:Type TextBox}" x:Key="InputFieldStyle">
-
+            <Setter Property="CaretBrush"
+                    Value="White" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Height"
+                    Value="30" />
+            <Setter Property="FontSize"
+                    Value="16" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
 
@@ -37,7 +49,7 @@
                         <Border Background="{TemplateBinding Background}"
                                 Width="{TemplateBinding Width}"
                                 Height="{TemplateBinding Height}"
-                                CornerRadius="8"
+                                CornerRadius="5"
                                 Padding="5, 0, 3, 0">
 
                             <ScrollViewer x:Name="PART_ContentHost" 
@@ -47,7 +59,8 @@
                                           VerticalScrollBarVisibility="Hidden"
                                           BorderThickness="0"
                                           VerticalContentAlignment="Center"
-                                          Height="25"/>
+                                          Height="25"
+                                          />
 
                         </Border>
 
@@ -59,7 +72,7 @@
 
         </Style>
 
-        <DataTemplate DataType="{x:Type viewModel:GernalSettingsViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:GeneralSettingsViewModel}">
             <view:GernalSettingsView/>
         </DataTemplate>
         

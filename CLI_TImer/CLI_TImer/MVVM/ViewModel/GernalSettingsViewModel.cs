@@ -2,17 +2,31 @@
 using System;
 using System.IO;
 using System.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using IWshRuntimeLibrary;
 
 using CLI_Timer.Utils;
+using System.Diagnostics;
 
 namespace CLI_Timer.MVVM.ViewModel
 {
-    public partial class GernalSettingsViewModel: ObservableObject
+    public partial class GeneralSettingsViewModel: ObservableObject
     {
-        [ObservableProperty,]
-        public bool shortcutExits;
+
+        bool shortcutExists;
+        public bool ShortcutExists
+        {
+            get => shortcutExists;
+            set
+            {
+                shortcutExists = value;
+                if (shortcutExists)
+                {
+                    CreateShortcut();
+                    return;
+                }
+                DeleteShortcut();
+            }
+        }
 
         [ObservableProperty]
         public string hoursText;
@@ -22,7 +36,6 @@ namespace CLI_Timer.MVVM.ViewModel
 
         [ObservableProperty]
         public string secondsText;
-
 
         private int hours;
         private int minutes;
@@ -95,44 +108,43 @@ namespace CLI_Timer.MVVM.ViewModel
             minutes = TimeConverter.SecondsToMinutes(Properties.Settings.Default.DefaultTime);
             seconds = Properties.Settings.Default.DefaultTime % 60;
 
-            HoursText = hours + " h";
-            MinutesText = minutes + " m";
-            SecondsText = seconds + " s";
+            HoursText = hours +  "h";
+            MinutesText = minutes + "m";
+            SecondsText = seconds + "s";
         }
 
-        public GernalSettingsViewModel()
+        public GeneralSettingsViewModel()
         {
-            shortcutExits = false;
             RestoreDefaultValues();
 
-            if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk")) ShortcutExits = true;
+            shortcutExists = System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk");
+
+            OnPropertyChanged(nameof(ShortcutExists));
         }
 
-        [RelayCommand]
-        public void ToggleStartupSetting()
+        public void DeleteShortcut()
         {
-
             if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk"))
             {
+                Trace.WriteLine("Deleting");
                 System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk");
                 return;
             }
-            CreateShortCut();
         }
 
-        private void CreateShortCut()
+        private void CreateShortcut()
         {
             string shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup) + @"\CLI_TImer.lnk";
             string targetPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CLI_TImer.exe");
 
+            Trace.WriteLine("Creating");
+
             WshShell shell = new WshShell();
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
 
-            shortcut.Description = "My Application";
+            shortcut.Description = "CLI-Timer";
             shortcut.TargetPath = targetPath;
             shortcut.Save();
         }
-
-         
     }
 }

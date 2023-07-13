@@ -33,6 +33,8 @@ namespace CLI_Timer.MVVM.ViewModel
         {
             PopulateProfilesList();
             PopulateTimerTypeList();
+
+            Trace.WriteLine("HI");
         }
 
         //Creates a List that contains the values for the UI

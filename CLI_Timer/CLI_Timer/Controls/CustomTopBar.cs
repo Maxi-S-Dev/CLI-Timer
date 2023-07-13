@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
-using System.Diagnostics;
 
 namespace CLI_Timer.Controls
 {
@@ -52,7 +51,7 @@ namespace CLI_Timer.Controls
         public static DependencyProperty LeftMouseDownProperty =
             DependencyProperty.Register("LeftMouseDown", typeof(MouseButtonEventHandler), typeof(CustomTopBar), new PropertyMetadata());
        
-        CustomTopBar()
+        public CustomTopBar()
         {
            DefaultStyleKey = typeof(CustomTopBar);
         }

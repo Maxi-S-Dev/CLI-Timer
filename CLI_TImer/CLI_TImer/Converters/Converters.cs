@@ -17,7 +17,9 @@ namespace CLI_Timer.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            throw new NotImplementedException();
+            var Color = (value as SolidColorBrush).Color.ToString();
+
+            return Color;
         }
     }
 

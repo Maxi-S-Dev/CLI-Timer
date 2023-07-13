@@ -1,11 +1,12 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
+using System.Diagnostics;
 
 namespace CLI_Timer.Controls
 {
     [TemplatePart(Name = "TriggerElement", Type = typeof(Button))]
     [TemplateVisualState(Name = "Toggled", GroupName = "ValueStates")]
-    //[TemplateVisualState(Name = "Negative", GroupName = "ValueStates")]
+    [TemplateVisualState(Name = "Negative", GroupName = "ValueStates")]
 
     public class Switch : Control
     {
@@ -13,9 +14,14 @@ namespace CLI_Timer.Controls
 
         public bool Toggled
         {
-            get => (bool)GetValue(ToggledProperty);
+            get
+            {
+                Trace.WriteLine("Get" + (bool)GetValue(ToggledProperty));
+                return (bool)GetValue(ToggledProperty);
+            }
             set
             {
+                Trace.WriteLine("Set");
                 SetValue(ToggledProperty, value);
                 UpdateVisualState();
             }
@@ -57,6 +63,7 @@ namespace CLI_Timer.Controls
         {
             //DefaultStyleKeyProperty.OverrideMetadata(typeof(Switch), new FrameworkPropertyMetadata(typeof(Switch)));
             DefaultStyleKey = typeof(Switch);
+            UpdateVisualState() ;
         }
 
 

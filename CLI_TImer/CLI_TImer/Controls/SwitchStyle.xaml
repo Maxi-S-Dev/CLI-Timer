@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:CLI_Timer.Controls">
+                    xmlns:local="clr-namespace:CLI_Timer.Controls"
+                    xmlns:theme="clr-namespace:CLI_Timer.Themes">
     
     <Style TargetType="local:Switch">
         <Style.Resources>
@@ -49,9 +50,7 @@
                     </ControlTemplate.Resources>
 
 
-                    <Button Background="Blue"
-                            BorderBrush="Blue"
-                            BorderThickness="1"
+                    <Button BorderThickness="1"
                             Width="38"
                             Height="20"
                             Name="Trigger">
@@ -76,19 +75,19 @@
                                                          Storyboard.TargetName="MoveBaby"
                                                          BeginTime="0" />
                                         <ColorAnimation Duration="0:0:0.2"
-                                                        To="#0078d4"
+                                                        To="#c3c3c3"
                                                         Storyboard.TargetName="Trigger"
                                                         Storyboard.TargetProperty="(Background).(Color)"
                                                         BeginTime="0" />
 
                                         <ColorAnimation Duration="0:0:0.2"
-                                                        To="#0078d4"
+                                                        To="#c3c3c3"
                                                         Storyboard.TargetName="Trigger"
                                                         Storyboard.TargetProperty="BorderBrush.Color"
                                                         BeginTime="0" />
 
                                         <ColorAnimation Duration="0:0:0.2"
-                                                        To="White"
+                                                        To="#363636"
                                                         Storyboard.TargetName="Slider"
                                                         Storyboard.TargetProperty="Fill.Color"
                                                         BeginTime="0" />
@@ -103,19 +102,19 @@
                                                          Storyboard.TargetName="MoveBaby" />
 
                                         <ColorAnimation Duration="0:0:0.2"
-                                                        To="Transparent"
+                                                        To="#363636"
                                                         Storyboard.TargetName="Trigger"
                                                         Storyboard.TargetProperty="(Background).(Color)"
                                                         BeginTime="0" />
 
                                         <ColorAnimation Duration="0:0:0.2"
-                                                        To="#cecece"
+                                                        To="#c3c3c3"
                                                         Storyboard.TargetName="Trigger"
                                                         Storyboard.TargetProperty="BorderBrush.Color"
                                                         BeginTime="0" />
 
                                         <ColorAnimation Duration="0:0:0.2"
-                                                        To="#5a5a5a"
+                                                        To="#c3c3c3"
                                                         Storyboard.TargetName="Slider"
                                                         Storyboard.TargetProperty="Fill.Color"
                                                         BeginTime="0" />

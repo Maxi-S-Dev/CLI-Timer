@@ -60,7 +60,6 @@ C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\Int
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\CLI_Timer.csproj.ResolveComReference.cache
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\Themes\Colors.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\Themes\Generic.baml
-C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\Themes\SettingStyles.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\Themes\Temp.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\MVVM\View\GernalSettingsView.g.cs
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\MVVM\View\MainWindow.g.cs
@@ -81,6 +80,7 @@ C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\MVV
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\MVVM\View\ProfileSettingsView.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\MVVM\View\SettingsWindow.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\MVVM\View\SoundSettingsView.baml
+C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\Themes\SettingStyles.baml
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\CLI_Timer.g.resources
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\CLI_Timer.GeneratedMSBuildEditorConfig.editorconfig
 C:\Github\CLI-Timer\CLI_TImer\CLI_TImer\obj\Debug\net7.0-windows10.0.17763.0\CLI_Timer.AssemblyInfoInputs.cache
