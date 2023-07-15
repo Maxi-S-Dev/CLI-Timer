@@ -122,6 +122,13 @@ namespace CLI_Timer.MVVM.ViewModel
                 Trace.WriteLine(openFileDialog.FileName);
             }
         }
+        
+        [RelayCommand]
+        public void AddProfile()
+        {
+            SettingsProfile s = new();
+            Profiles.Add(s);
+        }
 
         public void ToggleButtonClick(SettingsProfile clickedItem)
         {
@@ -140,14 +147,6 @@ namespace CLI_Timer.MVVM.ViewModel
 
     public partial class SettingsProfile : ObservableObject, IProfile
     {
-        public SettingsProfile()
-        {
-            PropertyChanged += (s, e) =>
-            {
-
-            };
-        }
-
         [ObservableProperty]
         private string name;
 

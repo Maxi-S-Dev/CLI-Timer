@@ -7,6 +7,42 @@
     <converter:BoolToIntConverter x:Key="BoolToIntConverter" />
 
     <!--#region New Styles-->
+    <Style x:Key="ButtonBase"
+           TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            CornerRadius="5">
+                        <ContentPresenter />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{x:Static color:Colors.Tertiary}" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver"
+                                 Value="False">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{x:Static color:Colors.Secondary}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="SettingsContainer"
            TargetType="Border">
         <Setter Property="Margin"
@@ -1073,82 +1109,21 @@
     </Style>
 
     <Style x:Key="DeleteProfileButtonStyle"
-           TargetType="Button">
+           TargetType="Button"
+           BasedOn="{StaticResource ButtonBase}">
 
         <Setter Property="Background"
-                Value="Transparent" />
-        <Setter Property="BorderBrush"
-                Value="Transparent" />
+                Value="{x:Static color:Colors.Secondary}" />
         <Setter Property="BorderThickness"
                 Value="0" />
         <Setter Property="VerticalContentAlignment"
                 Value="Center" />
-        <Setter Property="Padding"
-                Value="1" />
         <Setter Property="Width"
-                Value="40" />
+                Value="25" />
         <Setter Property="Height"
-                Value="30" />
+                Value="25" />
         <Setter Property="HorizontalAlignment"
                 Value="Right" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            SnapsToDevicePixels="true"
-                            CornerRadius="0, 10, 0, 0">
-                        <ContentPresenter x:Name="contentPresenter"
-                                          Focusable="False"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsDefaulted"
-                                 Value="true">
-                            <Setter Property="BorderBrush"
-                                    TargetName="border"
-                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver"
-                                 Value="true">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="white" />
-                            <Setter Property="BorderBrush"
-                                    TargetName="border"
-                                    Value="white" />
-                        </Trigger>
-                        <Trigger Property="IsPressed"
-                                 Value="true">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="white" />
-                            <Setter Property="BorderBrush"
-                                    TargetName="border"
-                                    Value="white" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled"
-                                 Value="false">
-                            <Setter Property="Background"
-                                    TargetName="border"
-                                    Value="Red" />
-                            <Setter Property="BorderBrush"
-                                    TargetName="border"
-                                    Value="Red" />
-                            <Setter Property="TextElement.Foreground"
-                                    TargetName="contentPresenter"
-                                    Value="Red" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
     <!--#endregion-->
 </ResourceDictionary>
