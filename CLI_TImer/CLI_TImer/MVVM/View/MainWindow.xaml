@@ -162,6 +162,11 @@
                         <KeyBinding Key="Enter"
                                     Command="{Binding SendCommand}" />
 
+                        <KeyBinding Key="Up"
+                                    Command="{Binding NavigateHistoryUpCommand}" />
+                        <KeyBinding Key="Down"
+                                    Command="{Binding NaviagateHistoryDownCommand}" />
+
                     </TextBox.InputBindings>
                 </TextBox>
 

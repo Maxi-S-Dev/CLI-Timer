@@ -70,8 +70,7 @@
             </Button>
         </Grid>
 
-        <StackPanel 
-                      Background="Red"
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
                       Grid.Row="1">
             <ListView ItemContainerStyle="{DynamicResource ProfileListItemContainer}"
                       ItemsSource="{Binding Profiles}"
@@ -260,6 +259,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListView>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

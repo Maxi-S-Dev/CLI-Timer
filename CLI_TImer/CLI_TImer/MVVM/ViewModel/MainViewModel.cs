@@ -12,6 +12,8 @@ using CLI_Timer.Utils;
 using CLI_Timer.Services;
 using CLI_Timer.MVVM.View;
 using CLI_Timer.MVVM.Model;
+using System.Diagnostics;
+using System.Xaml;
 
 namespace CLI_Timer.MVVM.ViewModel
 {
@@ -49,7 +51,10 @@ namespace CLI_Timer.MVVM.ViewModel
 
         AppDataManager dataManager = AppDataManager.instance;
 
+        int positionInHistory = 0;
+
         #endregion
+
 
         public MainViewModel()
         {
@@ -106,6 +111,7 @@ namespace CLI_Timer.MVVM.ViewModel
         [RelayCommand]
         public void Send()
         {
+            positionInHistory = 0;
             if(string.IsNullOrWhiteSpace(EnteredCommand)) return;
             string? answer = CommandExecutor.Execute(EnteredCommand);
             if (EnteredCommand.Split(' ')[0] != "clear" && EnteredCommand.Split(' ')[0] != "cls") AddToHistory(EnteredCommand, answer);
@@ -140,6 +146,32 @@ namespace CLI_Timer.MVVM.ViewModel
             settingsWindow.Closed += (s, e) => { settingsWindow = null; };
 
             settingsWindow.Show();
+        }
+
+        [RelayCommand]
+        public void NavigateHistoryUp()
+        {
+            positionInHistory += 1;
+            if (CommandHistory.Count - positionInHistory < 0)
+            {
+                EnteredCommand = "";
+                return;
+            }
+            EnteredCommand = CommandHistory[CommandHistory.Count - positionInHistory].title;
+        }
+
+        [RelayCommand]
+        public void NaviagateHistoryDown()
+        {
+            positionInHistory -= 1;
+            Trace.WriteLine(positionInHistory);
+            if (CommandHistory.Count - positionInHistory < 0 || positionInHistory <= 0)
+            {
+                positionInHistory = 0;
+                EnteredCommand = "";
+                return;
+            }
+            EnteredCommand = CommandHistory[CommandHistory.Count - positionInHistory].title;
         }
         #endregion
 
