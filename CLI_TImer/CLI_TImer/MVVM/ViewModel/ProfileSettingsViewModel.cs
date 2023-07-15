@@ -12,7 +12,7 @@ using System.Linq;
 using CLI_Timer.MVVM.Model;
 using CLI_Timer.Services;
 using CLI_Timer.Utils;
-
+using System.ComponentModel;
 
 namespace CLI_Timer.MVVM.ViewModel
 {
@@ -34,7 +34,13 @@ namespace CLI_Timer.MVVM.ViewModel
             PopulateProfilesList();
             PopulateTimerTypeList();
 
-            Trace.WriteLine("HI");
+            PropertyChanged += (s, e) =>
+            {
+                Trace.WriteLine($"property changed {e.PropertyName}");
+                if (e.PropertyName != nameof(SettingsProfile.IsExpanded)) return;
+
+                Save();
+            };
         }
 
         //Creates a List that contains the values for the UI
@@ -63,8 +69,15 @@ namespace CLI_Timer.MVVM.ViewModel
                 p.NotificationText = profile.NotificationText;
                 p.NotificationEnabled = profile.NotificationEnabled;
 
+                p.PropertyChanged += ProfileChanged;
+
                 Profiles.Add(p);
             }
+        }
+
+        private void ProfileChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Save();
         }
 
         private void PopulateTimerTypeList()
@@ -72,10 +85,8 @@ namespace CLI_Timer.MVVM.ViewModel
              TimerTypes = Enum.GetValues(typeof(TimerType)).Cast<TimerType>().ToList();
         }
 
-        [RelayCommand]
         public void Save()
         {
-            Trace.WriteLine("Save");
             List<Profile> profileList = new();
 
             foreach (var p in Profiles)
@@ -95,6 +106,7 @@ namespace CLI_Timer.MVVM.ViewModel
                 profileList.Add(profile);
             }
 
+            Trace.WriteLine("Saving");
             AppDataManager.instance.SetProfileList(profileList);
         }
 
@@ -128,18 +140,22 @@ namespace CLI_Timer.MVVM.ViewModel
 
     public partial class SettingsProfile : ObservableObject, IProfile
     {
-        public string Name { get; set; } = "";
-        public string Answer { get; set; } = "";
-
-        TimerType? _type;
-        public TimerType? TimerType
+        public SettingsProfile()
         {
-            get { return _type; }
-            set
+            PropertyChanged += (s, e) =>
             {
-                _type = value;
-            }
+
+            };
         }
+
+        [ObservableProperty]
+        private string name;
+
+        [ObservableProperty]
+        private string answer;
+
+        [ObservableProperty]
+        private TimerType? timerType;
 
         [ObservableProperty]
         private bool isExpanded;
@@ -153,7 +169,7 @@ namespace CLI_Timer.MVVM.ViewModel
 
         public string Hours
         {
-            get => $"{hours} h";
+            get => $"{hours}h";
             set
             {
                 int h;
@@ -166,11 +182,12 @@ namespace CLI_Timer.MVVM.ViewModel
                 }
 
                 hours = h;
+                OnPropertyChanged(nameof(Hours));
             }
         }
         public string Minutes
         {   
-            get => $"{minutes} m";
+            get => $"{minutes}m";
             set
             {
                 int m;
@@ -188,11 +205,12 @@ namespace CLI_Timer.MVVM.ViewModel
                     m = TimeConverter.SecondsToMinutes(s);
                 }
                 minutes = m;
+                OnPropertyChanged(nameof(Minutes));
             }
         }
         public string Seconds
         {
-            get => $"{seconds} s";
+            get => $"{seconds}s";
             set
             {
                 int s;
@@ -210,20 +228,20 @@ namespace CLI_Timer.MVVM.ViewModel
                 }
 
                 seconds = s;
+                OnPropertyChanged(nameof(Seconds));
             }
         }
 
-        public string RingtonePath { get; set; } = "";
+        [ObservableProperty]
+        private string ringtonePath;
         public string DisplayRingtonePath 
         { 
             get 
             {
                 if (string.IsNullOrEmpty(RingtonePath)) return string.Empty;
                 string[] pathPieces = RingtonePath.Split(@"\");
-                return pathPieces[0] + @"\...\" + pathPieces[pathPieces.Length -2] + @"\" + pathPieces[pathPieces.Length-1];
-                    
+                return pathPieces[0] + @"\...\" + pathPieces[pathPieces.Length -2] + @"\" + pathPieces[pathPieces.Length-1];  
             } 
-
             set { RingtonePath = value; }
         }
 
@@ -272,10 +290,14 @@ namespace CLI_Timer.MVVM.ViewModel
             }
         }
 
-        public bool RingtoneEnabled { get; set; }
+        [ObservableProperty]
+        private bool ringtoneEnabled;
 
-        public string NotificationText { get; set; }
-        public bool NotificationEnabled { get; set; }
+        [ObservableProperty]
+        private string notificationText;
+
+        [ObservableProperty]
+        private bool notificationEnabled;
 
         public IEnumerable<TimerType> TimerTypeValues
         {
