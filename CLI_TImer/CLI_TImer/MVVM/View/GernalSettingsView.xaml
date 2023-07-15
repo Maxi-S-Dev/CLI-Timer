@@ -23,10 +23,7 @@
 
     <StackPanel>
         <TextBlock Text="General Settings"
-                   FontSize="40"
-                   Foreground="White"
-                   FontFamily="{StaticResource InterBold}"
-                   Margin="0, 0, 0, 9"/>
+                   Style="{StaticResource HeadingStyle}"/>
 
         <StackPanel Margin="10, 10, 10, 0">
 
@@ -83,7 +80,6 @@
 
                         <TextBox Style="{StaticResource SettingsTimeInputStyle}"
                                  Text="{Binding SecondsText}" />
-
                     </StackPanel>
                 </Grid>
             </Border>
@@ -102,16 +98,12 @@
                     <TextBlock Text="A small collection of animations to choose from for the Burger Menu Button. Just for you Alex"
                                Style="{DynamicResource SettingDescriptionStyle}"/>
 
-                    <ComboBox ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle1}" Style="{DynamicResource Compy}"  Grid.Column="1" Width="120" Height="25"
-                              Background="{x:Static theme:Colors.Tertiary}"
-                              Foreground="{StaticResource PrimaryTextColor}"
-                              FontFamily="{StaticResource InterMedium}"
-                              HorizontalContentAlignment="Center"
-                              FontSize="11"
-                              VerticalContentAlignment="Center"
+                    <ComboBox ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle1}" Style="{DynamicResource Compy}"  
+                              Grid.Column="1" 
+                              Width="120" 
+                              Height="25"
                               HorizontalAlignment="Right"
-                              Grid.RowSpan="2"
-                              BorderThickness="0">
+                              Grid.RowSpan="2">
 
                         <ComboBoxItem Content="CLI-Timer Style"/>
                         <ComboBoxItem Content="Terminal Style"/>
@@ -122,8 +114,7 @@
                 </Grid>
             </Border>
 
-            <!--
-            Enable/Disable Animations
+            <!--Enable/Disable Animations
             
             
             -->

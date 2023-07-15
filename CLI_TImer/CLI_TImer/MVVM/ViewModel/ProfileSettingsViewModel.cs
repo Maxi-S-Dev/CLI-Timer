@@ -73,7 +73,7 @@ namespace CLI_Timer.MVVM.ViewModel
         }
 
         [RelayCommand]
-        public void SaveChanges()
+        public void Save()
         {
             Trace.WriteLine("Save");
             List<Profile> profileList = new();
@@ -91,24 +91,12 @@ namespace CLI_Timer.MVVM.ViewModel
                 profile.RingtoneEnabled = p.RingtoneEnabled; 
                 profile.NotificationText = p.NotificationText;
                 profile.NotificationEnabled = p.NotificationEnabled;
-                
-                Trace.WriteLine(p.Name + "RingtoneEnabled" + p.RingtoneEnabled);
-
 
                 profileList.Add(profile);
             }
 
             AppDataManager.instance.SetProfileList(profileList);
         }
-
-        //public IEnumerable<TimerType> TimerTypeValues
-        //{
-        //    get
-        //    {
-        //        return Enum.GetValues(typeof(TimerType))
-        //            .Cast<TimerType>();
-        //    }
-        //}
 
         [RelayCommand]
         public void SearchFileExplorerForAudio()
@@ -122,9 +110,23 @@ namespace CLI_Timer.MVVM.ViewModel
                 Trace.WriteLine(openFileDialog.FileName);
             }
         }
+
+        public void ToggleButtonClick(SettingsProfile clickedItem)
+        {
+            foreach(var profile in Profiles) 
+            {
+                profile.IsExpanded = (profile == clickedItem);
+            }
+        }
+
+        public void DeleteItem(SettingsProfile item)
+        {
+            if(Profiles.Contains(item)) Profiles.Remove(item);
+            Save();
+        }
     }
 
-    public class SettingsProfile : IProfile
+    public partial class SettingsProfile : ObservableObject, IProfile
     {
         public string Name { get; set; } = "";
         public string Answer { get; set; } = "";
@@ -138,6 +140,9 @@ namespace CLI_Timer.MVVM.ViewModel
                 _type = value;
             }
         }
+
+        [ObservableProperty]
+        private bool isExpanded;
 
 
         public int hours { get; set; }

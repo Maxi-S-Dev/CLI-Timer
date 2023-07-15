@@ -28,7 +28,6 @@
         <!--#region MainPage-->
 
         <!--#endregion-->
-        
 
         <Style TargetType="{x:Type TextBox}" x:Key="InputFieldStyle">
             <Setter Property="CaretBrush"

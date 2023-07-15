@@ -1,285 +1,229 @@
 ﻿<UserControl x:Class="CLI_Timer.MVVM.View.ProfileSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CLI_Timer.MVVM.View"
              xmlns:control="clr-namespace:CLI_Timer.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:color="clr-namespace:CLI_Timer.Themes"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/SettingStyles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/Temp.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/SettingStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CLI_Timer;component/Themes/Temp.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="DescriptionLabel" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Foreground" Value="{StaticResource PrimaryTextColor}"/>
-                <Setter Property="VerticalContentAlignment" Value="Top"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style x:Key="PropertyLabel"
+                   TargetType="TextBlock">
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="Foreground"
+                        Value="{StaticResource PrimaryTextColor}" />
+                <Setter Property="VerticalAlignment"
+                        Value="Center" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Left" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource InterMedium}" />
+                <Setter Property="Margin"
+                        Value="0, 10, 10, 10" />
             </Style>
 
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <StackPanel Background="{StaticResource PrimaryColor}">
-            <TextBlock Text="Profile Settings"
-                   FontSize="40"
-                   Foreground="White"
-                   Margin="20, 10, 0, 0"/>
+    <StackPanel>
+        <TextBlock Text="Profile Settings"
+                   Style="{StaticResource HeadingStyle}" />
 
-            <ListView ItemContainerStyle="{DynamicResource ProfileListItemContainer}" ItemsSource="{Binding Profiles}" 
-                      Margin="10, 5, 10, 10" 
-                      Background="Transparent"
-                      BorderThickness="0" BorderBrush="Transparent" Name="ListView"
-                      SelectedItem="{Binding SelectedProfile}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Grid>
+        <ListView ItemContainerStyle="{DynamicResource ProfileListItemContainer}"
+                  ItemsSource="{Binding Profiles}"
+                  Margin="10, 10, 10, 10"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  BorderBrush="Transparent"
+                  Name="ListView"
+                  SelectedItem="{Binding SelectedProfile}"
+                  SelectionChanged="ListView_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5, 0, 5, 0">
+                        <Grid>
+                            <ToggleButton Width="25"
+                                          Height="25"
+                                          HorizontalAlignment="Left"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          Style="{StaticResource CollapseProfileButton}"
+                                          Name="Tg"
+                                          IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                          Click="Tg_Click">
+                            </ToggleButton>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <Button Style="{StaticResource DeleteProfileButtonStyle}"
+                                    x:Name="DeleteButton" Click="DeleteButton_Click">
+                                <Button.Content>
+                                    <Path Stroke="White"
+                                          StrokeThickness="2">
+                                        <Path.Data>
+                                            <GeometryGroup>
+                                                <LineGeometry StartPoint="0, 0"
+                                                              EndPoint="10, 10" />
+                                                <LineGeometry StartPoint="0, 10"
+                                                              EndPoint="10, 0" />
+                                            </GeometryGroup>
+                                        </Path.Data>
+                                    </Path>
+                                </Button.Content>
+                                
+                            </Button>
+                        </Grid>
+                        <Grid Margin="5, 5, 5, 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                                <Label Content="Profile Name:" Style="{StaticResource DescriptionLabel}"/>
+                            <TextBlock Text="Profile"
+                                       Style="{StaticResource PropertyLabel}" />
 
-                                <TextBox Text="{Binding Name}" 
-                                         Style="{StaticResource InputFieldStyle}"
-                                         FontSize="16"
-                                         Background="{StaticResource TertiaryColor}" Foreground="White"
-                                         TextAlignment="Left" VerticalContentAlignment="Center" Margin="0, 0, 5, 0"
-                                         Grid.Column="1"
-                                         Height="25"
-                                         VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding Name}"
+                                     Style="{StaticResource InputFieldStyle}"
+                                     Background="{x:Static color:Colors.Tertiary}"
+                                     Margin="5"
+                                     Grid.Column="1"
+                                     VerticalAlignment="Center" />
 
-                                <StackPanel Orientation="Horizontal" Grid.Column="2" >
-                                    <TextBox Style="{StaticResource InputFieldStyle}" 
-                                             Width="40" Height="25" Text="{Binding Hours}"
-                                             Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
-                                             VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Center" Margin="5, 0, 5, 0"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Column="2">
+                                <TextBox Style="{StaticResource SettingsTimeInputStyle}"
+                                         Text="{Binding Hours}" />
 
-                                    <TextBox Style="{StaticResource InputFieldStyle}" 
-                                             Width="40" Height="25" Text="{Binding Minutes}"
-                                             Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
-                                             VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Center" Margin="5, 0, 5, 0"/>
+                                <TextBox Style="{StaticResource SettingsTimeInputStyle}"
+                                         Text="{Binding Minutes}" />
 
-                                    <TextBox Style="{StaticResource InputFieldStyle}" 
-                                             Width="40" Height="25" Text="{Binding Seconds}"
-                                             Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
-                                             VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="5, 0, 5, 0"
-                                             HorizontalContentAlignment="Center"/>
-                                </StackPanel>
-
-
-                                <Label Content="CLI Answer:" HorizontalAlignment="Right" Style="{StaticResource DescriptionLabel}" Grid.Row="1"/>
-
-                                <TextBox Text="{Binding Answer}" 
-                                         Style="{StaticResource InputFieldStyle}"
-                                         FontSize="16"
-                                         Background="{StaticResource TertiaryColor}" Foreground="White"
-                                         TextAlignment="Left" VerticalContentAlignment="Center" Margin="0, 0, 5, 0"
-                                         Grid.Column="1" Grid.Row="1"
-                                         Height="25"
-                                         VerticalAlignment="Center"/>
-
-                                <ComboBox Grid.Column="3" Grid.Row="1" Width="120" Height="25"
-                                          Background="{StaticResource TertiaryColor}"
-                                          Foreground="{StaticResource PrimaryTextColor}"
-                                          Style="{StaticResource ComboBoxStyle}"
-                                          VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                          SelectedItem="{Binding TimerType}" ItemsSource="{Binding TimerTypeValues}">
-                                </ComboBox>
+                                <TextBox Style="{StaticResource SettingsTimeInputStyle}"
+                                         Text="{Binding Seconds}" />
+                            </StackPanel>
 
 
-                                    
-                                <Label Content="Ringtone:"
-                                       HorizontalAlignment="Right"
-                                       Style="{StaticResource DescriptionLabel}"
+                            <TextBlock Text="Answer"
+                                       Style="{StaticResource PropertyLabel}"
+                                       Grid.Row="1" />
+
+                            <TextBox Text="{Binding Answer}"
+                                     Style="{StaticResource InputFieldStyle}"
+                                     Background="{x:Static color:Colors.Tertiary}"
+                                     Margin="5"
+                                     Grid.Column="1"
+                                     Grid.Row="1"
+                                     VerticalAlignment="Center" />
+
+                            <ComboBox Grid.Column="2"
+                                      Grid.Row="1"
+                                      Width="143"
+                                      Height="25"
+                                      HorizontalAlignment="Center"
+                                      Margin="7, 0, 0, 0"
+                                      Style="{StaticResource Compy}"
+                                      ItemContainerStyle="{StaticResource ComboBoxItemContainerStyle1}"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      SelectedItem="{Binding TimerType}"
+                                      ItemsSource="{Binding TimerTypeValues}">
+                            </ComboBox>
+
+                            <TextBlock Text="Ringtone"
+                                       Style="{StaticResource PropertyLabel}"
                                        Grid.Row="2" />
 
-                                <Grid Grid.Column="1"
-                                      Grid.Row="2">
+                            <Grid Grid.Column="1"
+                                  Grid.Row="2"
+                                  Margin="5">
 
-                                    <TextBox Text="{Binding DisplayRingtonePath}"
-                                             Style="{StaticResource InputFieldStyle}"
-                                             FontSize="16"
-                                             Background="{StaticResource TertiaryColor}"
-                                             Foreground="White"
-                                             TextAlignment="Left"
-                                             VerticalContentAlignment="Center"
-                                             Margin="0, 0, 5, 0"
-                                             Grid.Row="2"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Name="PathBox"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+                                <TextBox Text="{Binding DisplayRingtonePath}"
+                                         Style="{StaticResource InputFieldStyle}"
+                                         Background="{x:Static color:Colors.Tertiary}"
+                                         VerticalAlignment="Center"
+                                         Name="PathBox"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Auto" />
 
-                                    <TextBlock IsHitTestVisible="False"
-                                               Text="Enter Path to Audio File (empty for default)"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Margin="10,0,0,0"
-                                               Foreground="DarkGray">
-                                        <TextBlock.Style>
-                                            <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Visibility"
-                                                        Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Text, ElementName=PathBox}"
-                                                                 Value="">
-                                                        <Setter Property="Visibility"
-                                                                Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                <TextBlock IsHitTestVisible="False"
+                                           Text="Enter Path to Audio File (empty for default)"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Margin="10,0,0,0"
+                                           Foreground="DarkGray">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=PathBox}"
+                                                             Value="">
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                                    <Button Content="Search Explorer"
-                                            Style="{StaticResource UnderlineOnHover}"
-                                            HorizontalAlignment="Right"
-                                            Background="Transparent"
-                                            Foreground="White"
-                                            BorderBrush="Transparent"
-                                            BorderThickness="0"
-                                            Margin="0, 0, 10, 0"
-                                            Command="{Binding ElementName=ListView, Path=DataContext.SearchFileExplorerForAudioCommand}" />
-
-                                </Grid>
-
-                                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2" >
-                                    <TextBox Style="{StaticResource InputFieldStyle}" 
-                                             Width="40" Height="25" Text="{Binding RingtoneMinutes}"
-                                             Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
-                                             VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Center" Margin="5, 0, 5, 0"/>
-
-                                    <TextBox Style="{StaticResource InputFieldStyle}" 
-                                             Width="40" Height="25" Text="{Binding RingtoneSeconds}"
-                                             Background="{StaticResource TertiaryColor}" Foreground="{StaticResource PrimaryTextColor}"
-                                             VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Center" Margin="5, 0, 5, 0"/>
-
-                                    <control:Switch Toggled="{Binding RingtoneEnabled, Mode=TwoWay}" />
-
-                                </StackPanel>
-
-
-                                <Label Content="Notification:"
-                                       HorizontalAlignment="Right"
-                                       Style="{StaticResource DescriptionLabel}"
-                                       Grid.Row="3" />
-
-                                <Grid Grid.Column="1"
-                                      Grid.Row="3">
-
-                                    <TextBox Text="{Binding NotificationText}"
-                                             Style="{StaticResource InputFieldStyle}"
-                                             FontSize="16"
-                                             Background="{StaticResource TertiaryColor}"
-                                             Foreground="White"
-                                             TextAlignment="Left"
-                                             VerticalContentAlignment="Center"
-                                             Margin="0, 0, 5, 0"
-                                             Grid.Row="2"
-                                             Height="25"
-                                             VerticalAlignment="Center"
-                                             Name="NotifyBox"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Auto" />
-
-                                    <TextBlock IsHitTestVisible="False"
-                                               Text="Enter Path to Audio File (empty for default)"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Margin="10,0,0,0"
-                                               Foreground="DarkGray">
-                                        <TextBlock.Style>
-                                            <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Visibility"
-                                                        Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Text, ElementName=NotifyBox}"
-                                                                 Value="">
-                                                        <Setter Property="Visibility"
-                                                                Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-
-                                </Grid>
-
-                                <StackPanel Orientation="Horizontal"
-                                            Grid.Row="3"
-                                            Grid.Column="2">
-
-
-                                    <control:Switch Toggled="{Binding NotificationEnabled, Mode=TwoWay}" />
-
-                                </StackPanel>
+                                <Button Content="Search Explorer"
+                                        Style="{StaticResource UnderlineOnHover}"
+                                        HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        Foreground="White"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        Margin="0, 0, 10, 0"
+                                        Command="{Binding ElementName=ListView, Path=DataContext.SearchFileExplorerForAudioCommand}" />
 
                             </Grid>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListView>
 
-        </StackPanel>
+                            <control:Switch Toggled="{Binding RingtoneEnabled, Mode=TwoWay}"
+                                            HorizontalAlignment="Right"
+                                            Grid.Row="2"
+                                            Grid.Column="2" />
 
-        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="2" Margin="-5" >
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="Just leave the menu to discard the changes" 
-                       Grid.Column="1" VerticalAlignment="Center"
-                       FontSize="13" Foreground="LightGray"/>
-
-                <Border Background="{StaticResource TertiaryColor}" Grid.Column="2"
-                        Margin="10, 5, 20, 5"
-                        CornerRadius="10"
-                        BorderThickness="2" Padding="5">
-                    <Button Height="24" 
-                            Background="Transparent"
-                            Content="Save Changes" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
-                            Command="{Binding SaveChangesCommand}"
-                        
-                        BorderBrush="Transparent" BorderThickness="0"/>
-                </Border>
-                
-            </Grid>
-
-        </Border>
-
-    </Grid>
+                            <TextBlock Text="Notification"
+                                       Style="{StaticResource PropertyLabel}"
+                                       Grid.Row="3" />
 
 
+                            <TextBox Text="{Binding NotificationText}"
+                                     Style="{StaticResource InputFieldStyle}"
+                                     Background="{x:Static color:Colors.Tertiary}"
+                                     VerticalAlignment="Center"
+                                     Name="NotifyBox"
+                                     Grid.Row="3"
+                                     Grid.Column="1"
+                                     Margin="5" />
 
+
+                            <control:Switch Toggled="{Binding NotificationEnabled, Mode=TwoWay}"
+                                            HorizontalAlignment="Right"
+                                            Grid.Row="3"
+                                            Grid.Column="2" />
+
+
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+    </StackPanel>
 </UserControl>

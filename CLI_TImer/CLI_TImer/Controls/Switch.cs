@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
-using System.Diagnostics;
 
 namespace CLI_Timer.Controls
 {
@@ -16,12 +15,10 @@ namespace CLI_Timer.Controls
         {
             get
             {
-                Trace.WriteLine("Get" + (bool)GetValue(ToggledProperty));
                 return (bool)GetValue(ToggledProperty);
             }
             set
             {
-                Trace.WriteLine("Set");
                 SetValue(ToggledProperty, value);
                 UpdateVisualState();
             }
