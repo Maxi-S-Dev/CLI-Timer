@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CLI_Timer.MVVM.View"
              xmlns:converter="clr-namespace:CLI_Timer.Converters"
+             xmlns:color="clr-namespace:CLI_Timer.Themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -79,125 +80,111 @@
 
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <StackPanel>
+        <Grid>
+            <TextBlock Text="Color Gradients"
+                       Style="{StaticResource HeadingStyle}" />
 
-        <DockPanel Background="{StaticResource PrimaryColor}">
-            <TextBlock Text="Color Palettes"
-                   FontSize="40"
-                   Foreground="White"
-                   Margin="20, 10, 0, 0" DockPanel.Dock="Top"/>
+            <Button HorizontalAlignment="Right"
+                    Width="36"
+                    Height="36"
+                    Background="{x:Static color:Colors.Secondary}"
+                    BorderThickness="0"
+                    Style="{StaticResource ButtonBase}"
+                    Command="{Binding AddProfileCommand}">
 
-            <ListView ItemsSource="{Binding Gradients}" 
-                      Margin="10, 5, 10, 10" VerticalAlignment="Stretch"
-                      Background="Transparent"
-                      BorderThickness="0" BorderBrush="Transparent"
-                      ItemContainerStyle="{DynamicResource ListItemContainer}"
-                      ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                      DockPanel.Dock="Top" SelectedItem="{Binding SelectedGradient}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
+                <Button.Content>
+                    <Path Stroke="White"
+                          StrokeThickness="2"
+                          Height="25"
+                          Width="25">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry StartPoint="12.5, 0"
+                                              EndPoint="12.5, 25" />
+                                <LineGeometry StartPoint="0, 12.5"
+                                              EndPoint="25, 12.5" />
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                </Button.Content>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+            </Button>
+        </Grid>
 
-                            <TextBox Text="{Binding StartHex}"  
-                                     Style="{StaticResource ColorFieldStyle}"
-                                     Grid.Column="0"
-                                     Background="{Binding StartHex, Converter={StaticResource HexToBrushConverter}}">
-                            </TextBox>
+        <ListView ItemsSource="{Binding Gradients}"
+                  VerticalAlignment="Stretch"
+                  Background="Red"
+                  BorderThickness="0"
+                  BorderBrush="Transparent"
+                  ItemContainerStyle="{DynamicResource ColorListItemContainer}"
+                  ScrollViewer.CanContentScroll="False"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  DockPanel.Dock="Top"
+                  SelectedItem="{Binding SelectedGradient}"
+                  >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Height="50"
+                                CornerRadius="10"
+                                Padding="5, 0, 5, 0">
+                            <Border.Background>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="{Binding StartHex, Converter={StaticResource HexToColorConverter}}"
+                                                  Offset="0" />
+                                    <GradientStop Color="{Binding EndHex, Converter={StaticResource HexToColorConverter}}"
+                                                  Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Grid>
 
-                            <Label Content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
-                                   Grid.Column="1" 
-                                   FontSize="17" 
-                                   HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                                   VerticalAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBox Text="{Binding StartHex}"
+                                         Style="{StaticResource ColorFieldStyle}"
+                                         Background="Transparent"
+                                         HorizontalAlignment="Left">
+                                </TextBox>
 
-                                <Label.Foreground>
-                                    <LinearGradientBrush>
-                                        <GradientStop Color="{Binding StartHex, Converter={StaticResource HexToColorConverter}}" Offset="0"/>
-                                        <GradientStop Color="{Binding EndHex, Converter={StaticResource HexToColorConverter}}" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Label.Foreground>
+                                <TextBox Text="{Binding EndHex}"
+                                         Style="{StaticResource ColorFieldStyle}"
+                                         Background="Transparent"
+                                         HorizontalAlignment="Right"
+                                         HorizontalContentAlignment="Right">
+                                </TextBox>
 
+                            </Grid>
+                        </Border>
 
-                            </Label>
+                        <Button x:Name="DeleteButton"
+                                Style="{StaticResource DeleteProfileButtonStyle}"
+                                Height="50" Width="50"
+                                Margin="10, 0, 0, 0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Right">
+                            <Button.Content>
+                                <Path Stroke="White"
+                                      StrokeThickness="2"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center">
+                                    <Path.Data>
+                                        <GeometryGroup>
+                                            <LineGeometry StartPoint="0, 0"
+                                                          EndPoint="10, 10" />
+                                            <LineGeometry StartPoint="0, 10"
+                                                          EndPoint="10, 0" />
+                                        </GeometryGroup>
+                                    </Path.Data>
+                                </Path>
+                            </Button.Content>
 
-                            <TextBox Text="{Binding EndHex}"
-                                     Style="{StaticResource ColorFieldStyle}"
-                                     Grid.Column="2"
-                                     Background="{Binding EndHex, Converter={StaticResource HexToBrushConverter}}">
-                            </TextBox>
-
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListView>
-
-            <Border Width="20" Height="20" Background="Red"/>
-
-        </DockPanel>
-
-        <Border x:Name="BottomBar" Background="{StaticResource SecondaryColor}" VerticalAlignment="Bottom" Grid.Row="1" Margin="-5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Border Background="{StaticResource TertiaryColor}" Grid.Column="0"
-                        Margin="20, 5, 0, 5"
-                        CornerRadius="10"
-                        BorderThickness="2" Padding="5" HorizontalAlignment="Center">
-                    <Button Style="{DynamicResource ButtonStyle1}" Height="24"
-                            Background="Transparent"
-                            Content="New Gradient" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
-                            Command="{Binding NewGradientCommand}"
-                        
-                        BorderBrush="Transparent" BorderThickness="0"/>
-                </Border>
-
-                <Border Background="#ff5447" Grid.Column="1"
-                        Margin="5, 5, 0, 5" HorizontalAlignment="Right"
-                        CornerRadius="10"
-                        BorderThickness="2" Padding="5">
-                    <Button Style="{DynamicResource ButtonStyle1}" Height="24" 
-                            Background="Transparent"
-                            Content="Delete Seleceted" FontSize="15" Foreground="{StaticResource PrimaryTextColor}"
-                            Command="{Binding DeleteSelectedCommand}"
-                        
-                        BorderBrush="Transparent" BorderThickness="0"/>
-                </Border>
-
-                <Label Content="Just leave the menu to discard the changes" 
-                       Grid.Column="3" VerticalAlignment="Center"
-                       FontSize="13" Foreground="LightGray"
-                       />
-
-                <Border Background="#6EEE87" Grid.Column="4"
-                        Margin="0, 5, 20, 5"
-                        CornerRadius="10"
-                        BorderThickness="2" Padding="5">
-                    <Button Style="{DynamicResource ButtonStyle1}" Height="24" 
-                            Background="Transparent"
-                            Content="Save Changes" FontSize="15" Foreground="Black"
-                            Command="{Binding SaveButtonPressedCommand}"
-                        
-                        BorderBrush="Transparent" BorderThickness="0"/>
-                </Border>
-
-            </Grid>
-
-        </Border>
-    </Grid>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+    </StackPanel>
 </UserControl>

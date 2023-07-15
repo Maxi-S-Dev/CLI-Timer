@@ -1019,6 +1019,22 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ColorListItemContainer"
+           TargetType="{x:Type ListViewItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="ItemContainer"
+                            Background="Transparent"
+                            CornerRadius="10"
+                            Margin="0, 0, 0, 10">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ProfileListItemContainer"
            TargetType="ListViewItem"
            BasedOn="{StaticResource ListItemContainer}">
@@ -1029,43 +1045,13 @@
     </Style>
 
 
-    <Style TargetType="{x:Type TextBox}" x:Key="ColorFieldStyle">
-        <Setter Property="Width" Value="80"/>
-        <Setter Property="Height" Value="27"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="Template">
-            <Setter.Value>
-
-                <ControlTemplate TargetType="{x:Type TextBox}">
-
-                    <Border Background="{TemplateBinding Background}"
-                            Width="{TemplateBinding Width}"
-                            Height="{TemplateBinding Height}"
-                            CornerRadius="8"
-                            Padding="5, 0, 3, 0"
-                            >
-
-                        <ScrollViewer x:Name="PART_ContentHost" 
-                                      FontSize="{TemplateBinding FontSize}"  
-                                      Focusable="false" 
-                                      HorizontalScrollBarVisibility="Hidden" 
-                                      VerticalScrollBarVisibility="Hidden"
-                                      BorderThickness="0"
-                                      VerticalContentAlignment="Center" VerticalAlignment="Center"
-                                      HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                                      Height="25"/>
-
-                    </Border>
-
-                </ControlTemplate>
-
-            </Setter.Value>
-
-        </Setter>
-
+    <Style TargetType="{x:Type TextBox}" x:Key="ColorFieldStyle" BasedOn="{StaticResource InputFieldStyle}">
+        <Setter Property="Width"
+                Value="90" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource InterSemiBold}" />
     </Style>
 
     <Style TargetType="Button" x:Key="UnderlineOnHover">

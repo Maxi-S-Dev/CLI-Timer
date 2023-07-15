@@ -164,7 +164,6 @@ namespace CLI_Timer.MVVM.ViewModel
         public void NaviagateHistoryDown()
         {
             positionInHistory -= 1;
-            Trace.WriteLine(positionInHistory);
             if (CommandHistory.Count - positionInHistory < 0 || positionInHistory <= 0)
             {
                 positionInHistory = 0;
