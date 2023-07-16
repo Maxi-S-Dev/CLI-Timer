@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:CLI_Timer.MVVM.View"
              xmlns:converter="clr-namespace:CLI_Timer.Converters"
              xmlns:color="clr-namespace:CLI_Timer.Themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="382.04" d:DesignWidth="720">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -80,7 +80,12 @@
 
     </UserControl.Resources>
 
-    <StackPanel>
+    <Grid Height="382.04"
+          Width="720">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid>
             <TextBlock Text="Color Gradients"
                        Style="{StaticResource HeadingStyle}" />
@@ -91,7 +96,9 @@
                     Background="{x:Static color:Colors.Secondary}"
                     BorderThickness="0"
                     Style="{StaticResource ButtonBase}"
-                    Command="{Binding AddProfileCommand}">
+                    Margin="0, 0, 1, 0"
+                    Name="AddButton"
+                    Click="AddButton_Click">
 
                 <Button.Content>
                     <Path Stroke="White"
@@ -114,15 +121,13 @@
 
         <ListView ItemsSource="{Binding Gradients}"
                   VerticalAlignment="Stretch"
-                  Background="Red"
+                  Background="Transparent"
                   BorderThickness="0"
                   BorderBrush="Transparent"
                   ItemContainerStyle="{DynamicResource ColorListItemContainer}"
-                  ScrollViewer.CanContentScroll="False"
+                  ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                  DockPanel.Dock="Top"
-                  SelectedItem="{Binding SelectedGradient}"
-                  >
+                  Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -135,7 +140,7 @@
                                 Padding="5, 0, 5, 0">
                             <Border.Background>
                                 <LinearGradientBrush>
-                                    <GradientStop Color="{Binding StartHex, Converter={StaticResource HexToColorConverter}}"
+                                    <GradientStop Color="{Binding StartHex, Converter={StaticResource HexToColorConverter}, Mode=TwoWay}"
                                                   Offset="0" />
                                     <GradientStop Color="{Binding EndHex, Converter={StaticResource HexToColorConverter}}"
                                                   Offset="1" />
@@ -161,10 +166,11 @@
 
                         <Button x:Name="DeleteButton"
                                 Style="{StaticResource DeleteProfileButtonStyle}"
-                                Height="50" Width="50"
+                                Height="50"
+                                Width="50"
                                 Margin="10, 0, 0, 0"
                                 Grid.Column="1"
-                                HorizontalAlignment="Right">
+                                Click="DeleteButton_Click">
                             <Button.Content>
                                 <Path Stroke="White"
                                       StrokeThickness="2"
@@ -186,5 +192,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListView>
-    </StackPanel>
+    </Grid>
 </UserControl>

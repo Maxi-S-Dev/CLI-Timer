@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CLI_Timer.MVVM.Model;
 
 namespace CLI_Timer.MVVM.View
 {
@@ -26,6 +27,24 @@ namespace CLI_Timer.MVVM.View
             InitializeComponent();
 
             DataContext = new PalettSettingViewModel();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (PalettSettingViewModel)DataContext;
+            vm.AddGradient();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var vm = (PalettSettingViewModel)DataContext;
+            var item = (Gradient)button.DataContext;
+
+            if(item is not null)
+            {
+                vm.DeleteGradient(item);
+            }
         }
     }
 }

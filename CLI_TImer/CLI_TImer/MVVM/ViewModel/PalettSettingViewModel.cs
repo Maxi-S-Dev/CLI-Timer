@@ -1,60 +1,57 @@
-﻿using CLI_Timer.Services;
-using CLI_Timer.MVVM.Model;
+﻿using CLI_Timer.MVVM.Model;
+using CLI_Timer.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-
 
 namespace CLI_Timer.MVVM.ViewModel
 {
     public partial class PalettSettingViewModel : ObservableObject
     {
         [ObservableProperty]
-        public List<Gradient> gradients;
+        public ObservableCollection<Gradient> gradients;
 
         [ObservableProperty]
         public bool active = true;
 
-        [ObservableProperty]
-        public Gradient selectedGradient;
 
-        private Gradient[] selectedHistory = new Gradient[2];
-
-        internal PalettSettingViewModel() 
+        public PalettSettingViewModel() 
         { 
             CreateGradientCollection();
         }
 
-
-        #region GradientCollectionEvents
         private void CreateGradientCollection()
         {
-            Gradients = new List<Gradient>(AppDataManager.instance.GetGradientList().Select(x => x.Copy()).ToList());
-        }
+            Gradients = new ObservableCollection<Gradient>(AppDataManager.instance.GetGradientList().Select(x => x.Copy()).ToList());
 
-        #endregion
+            foreach (Gradient g in Gradients)
+            {
+                Trace.WriteLine("Test");
+                g.PropertyChanged += Save;
+            }
+        }
 
 
         #region Save,Delete,New Buttons
         //Saves all Changes and hides the save Menu
-        [RelayCommand]
-        public void SaveButtonPressed()
+        private void Save(object sender, PropertyChangedEventArgs e)
         {
+            Trace.Write("Save");
             AppDataManager.instance.SetGradientList(Gradients.ToList());
         }
 
-        [RelayCommand]
-        public void NewGradient()
+        public void AddGradient()
         {
-            Gradients.Add(new Gradient { StartHex="#FFFFFF", EndHex="#FFFFFF" });
+            Gradient g = new Gradient { StartHex="#FFFFFF", EndHex="#FFFFFF" };
+            g.PropertyChanged += Save;
+            Gradients.Add(g);
         }
 
-        [RelayCommand] 
-        public void DeleteSelected()
+        public void DeleteGradient(Gradient gradient)
         {
-            Gradients.Remove(SelectedGradient);
+            Gradients.Remove(gradient);
         }
         #endregion
     }

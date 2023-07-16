@@ -1,40 +1,34 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 
 namespace CLI_Timer.MVVM.Model
 {
-    public class Gradient : INotifyPropertyChanged
+    public partial class Gradient : ObservableObject
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private string startHex;
 
-        private string _startHex;
-        public string StartHex { get => _startHex; 
+        public string StartHex { get => startHex; 
             set 
             { 
-                if (_startHex != value) 
-                { 
-                    _startHex = value;
-                    OnPropertyChanged();
-                }
+                startHex = value;
+                OnPropertyChanged(nameof(StartHex));
             } 
         }
 
-        private string _endHex;
+        private string endHex;
         public string EndHex
         {
-            get => _endHex;
+            get => endHex;
             set
             {
-                if (_endHex != value)
-                {
-                    _endHex = value;
-                    OnPropertyChanged();
-                }
+                endHex = value;
+                OnPropertyChanged(nameof(EndHex));
             }
         }
-
 
         [JsonIgnore]
         public LinearGradientBrush GradientBrush
@@ -53,33 +47,7 @@ namespace CLI_Timer.MVVM.Model
             }
 
             private set{}
-        }
-
-        //[JsonIgnore]
-        //public Color StartColor
-        //{
-        //    get
-        //    {
-        //        byte r = (byte)((StartRGB >> 16) & 0xFF);
-        //        byte g = (byte)((StartRGB >> 8) & 0xFF);
-        //        byte b = (byte)(StartRGB & 0xFF);
-        //        return Color.FromRgb(r, g, b);
-        //    }
-        //    set { }
-        //}
-
-        //[JsonIgnore]
-        //public Color EndColor
-        //{
-        //    get
-        //    {
-        //        byte r = (byte)((EndRGB >> 16) & 0xFF);
-        //        byte g = (byte)((EndRGB >> 8) & 0xFF);
-        //        byte b = (byte)(EndRGB & 0xFF);
-        //        return Color.FromRgb(r, g, b);
-        //    }
-        //    set { }
-        //}        
+        }      
 
         internal GradientStopCollection getGradient()
         {
@@ -102,11 +70,6 @@ namespace CLI_Timer.MVVM.Model
         internal Gradient Copy()
         {
             return (Gradient)this.MemberwiseClone();
-        }
-
-        protected void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
