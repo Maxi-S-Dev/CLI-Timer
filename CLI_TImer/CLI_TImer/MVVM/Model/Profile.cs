@@ -6,7 +6,7 @@
         public string[] Commands { get; set; }
         public string Answer { get; set; }
         public int Time { get; set; }
-        public TimerType? TimerType { get; set; }
+        public TimerType TimerType { get; set; } = TimerType.primary;
 
         public string RingtonePath { get; set; }
         public int RingtoneDuration { get; set; }
@@ -31,6 +31,6 @@
 
         string RingtonePath { get; set; }
         bool RingtoneEnabled { get; set; } 
-        TimerType? TimerType { get; set; }
+        TimerType TimerType { get; set; }
     }
 }

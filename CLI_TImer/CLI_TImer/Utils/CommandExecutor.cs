@@ -3,7 +3,6 @@ using CLI_Timer.MVVM.Model;
 using CLI_Timer.MVVM.ViewModel;
 using CLI_Timer.Services;
 using System.Diagnostics;
-using System.Windows.Media;
 
 namespace CLI_Timer.Utils
 {
@@ -68,6 +67,9 @@ namespace CLI_Timer.Utils
                     MainViewModel.Close();
                     return null;
 
+                case "help":
+                    return Help(parameter);
+
                 default: return Error(action);
             }
         }
@@ -76,12 +78,18 @@ namespace CLI_Timer.Utils
         {
             Profile p;
 
-            AnalyseParameters(parameter);
+            if(AnalyseParameters(parameter) is not null)
+            {
+                return "start will start a timer" +
+                    "\n use /n (start /n work) to run a profile" +
+                    "\n use /p or /s to start a specific timer" +
+                    "\n use /t to specify the time (/t 5h 2m 1s)";
+            }
 
             p = ProfileManager.GetProfile(profile.Name);
 
             if (profile.Time != 0) p.Time = profile.Time;
-            if (profile.TimerType != null) p.TimerType = profile.TimerType; 
+            if (profile.TimerType != TimerType.primary) p.TimerType = profile.TimerType; 
 
             RunProfile(p);
 
@@ -92,9 +100,17 @@ namespace CLI_Timer.Utils
         {
             AnalyseParameters(parameter);
 
+            if (AnalyseParameters(parameter) is not null)
+            {
+                return "add will add time to a timer" +
+                    "\n add adds 5m to the running timer" +
+                    "\n /p or /s specify the timer" +
+                    "\n /t to specifies the time (/t 5h 2m 1s)";
+            }
+
             int timeToAdd = profile.Time == 0 ? 300 : profile.Time;
             
-            if(profile.TimerType == TimerType.primary || profile.TimerType is null)
+            if(profile.TimerType == TimerType.primary)
             {
                 Timer.AddTime(0, timeToAdd);
 
@@ -122,9 +138,17 @@ namespace CLI_Timer.Utils
         {
             AnalyseParameters(parameter);
 
+            if (AnalyseParameters(parameter) is not null)
+            {
+                return "sub will remove time to a timer" +
+                "\n sub removes 5m from the running timer" +
+                "\n /p or /s specify the timer" +
+                "\n /t specifies the time (/t 5h 2m 1s)";
+            }
+
             int timeToTake = profile.Time == 0 ? -300 : profile.Time;
 
-            if (profile.TimerType == TimerType.primary || profile.TimerType is null)
+            if (profile.TimerType == TimerType.primary)
             {
                 if (!Timer.AddTime(0, -timeToTake)) return $"Failed to remove {TimeConverter.SecondsToTimeText(timeToTake)}";
 
@@ -163,9 +187,14 @@ namespace CLI_Timer.Utils
                 return "Reset all Timers";
             }
             
-            AnalyseParameters(parameter);
+            if (AnalyseParameters(parameter) is not null)
+            {
+                return " resets will reset the running timer" +
+                    "\n /p or /s specifie the the timer" +
+                    "\n 'reset config' resets all settings";
+            }
 
-            if(profile.TimerType == TimerType.primary)
+            if (profile.TimerType == TimerType.primary)
             {
                 Timer.Reset(0);
                 return "Reset primary";
@@ -187,7 +216,13 @@ namespace CLI_Timer.Utils
 
         private static string New(string parameter)
         {
-            AnalyseParameters(parameter);
+            if (AnalyseParameters(parameter) is not null)
+            {
+                return "new creates a new profile" +
+                    "\n specify the name with /n [[name]]" +
+                    "\n specify the time with /t [[1h 1m 1s]]" +
+                    "\n specify the type with /p or /s";
+            }
 
             if (string.IsNullOrEmpty(profile.Name)) return "Please Enter a Name";
             if (profile.Time == 0) return "Please Enter a Time";
@@ -197,7 +232,11 @@ namespace CLI_Timer.Utils
 
         private static string Delete(string parameter)
         {
-            AnalyseParameters(parameter);
+            if (AnalyseParameters(parameter) is not null)
+            {
+                return "deletes a profile" +
+                    "\n you must provide a name with /n [[NAME]]";
+            }
 
             if (string.IsNullOrEmpty(profile.Name)) return "Please enter a name";
 
@@ -206,14 +245,35 @@ namespace CLI_Timer.Utils
 
         private static string Use(string parameter)
         {
-            AnalyseParameters(parameter);
+            if (AnalyseParameters(parameter) is not null)
+            {
+                return "updates one or more proerties of a timer" +
+                    "\n use /n to change the name" +
+                    "\n use /t to change the time (/t 1h 2m 3s)" +
+                    "\n use /p or /s to change the type";
+            }
 
             if (string.IsNullOrEmpty(profile.Name)) return "Please enter a Name";
 
             return ProfileManager.UpdateProfile(profile);
         }
 
-        private static void AnalyseParameters(string parameter)
+        private static string Help(string parameter)
+        {
+            return $"You can use following commands: " +
+                $"\n start - to start a timer" +
+                $"\n add or sub - to change the remaining time" +
+                $"\n reset - to reset a timer" +
+                $"\n new - to create a new timer" +
+                $"\n use - to edit a timer" +
+                $"\n delete - to delete a timer" +
+                $"\n clear - to clear the history" +
+                $"\n settings - to open the settings" +
+                $"\n close - to close the app" +
+                $"\n write /h after a command for more help";
+        }
+
+        private static object AnalyseParameters(string parameter)
         {
             string argument = "";
             for (int i = 0; i < parameter.Length; i++)
@@ -228,6 +288,7 @@ namespace CLI_Timer.Utils
                 if (parameter[i] == '-' && i++ < parameter.Length)
                 {
                     FindAction(parameter[i++]);
+                    if(action == CommandAction.Help) return "help";
                     continue;
                 }
 
@@ -235,6 +296,7 @@ namespace CLI_Timer.Utils
             }
 
             InterpretArgument(argument);
+            return null;
         }
 
         private static void RunProfile(Profile p)
@@ -288,13 +350,17 @@ namespace CLI_Timer.Utils
                     profile.TimerType = TimerType.secondary;
                     break;
 
-                case 'h':
+                case 'u':
                     profile.TimerType = TimerType.third;
                     break;
 
                 case 'a':
                     action = CommandAction.Answer;
                     break;
+
+                case 'h':
+                    action = CommandAction.Help;
+                    return;
                    
             }
         }

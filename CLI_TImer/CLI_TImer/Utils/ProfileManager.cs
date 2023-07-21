@@ -51,7 +51,7 @@ namespace CLI_Timer.Utils
 
             p.Name = profile.Name;
             p.Time = profile.Time > 0 ? profile.Time : p.Time;
-            p.TimerType = profile.TimerType is not null ? profile.TimerType : p.TimerType;
+            p.TimerType = profile.TimerType;
 
             ProfileList.Remove(p);
             ProfileList.Add(p);
@@ -68,6 +68,13 @@ namespace CLI_Timer.Utils
                 if(p.Name == name) return p;
             }
             return new();
+        }
+
+        public static void SetProfileList(List<Profile> list)
+        {
+            ProfileList = list;
+
+            appDataManager.SetProfileList(ProfileList);
         }
     }
 }

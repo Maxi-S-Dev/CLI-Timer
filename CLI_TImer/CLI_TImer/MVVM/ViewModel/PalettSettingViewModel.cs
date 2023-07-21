@@ -3,7 +3,6 @@ using CLI_Timer.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace CLI_Timer.MVVM.ViewModel
@@ -28,7 +27,6 @@ namespace CLI_Timer.MVVM.ViewModel
 
             foreach (Gradient g in Gradients)
             {
-                Trace.WriteLine("Test");
                 g.PropertyChanged += Save;
             }
         }
@@ -38,7 +36,6 @@ namespace CLI_Timer.MVVM.ViewModel
         //Saves all Changes and hides the save Menu
         private void Save(object sender, PropertyChangedEventArgs e)
         {
-            Trace.Write("Save");
             AppDataManager.instance.SetGradientList(Gradients.ToList());
         }
 

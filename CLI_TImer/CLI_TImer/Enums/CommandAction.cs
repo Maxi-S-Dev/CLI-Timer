@@ -4,6 +4,7 @@
     {
         Name, 
         Time,
-        Answer
+        Answer,
+        Help
     }
 }

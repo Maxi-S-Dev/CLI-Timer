@@ -80,12 +80,15 @@ namespace CLI_Timer.Services
         {
             timerSeconds[0] = 0;
             timerSeconds[1] = 0;
+            dispatcher.Stop();
             App.MainViewModel.UpdateTimers();
         }
 
         public static void Reset(int index)
         {
             timerSeconds[index] = 0;
+            if (index == 1) currentTimerIndex = 0;
+            else dispatcher.Stop();
             App.MainViewModel.UpdateTimers();
         }
         #endregion

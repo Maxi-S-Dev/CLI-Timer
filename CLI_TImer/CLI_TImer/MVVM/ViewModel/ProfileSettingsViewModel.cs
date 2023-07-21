@@ -154,7 +154,7 @@ namespace CLI_Timer.MVVM.ViewModel
         private string answer;
 
         [ObservableProperty]
-        private TimerType? timerType;
+        private TimerType timerType;
 
         [ObservableProperty]
         private bool isExpanded;

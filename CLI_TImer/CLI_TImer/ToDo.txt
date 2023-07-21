@@ -4,7 +4,3 @@ switch command
 pause command
 
 reset ringtone bug
-
-start defaults to primary
-
-(help (if really bored))

@@ -59,6 +59,7 @@ namespace CLI_Timer.MVVM.ViewModel
         public MainViewModel()
         {
             Timer.SetTimer(Properties.Settings.Default.DefaultTime);
+            UpdateTimers();
         }
 
         public void UpdateTimers()
