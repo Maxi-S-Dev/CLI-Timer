@@ -92,6 +92,19 @@ namespace CLI_Timer.Services
             App.MainViewModel.UpdateTimers();
         }
         #endregion
+
+        public static void Pause()
+        {
+            dispatcher.Stop();
+        }
+
+        public static void Continue()
+        {
+            if (timerSeconds[0] > 0 || timerSeconds[1] > 0) 
+            {
+                dispatcher.Start();
+            }  
+        }
     }
 }
 public enum TimerType

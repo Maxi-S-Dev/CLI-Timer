@@ -2,5 +2,3 @@ toDo
 
 switch command
 pause command
-
-reset ringtone bug

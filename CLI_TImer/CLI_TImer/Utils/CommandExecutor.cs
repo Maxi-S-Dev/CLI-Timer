@@ -70,6 +70,12 @@ namespace CLI_Timer.Utils
                 case "help":
                     return Help(parameter);
 
+                case "pause":
+                    return Pause(parameter);
+
+                case "continue":
+                    return Continue(parameter);
+
                 default: return Error(action);
             }
         }
@@ -271,6 +277,29 @@ namespace CLI_Timer.Utils
                 $"\n settings - to open the settings" +
                 $"\n close - to close the app" +
                 $"\n write /h after a command for more help";
+        }
+
+        private static string Pause(string parameter)
+        {
+            if(AnalyseParameters(parameter) is not null)
+            {
+                return " pauses the current Timer";
+            }
+
+            Timer.Pause();
+
+            return "paused all timers";
+        }
+
+        private static string Continue(string parameter)
+        {
+            if(AnalyseParameters(parameter) is not null)
+            {
+                return "continues paused timers";
+            }
+
+            Timer.Continue();
+            return "continued paused timers";
         }
 
         private static object AnalyseParameters(string parameter)
