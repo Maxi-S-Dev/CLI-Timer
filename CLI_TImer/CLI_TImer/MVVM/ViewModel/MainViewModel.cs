@@ -94,18 +94,13 @@ namespace CLI_Timer.MVVM.ViewModel
             if (finProfile.TimerType == TimerType.third) finProfile.RingtonePath = @"C://Windows/Media/Alarm01.wav";
 
             if (finProfile.RingtoneEnabled == true) SoundPlayer.playSound(finProfile.RingtonePath, finProfile.RingtoneDuration);
+
+            if (finProfile.NotificationEnabled == false) return;
             
-            if (finProfile.NotificationEnabled == true)
-            {
-                new ToastContentBuilder()
-                .AddText(finProfile.Name + " finished")
-                .AddText(finProfile.NotificationText)
-                .AddButton(new ToastButton()
-                    .SetContent("Stop"))
-                .AddButton(new ToastButton()
-                    .SetContent("Add 5m"))
+            new ToastContentBuilder()
+            .AddText(finProfile.Name + " finished")
+            .AddText(finProfile.NotificationText)
                 .Show();
-            }
         }
 
         //Input Commands
